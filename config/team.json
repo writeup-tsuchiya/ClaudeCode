@@ -1,0 +1,52 @@
+{
+  "_comment": "第一営業部 前日リマインド自動化の設定。値を書き換えるだけで挙動が変わります。",
+
+  "senderAccount": {
+    "address": "aizawa@writeup.co.jp",
+    "_note": "Gmailコネクタが認証されているアカウント。下書きはここに作られ、ここから送信されます。変更するにはコネクタの接続先アカウントを繋ぎ直す必要があります（docs/runbook.md 参照）。",
+    "displayNameInSignature": "株式会社ライトアップ　第一営業部"
+  },
+
+  "members": [
+    { "calendarId": "urashima@writeup.co.jp",    "name": "浦島", "cc": "urashima@writeup.co.jp" },
+    { "calendarId": "k_tsuchiya@writeup.co.jp",  "name": "土屋", "cc": "k_tsuchiya@writeup.co.jp" },
+    { "calendarId": "t_kanno@writeup.co.jp",     "name": "菅野", "cc": "t_kanno@writeup.co.jp" },
+    { "calendarId": "murata@writeup.co.jp",      "name": "村田", "cc": "murata@writeup.co.jp" },
+    { "calendarId": "k_yoshikawa@writeup.co.jp", "name": "吉川", "cc": "k_yoshikawa@writeup.co.jp" },
+    { "calendarId": "enomoto@writeup.co.jp",     "name": "榎本", "cc": "enomoto@writeup.co.jp" }
+  ],
+
+  "delivery": {
+    "autoSend": false,
+    "_autoSendNote": "false = Gmail下書きまで作成して人が送信ボタンを押す。運用が安定したら true に変更（SKILL.md の手順6が送信に切り替わります）。まずは2週間 false 運用を推奨。",
+    "ccAssignedRep": true,
+    "ccAdditional": []
+  },
+
+  "callPriority": {
+    "_note": "ここに該当したアポだけ『人が電話する』。該当しないアポはメールのみ。1日15件 → 架電3〜5件が目安。",
+    "noEmailAddress": true,
+    "earlyMorningBefore": "11:00",
+    "titleKeywords": ["【来社】", "訪問", "★", "キックオフ", "納品", "再設定", "リスケ", "2回目", "３回目", "3回目"],
+    "manualAlwaysCall": [],
+    "_manualAlwaysCallNote": "常に架電したい顧客のメールアドレスをここに列挙すると、他の条件に関わらずP1になります。"
+  },
+
+  "exclude": {
+    "_note": "顧客アポではない社内予定を落とすためのタイトル完全一致／部分一致リスト。",
+    "titleContains": [
+      "全件壁打ち会", "第一の営業MTG", "振り返りMTG", "AIセールスチームMTG", "ドジャースチームMTG",
+      "毎朝確認すべし", "明日の準備", "集客集計", "自己振り返り", "業務ブロック", "確保時間",
+      "ランチMTG", "梅澤さんランチ", "バード・営業", "白石さんに報告", "移動", "訪問", "NT"
+    ],
+    "titleExact": ["昼", "お昼", "ブロック", "MTG"],
+    "internalDomainOnlyAttendees": true,
+    "_internalNote": "参加者が @writeup.co.jp と会議室リソースだけ、かつ description に『ゲスト会社名／ゲスト氏名／ゲストメールアドレス』のいずれも無い予定は社内MTGとみなして除外。"
+  },
+
+  "schedule": {
+    "runAtJst": "17:00",
+    "runDays": "日〜木（翌営業日にアポがある日の前日）",
+    "cronUtc": "0 8 * * 0-4"
+  }
+}
