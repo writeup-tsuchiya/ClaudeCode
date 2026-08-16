@@ -1,0 +1,68 @@
+{
+  "_comment": [
+    "⑧verify の測定条件。🔴 ここに書くのは『測り方』であって『合否』ではない。",
+    "合否は判断であり、判断はエージェントの仕事（§8-6）。",
+    "判定の文言は .claude/agents/video-evaluator.md にある。"
+  ],
+  "canvas": { "width": 1080, "height": 1920, "fps": 30 },
+
+  "duration": {
+    "max_drift_sec": 1.0,
+    "_note": "§2-3 音声の尺と動画の尺の差が1秒以内"
+  },
+
+  "loudness": {
+    "target_lufs": -16.0,
+    "tolerance_lu": 3.0,
+    "true_peak_max_dbtp": -1.0
+  },
+
+  "mouth": {
+    "_comment": [
+      "§10-6 『口が動いているか』の検査は測り方を間違えやすい。",
+      "・顔全体の画素差で測らない。口しか動かない方式では差が出ず、",
+      "  正常なのに『静止』と誤判定する。",
+      "・無音区間を除外する。文の切れ目で口を閉じているのは正しい挙動。",
+      "・方式ごとに閾値を持つ。ある方式用に決めた閾値を、",
+      "  動き方の違う方式にそのまま当てない。"
+    ],
+    "roi_in_face": {
+      "_note": "顔の bbox に対する口元の割合。顔全体では測らない。",
+      "x1": 0.28, "y1": 0.60, "x2": 0.72, "y2": 0.94
+    },
+    "silence": {
+      "noise_db": -35.0,
+      "min_duration_sec": 0.25,
+      "_note": "この区間のフレームは口の動きの判定から除外する"
+    },
+    "thresholds": {
+      "sadtalker": {
+        "min_mean_abs_diff": 1.2,
+        "min_moving_frame_ratio": 0.35,
+        "_note": "SadTalker 用。他の方式（HeyGen 等）にそのまま当てないこと（§10-6）。実測して置き換えること。"
+      },
+      "heygen": {
+        "min_mean_abs_diff": null,
+        "min_moving_frame_ratio": null,
+        "_note": "未測定。測るまで null のままにする。推測値を書かない。"
+      }
+    }
+  },
+
+  "frames": {
+    "_note": "§2-5 各場面のフレームを1枚ずつ出して目視する。文字の重なりは機械では見えない。",
+    "per_segment": 1,
+    "offset_ratio": 0.55,
+    "_offset_note": "その段の中でどの位置のフレームを出すか（0.55 = やや後ろ寄り＝出現アニメが終わった後）"
+  },
+
+  "determinism": {
+    "min_psnr_db": 40.0,
+    "_note": "§2-6 同じ入力で2回焼いて psnr が 40dB 以上"
+  },
+
+  "wipe": {
+    "_note": "ワイプが black frame になっていないか（アバターの合成失敗の検出）",
+    "black_frame_ratio_max": 0.10
+  }
+}

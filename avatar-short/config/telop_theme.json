@@ -1,0 +1,44 @@
+{
+  "_comment": "文字と色の設定。見た目の値はここだけに書く（コードに直接書かない）。",
+  "canvas": { "width": 1080, "height": 1920, "fps": 30 },
+  "safe_area": {
+    "_comment": "端末のUIに隠れない領域。左右と上下の余白（px）。",
+    "top": 260, "bottom": 320, "left": 88, "right": 88
+  },
+  "wipe": {
+    "_comment": "⑦compose の右上ワイプ。§8-3 の通り、ここに映る実寸より大きい解像度で計算しても捨てるだけ。",
+    "size": 320,
+    "margin_x": 56,
+    "margin_y": 120,
+    "border_width": 5,
+    "border_color": "#FFFFFF",
+    "corner": "top_right"
+  },
+  "type": {
+    "_comment": "px。行の高さはレンダ前に決めない（§10-4）。flex に縦積みさせる。",
+    "kicker":   { "size": 40,  "weight": 700, "tracking": 0.18 },
+    "headline": { "size": 104, "weight": 800, "tracking": 0.00, "line_height": 1.22 },
+    "sub":      { "size": 40,  "weight": 500, "tracking": 0.10 },
+    "meta":     { "size": 36,  "weight": 500, "tracking": 0.02 },
+    "card_title": { "size": 44, "weight": 700 },
+    "card_desc":  { "size": 32, "weight": 400, "line_height": 1.5 }
+  },
+  "font_stack": [
+    "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN",
+    "Noto Sans JP",
+    "sans-serif"
+  ],
+  "_font_note": "HyperFrames では、フォントスタックに書いた実名フォント全部に @font-face 宣言が要る（§7-2）。宣言を忘れると別の書体で焼き上がる（静かな劣化）。",
+  "motion": {
+    "_comment": "秒。GSAP / Manim 双方が読む。",
+    "in": 0.42,
+    "out": 0.28,
+    "stagger": 0.09,
+    "ease": "power2.out"
+  },
+  "wipe_transition": {
+    "_comment": "段の切り替わりで前の段が消えてから次が出るまでの重なり（秒）。",
+    "overlap": 0.20
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "avatar-short/timeline.schema.json",
+  "title": "timeline.json",
+  "description": "④voice で実際の尺を測ってから埋める。台本の文字数から推測しない（要件定義書 §4-3）。",
+  "type": "object",
+  "required": ["person_id", "total_sec", "segments"],
+  "properties": {
+    "person_id": { "type": "string" },
+    "total_sec": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "voice/out.wav を ffprobe で測った値。推定値を入れない。"
+    },
+    "measured": {
+      "type": "boolean",
+      "const": true,
+      "description": "実測で埋めたことの明示。make_voice.py だけが true にする。"
+    },
+    "segments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "start", "end", "narration", "telop"],
+        "properties": {
+          "id": { "type": "string" },
+          "start": { "type": "number", "minimum": 0 },
+          "end": { "type": "number", "exclusiveMinimum": 0 },
+          "narration": { "type": "string", "minLength": 1 },
+          "telop": {
+            "type": "object",
+            "description": "画面に出す要点。🔴 ナレーション逐語の字幕帯は出さない（2026-08-14 決定）。",
+            "properties": {
+              "kicker":   { "type": "string", "description": "小見出し" },
+              "headline": { "type": "string", "description": "見出し。単体で意味が通る言葉にする（§13）" },
+              "sub":      { "type": "string" },
+              "meta":     { "type": "string" },
+              "cards": {
+                "type": "array",
+                "maxItems": 3,
+                "items": {
+                  "type": "object",
+                  "required": ["t"],
+                  "properties": {
+                    "t": { "type": "string", "description": "見出し" },
+                    "d": { "type": "string", "description": "説明" }
+                  }
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "diagram": {
+            "type": "object",
+            "description": "図の層（任意・§7-7）。この段では cards を出さず、テロップを上に寄せる。",
+            "required": ["template"],
+            "properties": {
+              "template": {
+                "enum": ["timeline", "counter", "bars", "flow", "compare", "reveal"]
+              },
+              "items": { "type": "array", "items": {} },
+              "region": { "enum": ["lower", "center", "full"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}

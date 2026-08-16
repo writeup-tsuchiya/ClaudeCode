@@ -1,0 +1,26 @@
+{
+  "name": "pop-maru",
+  "description": "明るい・丸い・親しみ。自己紹介の既定。",
+  "palette": {
+    "ink": "#1B2430",
+    "ink_weak": "#5A6472",
+    "paper": "#FFFFFF",
+    "accent": "#FF6B4A",
+    "accent_2": "#2E9BFF"
+  },
+  "background_pool": [
+    { "kind": "gradient", "from": "#FFF3E9", "to": "#FFE3D3", "angle": 160 },
+    { "kind": "gradient", "from": "#E9F4FF", "to": "#D6EAFF", "angle": 200 },
+    { "kind": "solid",    "color": "#FFF8F2" },
+    { "kind": "gradient", "from": "#FFF0F6", "to": "#FFE0EC", "angle": 140 },
+    { "kind": "solid",    "color": "#EEF7F1" }
+  ],
+  "_pool_note": "背景の振り分けは tools/common.py の rotation() が行う。プール長と互いに素な歩幅で回すので、隣が必ず異なり、プールを1周する（§10-4b）。",
+  "font_stack_override": null,
+  "shapes": {
+    "corner_radius": 36,
+    "card_radius": 28,
+    "rule_width": 92,
+    "rule_thickness": 8
+  }
+}

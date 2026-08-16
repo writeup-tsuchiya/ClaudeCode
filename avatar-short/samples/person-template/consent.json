@@ -1,0 +1,25 @@
+{
+  "_comment": [
+    "§11 他人の顔と声を扱うときの決まり。",
+    "🔴 顔とは別に、声の同意が要る。「写真をもらった」は「声を複製してよい」ではない。",
+    "🔴 記録が無い person-id では生成しない（tools/common.py の require_consent が止める）。",
+    "これは配布用のひな形。実在の人物には、その人ごとに作り直すこと。"
+  ],
+  "person_id": "sample-taro",
+  "granted_by": "サンプル太郎（架空の人物・実在しません）",
+  "granted_at": "2026-08-16",
+  "granted_via": "ハンズオン用のひな形のため、実際の同意取得は行われていません",
+  "scope": {
+    "voice_clone": true,
+    "face_animate": true,
+    "publish": false
+  },
+  "_scope_note": [
+    "voice_clone   … 参照音声から声を複製してよい",
+    "face_animate  … 写真の顔を動かしてよい",
+    "publish       … SNS等、外部への公開に使ってよい（false のまま運用し、",
+    "                 外に出す操作は毎回その場で確認を取ること）"
+  ],
+  "revoke_contact": "（同意を撤回する連絡先を書く）",
+  "notes": "自己紹介ドキュメントに書いていないことを喋らせない（経歴を盛らない）"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "night-tech",
+  "description": "暗い・硬い・技術。エンジニアの自己紹介向け。",
+  "palette": {
+    "ink": "#EAF2FF",
+    "ink_weak": "#8DA2BF",
+    "paper": "#0C1220",
+    "accent": "#4DE3C1",
+    "accent_2": "#7A6BFF"
+  },
+  "background_pool": [
+    { "kind": "gradient", "from": "#0C1220", "to": "#141E33", "angle": 165 },
+    { "kind": "solid",    "color": "#0A101C" },
+    { "kind": "gradient", "from": "#101A2E", "to": "#1B2542", "angle": 205 },
+    { "kind": "gradient", "from": "#0D1626", "to": "#0A1F24", "angle": 145 },
+    { "kind": "solid",    "color": "#111827" },
+    { "kind": "gradient", "from": "#141024", "to": "#1E1838", "angle": 185 }
+  ],
+  "font_stack_override": null,
+  "shapes": {
+    "corner_radius": 4,
+    "card_radius": 4,
+    "rule_width": 100,
+    "rule_thickness": 4
+  }
+}

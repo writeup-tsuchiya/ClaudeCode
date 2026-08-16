@@ -1,0 +1,31 @@
+{
+  "_comment": [
+    "§6-7 読み間違いを二度と直さない仕組み。",
+    "漢字の読み間違いは必ず起きる。その場で台本を書き換えて済ませると、同じ発見を何度も繰り返す。",
+    "🔴 status を approved にするのは、人が実音声を聴いて直ったと確かめたときだけ。",
+    "   推測で足した規則を自動で効かせると、誤った規則が静かに積み上がる。",
+    "   tools/apply_yomi.py は status=approved のエントリだけを適用する。"
+  ],
+  "entries": [
+    {
+      "id": "washa",
+      "surface": "話者",
+      "replace": "話し手",
+      "reason": "「はなししゃ」と読まれる",
+      "status": "approved",
+      "verified_wav": "",
+      "verified_by": "",
+      "verified_at": ""
+    },
+    {
+      "id": "example-pending",
+      "surface": "代替",
+      "replace": "だいたい",
+      "reason": "「だいがえ」と読まれる疑いがある（未確認）",
+      "status": "candidate",
+      "verified_wav": "",
+      "verified_by": "",
+      "verified_at": ""
+    }
+  ]
+}

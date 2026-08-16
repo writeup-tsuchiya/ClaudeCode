@@ -1,0 +1,30 @@
+{
+  "name": "kraft-mincho",
+  "description": "紙・落ち着き・明朝。士業や研究職の自己紹介向け。",
+  "palette": {
+    "ink": "#2A241C",
+    "ink_weak": "#6B6154",
+    "paper": "#F6F0E6",
+    "accent": "#9A5B34",
+    "accent_2": "#3F6B5A"
+  },
+  "background_pool": [
+    { "kind": "solid",    "color": "#F6F0E6" },
+    { "kind": "gradient", "from": "#F3EADA", "to": "#E8DCC7", "angle": 170 },
+    { "kind": "solid",    "color": "#EFE7D8" },
+    { "kind": "gradient", "from": "#EFE9DC", "to": "#DED2BC", "angle": 200 }
+  ],
+  "font_stack_override": [
+    "Hiragino Mincho ProN",
+    "YuMincho",
+    "Noto Serif JP",
+    "serif"
+  ],
+  "_font_note": "HyperFrames で使う場合、この実名すべてに @font-face 宣言が要る（§7-2）。engines/hyperframes_engine.py が自動で書き出す。",
+  "shapes": {
+    "corner_radius": 8,
+    "card_radius": 6,
+    "rule_width": 120,
+    "rule_thickness": 3
+  }
+}

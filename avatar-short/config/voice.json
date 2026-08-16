@@ -1,0 +1,64 @@
+{
+  "_comment": [
+    "④voice の設定。値の根拠は docs/REQUIREMENTS_avatar-short.md §6-4 / §6-5 / §6-6。",
+    "引数名は vendor/Irodori-TTS/infer.py の実物で確認済み（2026-08-16）。"
+  ],
+
+  "hf_checkpoint": "Aratako/Irodori-TTS-500M-v3",
+  "codec_repo": "Aratako/Semantic-DACVAE-Japanese-32dim",
+
+  "sampling": {
+    "_comment": "§6-5 の基準値。",
+    "num_steps": 40,
+    "seed": 333,
+    "cfg_scale_text": 3.0,
+    "cfg_scale_speaker": 1.0,
+    "_cfg_scale_speaker_note": "🔴 既定の 5.0 のままにしない。参照音声の話し方の癖まで引き継いで文末が不自然になる。1.0 まで下げると声質は保ったまま癖だけ抜ける。",
+    "cfg_guidance_mode": "independent"
+  },
+
+  "chunking": {
+    "_comment": [
+      "§6-4 段落・文単位で分けて生成し、後で繋ぐ。長文を一括で渡さない。",
+      "1回の生成は 30.0秒が上限（SamplingRequest.max_seconds=30.0 で実装側にも存在）。",
+      "193字を一括で渡すと予測31.4秒が30.000秒に切り詰められた。さらに一括は約17%早口になる。",
+      "壊れないので気づきにくい。"
+    ],
+    "hard_cap_sec": 30.0,
+    "target_max_sec": 18.0,
+    "_target_max_sec_note": "上限30秒に対して十分な余裕を取る。ここは『分割の判断』にだけ使う推定であり、timeline の尺には使わない（尺は④で実測してから埋める）。",
+    "chars_per_sec_estimate": 5.15,
+    "_chars_per_sec_note": "実効 約5.0〜5.3字/秒（§6-4）。他社TTSの 6.0字/秒 を流用すると1割ずれる。分割判断のためだけの推定値。",
+    "gap_sec": 0.25,
+    "_gap_note": "チャンク間に挟む無音（秒）。§4-3 の timeline 例（s1 end 3.48 → s2 start 3.73）と一致させてある。"
+  },
+
+  "reference": {
+    "_comment": [
+      "§6-2 参照音声の作り方。ここで品質が決まる。",
+      "🔴 合成音声を参照に使わない。声の複製は参照の声を写す。機械の声を写せば機械の声になる。"
+    ],
+    "expect_sample_rate": 48000,
+    "expect_channels": 1,
+    "expect_sec_min": 20.0,
+    "expect_sec_max": 30.0,
+    "normalize_db": -16.0,
+    "cache_latent": true,
+    "_cache_latent_note": "§6-6 参照音声のエンコードは1回だけにして使い回す。チャンクごとに毎回やると約1.7秒×チャンク数を捨てる（実測 18.98秒 → 13.06秒 / 31%短縮、出力は完全に同一）。--ref-latent は公式docでも『the fastest path when the same speaker reference is reused many times』とされている。"
+  },
+
+  "device": {
+    "_comment": "mps / cuda / cpu。auto は Irodori 側の default_runtime_device() に任せる。",
+    "model_device": "auto",
+    "codec_device": "auto"
+  },
+
+  "script_rules": {
+    "_comment": "§6-4 台本の書き方。tools/split_script.py が機械で検査する。",
+    "forbid_sentence_final_bang": true,
+    "_bang_note": "文末「！」で声が 227Hz→526Hz（ほぼ1オクターブ）跳ねる事故が報告されている。",
+    "warn_all_hiragana": true,
+    "_hiragana_note": "全ひらがなにすると助詞「は」が ha と読まれる（実測で全40段落中4箇所）。漢字仮名交じりのまま入れる。",
+    "min_chars_for_hiragana_warn": 12
+  }
+}
