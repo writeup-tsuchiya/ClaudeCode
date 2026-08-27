@@ -1,4 +1,4 @@
-<title>1,000名の見えない時間</title>
+<title>250名の見えない時間</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -281,10 +281,61 @@ footer{padding:44px 0 64px;color:var(--muted);font-size:12px;line-height:1.9}
 footer .fnote{max-width:78ch}
 footer .fbrand{font-family:"IBM Plex Mono",monospace;letter-spacing:.16em;color:var(--ink-2);font-size:12px;margin-bottom:10px}
 
+/* ---------- before / after ---------- */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line-soft);border-radius:var(--r);overflow:hidden}
+.ba-col{padding:0}
+.ba-col + .ba-col{border-left:1px solid var(--line-soft)}
+.ba-h{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.18em;padding:7px 14px;border-bottom:1px solid var(--line-soft);background:var(--surface-2);color:var(--muted)}
+.ba-h.after{color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--surface-2))}
+.ba-col .tl{padding:6px 14px 12px}
+.ba .tl-row{grid-template-columns:44px 1fr auto;gap:8px}
+.ba .tl-row .n{font-size:12.5px;line-height:1.55}
+.gain{display:grid;grid-template-columns:44px 1fr auto;gap:8px;align-items:center;padding:9px 0 3px;margin-top:4px;border-top:1px solid var(--line)}
+.gain .g1{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--good)}
+.gain .g2{font-size:12.5px;color:var(--good);font-weight:600;line-height:1.5}
+.gain .g3{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--good);font-weight:600}
+
+.bax{display:flex;flex-direction:column;gap:6px;padding:14px 0;border-bottom:1px solid var(--line-soft)}
+.bax:last-child{border-bottom:0}
+.bax-h{font-size:13.5px;font-weight:600}
+.bax-h span{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);font-weight:400;margin-left:8px}
+.bax-row{display:grid;grid-template-columns:58px 1fr 118px;gap:12px;align-items:center}
+.bax-row .lb{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.14em;color:var(--muted)}
+.bax-row.aft .lb{color:var(--accent)}
+.bar{height:20px;display:flex;background:transparent}
+.bar i{display:block;height:100%;border-radius:2px}
+.bar.b i{background:var(--steel-soft)}
+.bar.a i{background:var(--good)}
+.bar u{display:flex;align-items:center;justify-content:center;height:100%;border:1px dashed var(--accent);border-left:0;border-radius:0 2px 2px 0;color:var(--accent);font-family:"IBM Plex Mono",monospace;font-size:10px;text-decoration:none;background:color-mix(in srgb,var(--accent) 9%,transparent);overflow:hidden;white-space:nowrap}
+.bax-row .vl{font-family:"IBM Plex Mono",monospace;font-size:13.5px;text-align:right}
+.bax-row .vl small{display:block;font-size:10.5px;color:var(--muted)}
+.bax-row.aft .vl{color:var(--good)}
+
+.fl{padding:18px 0;border-bottom:1px solid var(--line-soft)}
+.fl:last-child{border-bottom:0}
+.fl-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.fl-h h4{margin:0;font-size:14px;font-weight:700}
+.fl-line{display:grid;grid-template-columns:58px 1fr 96px;gap:12px;align-items:center;padding:7px 0}
+.fl-line .tg{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.14em;color:var(--muted)}
+.fl-line.aft .tg{color:var(--accent)}
+.steps{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0;padding:0;list-style:none}
+.steps li{font-size:12px;padding:3px 9px;border:1px solid var(--line);border-radius:2px;background:var(--surface-2);color:var(--ink-2)}
+.fl-line.aft .steps li{border-color:color-mix(in srgb,var(--accent) 45%,transparent);color:var(--ink);background:color-mix(in srgb,var(--accent) 7%,var(--surface))}
+.fl-line.aft .steps li.byai{border-style:solid;font-weight:600}
+.fl-line.aft .steps li.byai::before{content:"AI";font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--accent);margin-right:6px;letter-spacing:.08em}
+.steps .arw{border:0;background:transparent;color:var(--muted);padding:0 1px;font-size:11px}
+.fl-line .tm{font-family:"IBM Plex Mono",monospace;font-size:13px;text-align:right;white-space:nowrap}
+.fl-line.aft .tm{color:var(--accent);font-weight:600}
+
 @media (max-width:900px){
   .kpis{grid-template-columns:repeat(2,1fr)}
   .grid2,.roi,.mini,.pol{grid-template-columns:1fr}
   .road{grid-template-columns:1fr 1fr}
+  .ba{grid-template-columns:1fr}
+  .ba-col + .ba-col{border-left:0;border-top:1px solid var(--line)}
+  .bax-row{grid-template-columns:52px 1fr 96px;gap:8px}
+  .fl-line{grid-template-columns:52px 1fr;gap:8px}
+  .fl-line .tm{grid-column:2;text-align:left}
   .rep .rstat{grid-template-columns:1fr 1fr}
   .spec div{border-right:0;border-bottom:1px solid var(--line-soft);flex:1 1 100%}
   .spec div:last-child{border-bottom:0}
@@ -304,9 +355,10 @@ footer .fbrand{font-family:"IBM Plex Mono",monospace;letter-spacing:.16em;color:
     <nav class="mast-nav">
       <a href="#overview">全社</a>
       <a href="#dept">職種別</a>
+      <a href="#beforeafter">ビフォーアフター</a>
       <a href="#candidates">AI化候補</a>
       <a href="#roadmap">ロードマップ</a>
-      <a href="#roi">費用対効果</a>
+      <a href="#effect">戻る時間</a>
       <a href="#report">週次レポート</a>
       <a href="#policy">運用ポリシー</a>
     </nav>
@@ -318,31 +370,31 @@ footer .fbrand{font-family:"IBM Plex Mono",monospace;letter-spacing:.16em;color:
 
   <div class="hero" id="top">
     <p class="eyebrow">SIMULATION ／ 中堅製造業A社</p>
-    <h1>1,000名の会社で、<br><em>誰が何に時間を使っているか</em>を、<br>1週間分そのまま出した。</h1>
-    <p class="lede">従業員1,000名・3拠点の製造業A社。間接部門208名（営業128／総務42／経理38）のPCが1分に1回だけ自分の画面を記録し、AIが「誰が・何の業務に・何時間」を判定・集計した1週間のサンプルです。日報も工数入力も、現場は1秒も書いていません。</p>
+    <h1>250名の会社で、<br><em>誰が何に時間を使っているか</em>を、<br>1週間分そのまま出した。</h1>
+    <p class="lede">従業員250名の製造業A社。間接部門50名（営業32／総務10／経理8）のPCが1分に1回だけ自分の画面を記録し、AIが「誰が・何の業務に・何時間」を判定・集計した1週間のサンプルです。日報も工数入力も、現場は1秒も書いていません。</p>
 
     <dl class="spec">
-      <div><dt>対象企業</dt><dd>中堅製造業A社（従業員1,000名／本社・2工場）</dd></div>
-      <div><dt>計測対象</dt><dd>間接部門 208名（営業128・総務42・経理38）</dd></div>
+      <div><dt>対象企業</dt><dd>製造業A社（従業員250名／本社・1工場）</dd></div>
+      <div><dt>計測対象</dt><dd>間接部門 50名（営業32・総務10・経理8）</dd></div>
       <div><dt>計測期間</dt><dd>2026.08.17（月）— 08.23（日）／第3週</dd></div>
-      <div><dt>解析枚数</dt><dd>約47.8万枚／週（1分間隔・稼働時間のみ）</dd></div>
+      <div><dt>解析枚数</dt><dd>約11.5万枚／週（1分間隔・稼働時間のみ）</dd></div>
     </dl>
 
     <div class="kpis">
       <div class="kpi">
         <div class="k">TOTAL MEASURED</div>
-        <div class="v">7,965.2<small>h／週</small></div>
-        <div class="s">対象208名・1人あたり週38.3h</div>
+        <div class="v">1,913.2<small>h／週</small></div>
+        <div class="s">対象50名・1人あたり週38.3h</div>
       </div>
       <div class="kpi hot">
         <div class="k">AI-REPLACEABLE</div>
-        <div class="v">2,065.9<small>h／週</small></div>
-        <div class="s">実測の25.9%。11の業務に集中している</div>
+        <div class="v">492.5<small>h／週</small></div>
+        <div class="s">実測の25.7%。11の業務に集中している</div>
       </div>
       <div class="kpi">
         <div class="k">TOP CANDIDATE</div>
-        <div class="v">−374.5<small>h</small></div>
-        <div class="s">経理／請求書・伝票処理をOCR＋仕訳AIへ</div>
+        <div class="v">−89.4<small>h</small></div>
+        <div class="s">営業／受注入力・転記をOCR＋基幹連携AIへ</div>
       </div>
       <div class="kpi">
         <div class="k">DATA QUALITY</div>
@@ -381,15 +433,15 @@ footer .fbrand{font-family:"IBM Plex Mono",monospace;letter-spacing:.16em;color:
         <div class="panel-b">
           <div class="insight" style="margin-top:0">
             <span class="lbl">FINDING 01</span>
-            入力・転記・照合だけで週<b>1,764.3h</b>。208名の総実測の<b>22.1%</b>が、「別のシステムに同じ情報を入れ直す」作業に使われています。
+            入力・転記・照合だけで週<b>402.4h</b>。50名の総実測の<b>21.0%</b>が、「別のシステムに同じ情報を入れ直す」作業に使われています。
           </div>
           <div class="insight">
             <span class="lbl">FINDING 02</span>
-            営業128名が顧客と向き合っている時間は週<b>884.2h</b>（実測の18.1%）。社内向けの入力・調整・報告（受注入力・納期調整・会議・日報）は<b>1,889.3h</b>で、顧客接点の<b>2.1倍</b>あります。
+            営業32名が顧客と向き合っている時間は週<b>221.1h</b>（営業の実測の18.1%）。社内向けの入力・調整・報告（受注入力・納期調整・会議・日報）は<b>472.3h</b>で、顧客接点の<b>2.1倍</b>あります。
           </div>
           <div class="insight">
             <span class="lbl">FINDING 03</span>
-            経理38名は実測の<b>34.2%</b>がAI化可能。人数は営業の3割ですが、1人あたりの削減余地は<b>週13.5h</b>と全職種で最大です。
+            経理8名は実測の<b>34.2%</b>がAI化可能。人数は営業の4分の1ですが、1人あたりの削減余地は<b>週13.5h</b>と全職種で最大です。
           </div>
         </div>
       </div>
@@ -436,7 +488,16 @@ footer .fbrand{font-family:"IBM Plex Mono",monospace;letter-spacing:.16em;color:
         <div class="panel">
           <div class="panel-h"><h3 id="personTitle">代表社員の1日</h3><span class="tag">2026.08.20（木）／ 本人にも同じ内容が届きます</span></div>
           <div class="panel-b">
-            <div class="tl" id="timeline"></div>
+            <div class="ba">
+              <div class="ba-col">
+                <div class="ba-h">BEFORE ／ 現在</div>
+                <div class="tl" id="tlBefore"></div>
+              </div>
+              <div class="ba-col">
+                <div class="ba-h after">AFTER ／ AI化後</div>
+                <div class="tl" id="tlAfter"></div>
+              </div>
+            </div>
             <div class="insight" id="personInsight"></div>
           </div>
         </div>
@@ -454,10 +515,106 @@ footer .fbrand{font-family:"IBM Plex Mono",monospace;letter-spacing:.16em;color:
     </div>
   </section>
 
+  <!-- ============ ビフォーアフター ============ -->
+  <section id="beforeafter">
+    <p class="eyebrow">Before / After ／ 何がどう変わるか</p>
+    <h2>同じ1週間を、<br>AI化した後にもう一度。</h2>
+    <p class="sub">上は部門ごとの週の総量。下は、時間が減る理由そのもの——工程の数が減ります。人が減るのではなく、人が触る工程が減ります。</p>
+
+    <div class="panel" style="margin-top:26px">
+      <div class="panel-h"><h3>部門別・1週間の総実測時間</h3><span class="tag">AI化可能時間をすべて移した場合（理論値）</span></div>
+      <div class="panel-b">
+        <div id="baxHost"></div>
+        <div class="legend">
+          <span><i style="background:var(--steel-soft)"></i>現在の実測時間</span>
+          <span><i style="background:var(--good)"></i>AI化後に人が担う時間</span>
+          <span><i style="border:1px dashed var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent)"></i>戻ってくる時間</span>
+        </div>
+        <p class="assume">12ヶ月ロードマップでの到達見込みは、この戻り時間の<strong>66%（週約325h）</strong>です。上のバーは「AI化可能と判定された時間をすべて移せた場合」の上限を示しています。</p>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:20px">
+      <div class="panel-h"><h3>工程で見るビフォーアフター（削減上位3件）</h3><span class="tag">1件・1日あたりの所要時間</span></div>
+      <div class="panel-b">
+
+        <div class="fl">
+          <div class="fl-h"><h4>受注入力・転記</h4><span class="chip dept">営業</span><span class="chip">転記AI（OCR＋基幹連携）</span></div>
+          <div class="fl-line">
+            <span class="tg">BEFORE</span>
+            <ul class="steps">
+              <li>注文書をFAX・メールで受領</li><li class="arw">›</li>
+              <li>内容を目視で確認</li><li class="arw">›</li>
+              <li>基幹システムへ手入力</li><li class="arw">›</li>
+              <li>Excel台帳へ再入力</li><li class="arw">›</li>
+              <li>上長へ報告</li>
+            </ul>
+            <span class="tm">約12分／件</span>
+          </div>
+          <div class="fl-line aft">
+            <span class="tg">AFTER</span>
+            <ul class="steps">
+              <li class="byai">注文書を読み取り</li><li class="arw">›</li>
+              <li class="byai">基幹システムへ自動起票</li><li class="arw">›</li>
+              <li>差異のある項目だけ承認</li>
+            </ul>
+            <span class="tm">約4分／件</span>
+          </div>
+        </div>
+
+        <div class="fl">
+          <div class="fl-h"><h4>請求書・伝票処理</h4><span class="chip dept">経理</span><span class="chip">仕訳AI（OCR＋自動突合）</span></div>
+          <div class="fl-line">
+            <span class="tg">BEFORE</span>
+            <ul class="steps">
+              <li>紙・PDFで受領</li><li class="arw">›</li>
+              <li>内容確認</li><li class="arw">›</li>
+              <li>会計システムへ手入力</li><li class="arw">›</li>
+              <li>支払データと突合</li><li class="arw">›</li>
+              <li>差異を目視で追跡</li>
+            </ul>
+            <span class="tm">約11分／件</span>
+          </div>
+          <div class="fl-line aft">
+            <span class="tg">AFTER</span>
+            <ul class="steps">
+              <li class="byai">読み取り・自動仕訳</li><li class="arw">›</li>
+              <li class="byai">支払データと自動突合</li><li class="arw">›</li>
+              <li>例外だけ人が確認</li>
+            </ul>
+            <span class="tm">約5分／件</span>
+          </div>
+        </div>
+
+        <div class="fl">
+          <div class="fl-h"><h4>日報・訪問報告書</h4><span class="chip dept">営業</span><span class="chip">日報自動生成</span></div>
+          <div class="fl-line">
+            <span class="tg">BEFORE</span>
+            <ul class="steps">
+              <li>記憶を辿って項目を埋める</li><li class="arw">›</li>
+              <li>訪問先ごとに転記</li><li class="arw">›</li>
+              <li>上長へ提出</li>
+            </ul>
+            <span class="tm">約25分／日</span>
+          </div>
+          <div class="fl-line aft">
+            <span class="tg">AFTER</span>
+            <ul class="steps">
+              <li class="byai">商談ログから下書きを生成</li><li class="arw">›</li>
+              <li>追記して送信</li>
+            </ul>
+            <span class="tm">約7分／日</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- ============ 候補 ============ -->
   <section id="candidates">
     <p class="eyebrow">Candidates ／ AI化候補</p>
-    <h2>11の業務に、<br>週2,065.9時間が沈んでいる。</h2>
+    <h2>11の業務に、<br>週492.5時間が沈んでいる。</h2>
     <p class="sub">削減見込み時間の大きい順。実装難易度と判定の確信度を併記しているので、「効果は大きいが難しいもの」と「小さくても今週始められるもの」を分けて着手できます。</p>
 
     <div class="panel" style="margin-top:26px">
@@ -470,75 +627,72 @@ footer .fbrand{font-family:"IBM Plex Mono",monospace;letter-spacing:.16em;color:
   <section id="roadmap">
     <p class="eyebrow">Roadmap ／ 12ヶ月</p>
     <h2>全員同時ではなく、<br>マネージャーから始める。</h2>
-    <p class="sub">最初の1ヶ月は削減しません。管理職32名だけで計測し、「何が記録され、何が記録されないか」を自分の目で確認してもらう期間に充てます。抵抗感の正体はたいてい、見えないことへの不安です。</p>
+    <p class="sub">最初の1ヶ月は削減しません。管理職8名だけで計測し、「何が記録され、何が記録されないか」を自分の目で確認してもらう期間に充てます。抵抗感の正体はたいてい、見えないことへの不安です。</p>
 
     <div class="road">
       <div class="ph">
         <div class="p">PHASE 0</div>
         <h4>マネージャー先行導入</h4>
-        <div class="mo">1ヶ月目 ／ 32名</div>
+        <div class="mo">1ヶ月目 ／ 8名</div>
         <ul><li>管理職のみで計測を開始</li><li>取得範囲・非取得範囲を実機で確認</li><li>従業員説明会の資料を実データで作成</li></ul>
         <div class="res"><b>±0h</b><span>計測精度の確立に充てる期間</span></div>
       </div>
       <div class="ph">
         <div class="p">PHASE 1</div>
         <h4>経理・総務へ展開</h4>
-        <div class="mo">2—4ヶ月目 ／ +80名</div>
+        <div class="mo">2—4ヶ月目 ／ +18名</div>
         <ul><li>請求書・伝票のOCR＋仕訳AI</li><li>社内問い合わせFAQ AI</li><li>議事録AI（全部門共通）</li></ul>
-        <div class="res"><b>−510h</b><span>週あたり／達成率75%想定</span></div>
+        <div class="res"><b>−114h</b><span>週あたり／達成率75%想定</span></div>
       </div>
       <div class="ph">
         <div class="p">PHASE 2</div>
         <h4>営業へ展開</h4>
-        <div class="mo">5—8ヶ月目 ／ +128名</div>
+        <div class="mo">5—8ヶ月目 ／ +32名</div>
         <ul><li>受注入力・転記AI（基幹連携）</li><li>日報・訪問報告の自動生成</li><li>議事録AI（営業の会議記録）</li></ul>
-        <div class="res"><b>−455h</b><span>週あたり／達成率70%想定</span></div>
+        <div class="res"><b>−114h</b><span>週あたり／達成率70%想定</span></div>
       </div>
       <div class="ph">
         <div class="p">PHASE 3</div>
         <h4>判断を含む業務へ</h4>
-        <div class="mo">9—12ヶ月目 ／ 208名</div>
+        <div class="mo">9—12ヶ月目 ／ 50名</div>
         <ul><li>見積作成AI・資料作成AI</li><li>在庫・納期照会AI</li><li>メール下書きAI・経費精算チェックAI</li></ul>
-        <div class="res"><b>−400h</b><span>週あたり／達成率55%想定</span></div>
+        <div class="res"><b>−98h</b><span>週あたり／達成率55%想定</span></div>
       </div>
     </div>
-    <p class="assume" style="max-width:78ch">達成率は「AI化可能と判定された時間のうち、実際に運用へ乗った割合」の想定値です。12ヶ月時点の累計削減は<strong>週約1,370h（ポテンシャル2,065.9hの66%）</strong>。初月の実測ログが貯まり次第、この試算は自社データで自動補正されます。</p>
+    <p class="assume" style="max-width:78ch">達成率は「AI化可能と判定された時間のうち、実際に運用へ乗った割合」の想定値です。12ヶ月時点の累計削減は<strong>週約325h（ポテンシャル492.5hの66%）</strong>。初月の実測ログが貯まり次第、この試算は自社データで自動補正されます。</p>
   </section>
 
-  <!-- ============ ROI ============ -->
-  <section id="roi">
-    <p class="eyebrow">Economics ／ 費用対効果</p>
-    <h2>208名分のIDで、<br>月208万円。</h2>
-    <p class="sub">左が12ヶ月目時点の月次収支。効果は「削減時間 × 人件費単価」をそのまま計上せず、残業削減・増員回避として実際に転換できる分だけを40%として見込んでいます。</p>
+  <!-- ============ 戻る時間 ============ -->
+  <section id="effect">
+    <p class="eyebrow">Effect ／ 戻る時間</p>
+    <h2>戻ってくるのは、<br>年間で常勤9名分の時間。</h2>
+    <p class="sub">12ヶ月ロードマップを走り切ったときに、50名の手元へ戻る時間です。増えた時間をどこへ返すかまで決めておかないと、可視化は不安しか生みません。</p>
 
     <div class="roi">
       <div class="panel">
-        <div class="panel-h"><h3>月次収支（12ヶ月目時点）</h3><span class="tag">税別・想定値</span></div>
+        <div class="panel-h"><h3>戻る時間（12ヶ月目時点）</h3><span class="tag">達成率を反映した見込み</span></div>
         <div class="panel-b">
           <div class="calc">
-            <div class="calc-row"><span class="lbl">削減時間</span><span class="val">5,932 h／月</span></div>
-            <div class="calc-row"><span class="lbl">1人あたり削減</span><span class="val">28.5 h／月</span></div>
-            <div class="calc-row"><span class="lbl">人件費単価（間接部門・総額ベース）</span><span class="val">¥3,600 ／ h</span></div>
-            <div class="calc-row"><span class="lbl">理論効果額</span><span class="val">¥21,355,200</span></div>
-            <div class="calc-row"><span class="lbl">実現率 40%を掛けた効果額</span><span class="val">¥8,542,080</span></div>
-            <div class="calc-row neg"><span class="lbl">ソフト利用料（208ID × ¥10,000）</span><span class="val">−¥2,080,000</span></div>
-            <div class="calc-row sum"><span class="lbl">月次差引</span><span class="val">＋¥6,462,080</span></div>
+            <div class="calc-row"><span class="lbl">週あたり</span><span class="val">325 h</span></div>
+            <div class="calc-row"><span class="lbl">月あたり</span><span class="val">1,410 h</span></div>
+            <div class="calc-row"><span class="lbl">1人あたり</span><span class="val">28.2 h／月</span></div>
+            <div class="calc-row"><span class="lbl">年間</span><span class="val">16,900 h</span></div>
+            <div class="calc-row sum"><span class="lbl">常勤換算</span><span class="val">約 9.0 名分</span></div>
           </div>
-          <p class="assume">年間換算 約7,750万円／投資回収 導入後およそ4ヶ月目。AIツールの実装費・研修費は別途。人件費単価は賞与・法定福利費を含む総額人件費÷総労働時間で算出しています。</p>
+          <p class="assume">常勤換算は年間所定労働1,900hで計算。採用が難しい間接部門で、9名分の工数を採用せずに確保できるという意味です。</p>
         </div>
       </div>
 
       <div class="panel">
-        <div class="panel-h"><h3>コストの比較対象</h3></div>
+        <div class="panel-h"><h3>戻した時間を、どこへ返すか</h3></div>
         <div class="panel-b">
           <div class="calc">
-            <div class="calc-row"><span class="lbl">業務棚卸しコンサル（外部委託・一式）</span><span class="val">¥1,000,000 —</span></div>
-            <div class="calc-row"><span class="lbl">同・所要期間</span><span class="val">2 — 3ヶ月</span></div>
-            <div class="calc-row"><span class="lbl">自己申告の工数入力（208名 × 週15分）</span><span class="val">52 h／週</span></div>
-            <div class="calc-row"><span class="lbl">同・年間の人件費換算</span><span class="val">¥9,734,400</span></div>
-            <div class="calc-row sum"><span class="lbl">本システム</span><span class="val">¥2,080,000／月</span></div>
+            <div class="calc-row"><span class="lbl"><b>営業</b>　顧客と向き合う時間</span><span class="val">221.1h → 330h／週</span></div>
+            <div class="calc-row"><span class="lbl"><b>経理</b>　1人あたりの所定外労働</span><span class="val">−13.5h／週</span></div>
+            <div class="calc-row"><span class="lbl"><b>総務</b>　常勤2名分の工数を吸収</span><span class="val">76.0h／週</span></div>
+            <div class="calc-row sum"><span class="lbl">現場が「測るため」に使う時間</span><span class="val">0 分</span></div>
           </div>
-          <p class="assume">棚卸しは1回きりのスナップショットで、終わった瞬間から古くなります。実測ログは毎週更新され、AI化の効果検証にもそのまま使えます。「測るために働く時間」は0分です。</p>
+          <p class="assume">自己申告の工数入力なら50名×週15分で週12.5h、年650hが「測るための仕事」として発生します。外部コンサルによる業務棚卸しは2〜3ヶ月かかり、終わった瞬間から古くなります。実測ログは毎週更新され、AI化後の効果検証にもそのまま使えます。</p>
         </div>
       </div>
     </div>
@@ -553,19 +707,19 @@ footer .fbrand{font-family:"IBM Plex Mono",monospace;letter-spacing:.16em;color:
     <div class="rep" style="margin-top:26px">
       <div class="rh"><span>WORK VISIBILITY AI ／ WEEKLY REPORT</span><span>FOR MANAGER</span></div>
       <h3>顧客と向き合う時間を守るため、<br>受注入力と日報作成を先に手放します。</h3>
-      <p class="rmeta">2026.08.17 — 08.23 ／ 第二営業部・営業課 32名 ／ 担当マネージャー 高橋 部長</p>
+      <p class="rmeta">2026.08.17 — 08.23 ／ 第二営業課 16名 ／ 担当マネージャー 高橋 課長</p>
       <dl class="rstat">
-        <div><dt>チーム実測</dt><dd>1,224.8h</dd></div>
-        <div><dt>顧客接点</dt><dd>221.1h</dd></div>
-        <div><dt>受注入力・転記</dt><dd>149.0h</dd></div>
-        <div><dt>削減見込み</dt><dd class="hi">308.2h</dd></div>
+        <div><dt>チーム実測</dt><dd>611.2h</dd></div>
+        <div><dt>顧客接点</dt><dd>110.6h</dd></div>
+        <div><dt>受注入力・転記</dt><dd>74.5h</dd></div>
+        <div><dt>削減見込み</dt><dd class="hi">154.2h</dd></div>
       </dl>
       <div class="acts">
-        <div class="act"><span class="i">01</span><span>受注情報が基幹システムとExcel台帳の2箇所に入力されています。二重入力の箇所を今週中に棚卸ししてください（対象32名中28名で発生）。</span></div>
-        <div class="act"><span class="i">02</span><span>日報・訪問報告書に週67.1h（1人あたり2.1h）。商談ログから自動生成する運用を、次回の課会で3名に先行トライアルとして提示してください。</span></div>
-        <div class="act"><span class="i">03</span><span>納期回答の社内問い合わせが生産管理部へ週184件。上位20品目の在庫照会を自動化すれば、この課だけで週約34h戻ります。</span></div>
+        <div class="act"><span class="i">01</span><span>受注情報が基幹システムとExcel台帳の2箇所に入力されています。二重入力の箇所を今週中に棚卸ししてください（対象16名中14名で発生）。</span></div>
+        <div class="act"><span class="i">02</span><span>日報・訪問報告書に週33.6h（1人あたり2.1h）。商談ログから自動生成する運用を、次回の課会で3名に先行トライアルとして提示してください。</span></div>
+        <div class="act"><span class="i">03</span><span>納期回答の社内問い合わせが生産管理部へ週23件。上位20品目の在庫照会を自動化すれば、この課だけで週約17h戻ります。</span></div>
       </div>
-      <div class="note"><b>AIからの示唆</b>受注入力は月曜午前と金曜夕方に集中し、特定の4名が全体の38%を担っています。担当の偏りは業務量ではなく、基幹システムの操作習熟度の差に起因している可能性があります。この4名の作業手順を録画・標準化するだけでも、AI化前に一定の平準化が見込めます。</div>
+      <div class="note"><b>AIからの示唆</b>受注入力は月曜午前と金曜夕方に集中し、特定の3名が全体の36%を担っています。担当の偏りは業務量ではなく、基幹システムの操作習熟度の差に起因している可能性があります。この3名の作業手順を録画・標準化するだけでも、AI化前に一定の平準化が見込めます。</div>
     </div>
 
     <div class="mini">
@@ -580,9 +734,9 @@ footer .fbrand{font-family:"IBM Plex Mono",monospace;letter-spacing:.16em;color:
       <div class="panel">
         <div class="panel-h"><h3>FOR EXECUTIVE ／ 経営向け</h3><span class="tag">月次・役員会向け</span></div>
         <div class="panel-b">
-          <p class="q">間接部門208名の実測 <b>7,965.2h／週</b>。AI化可能 <b>2,065.9h（25.9%）</b>。</p>
-          <p class="q">12ヶ月ロードマップ完了時の年間効果 <b>約7,750万円</b>（実現率40%・保守試算）。投資回収 <b>4ヶ月目</b>。</p>
-          <p class="q">次の投資判断：<b>経理のOCR＋仕訳AI</b>。単独で週374.5h、投資対効果が最も高い。</p>
+          <p class="q">間接部門50名の実測 <b>1,913.2h／週</b>。AI化可能 <b>492.5h（25.7%）</b>。</p>
+          <p class="q">12ヶ月ロードマップ完了時に戻る時間 <b>週約325h</b>。年間<b>16,900h</b>＝常勤<b>約9名分</b>の工数に相当。</p>
+          <p class="q">次の着手：<b>営業の受注入力・転記AI</b>。単独で週89.4h、11候補の中で最大。</p>
         </div>
       </div>
     </div>
@@ -601,11 +755,11 @@ footer .fbrand{font-family:"IBM Plex Mono",monospace;letter-spacing:.16em;color:
       </div></div>
       <div class="panel"><div class="panel-b">
         <h4>空いた時間の使い道を、先に決める</h4>
-        <p>削減した時間で何をするのかが決まっていなければ、可視化は不安しか生みません。A社の場合は「営業の顧客接点を週884.2hから1,200hへ」を先に会社の方針として掲げ、そのための手段としてAI化を位置づけます。</p>
+        <p>削減した時間で何をするのかが決まっていなければ、可視化は不安しか生みません。A社の場合は「営業の顧客接点を週221.1hから週330hへ」を先に会社の方針として掲げ、そのための手段としてAI化を位置づけます。</p>
       </div></div>
       <div class="panel"><div class="panel-b">
         <h4>管理職から、自分の業務で始める</h4>
-        <p>最初の対象は管理職32名。自分の業務をまずAIで減らし、その結果を実データで共有してもらいます。「やらされる側」から始めない設計が、現場の納得を左右します。</p>
+        <p>最初の対象は管理職8名。自分の業務をまずAIで減らし、その結果を実データで共有してもらいます。「やらされる側」から始めない設計が、現場の納得を左右します。</p>
       </div></div>
     </div>
   </section>
@@ -616,7 +770,7 @@ footer .fbrand{font-family:"IBM Plex Mono",monospace;letter-spacing:.16em;color:
 <footer>
   <div class="wrap">
     <div class="fbrand">WORK VISIBILITY AI ／ DEMO</div>
-    <p class="fnote">本ページは導入イメージを共有するためのデモです。企業名「中堅製造業A社」、社員氏名、および全ての数値はサンプルであり、実在の企業・個人のデータではありません。削減率・達成率・人件費単価は業界平均をもとにした想定値で、実導入時は初月の実測ログをもとに自動補正されます。</p>
+    <p class="fnote">本ページは導入イメージを共有するためのデモです。企業名「中堅製造業A社」、社員氏名、および全ての数値はサンプルであり、実在の企業・個人のデータではありません。削減率・達成率は業界平均をもとにした想定値で、実導入時は初月の実測ログをもとに自動補正されます。</p>
   </div>
 </footer>
 
@@ -625,17 +779,17 @@ footer .fbrand{font-family:"IBM Plex Mono",monospace;letter-spacing:.16em;color:
 
 var DEPTS = [
   {
-    id:"sales", name:"営業部", head:128, total:4889.6, cut:1232.6,
+    id:"sales", name:"営業部", head:32, total:1222.4, cut:308.3,
     tasks:[
-      {n:"商談・顧客訪問（移動含む）", t:884.2, c:0},
-      {n:"メール・チャット対応", t:731.9, c:109.8},
-      {n:"見積書作成・価格計算", t:682.4, c:204.7},
-      {n:"基幹システムへの受注入力・転記", t:596.1, c:357.7},
-      {n:"納期回答・在庫確認の社内調整", t:548.3, c:137.1},
-      {n:"提案書・技術資料の作成", t:512.7, c:128.2},
-      {n:"社内会議・報告", t:476.5, c:107.2},
-      {n:"日報・訪問報告書の作成", t:268.4, c:187.9},
-      {n:"その他（移動待ち・雑務）", t:189.1, c:0}
+      {n:"商談・顧客訪問（移動含む）", t:221.1, c:0},
+      {n:"メール・チャット対応", t:183.0, c:27.5},
+      {n:"見積書作成・価格計算", t:170.6, c:51.2},
+      {n:"基幹システムへの受注入力・転記", t:149.0, c:89.4},
+      {n:"納期回答・在庫確認の社内調整", t:137.1, c:34.3},
+      {n:"提案書・技術資料の作成", t:128.2, c:32.1},
+      {n:"社内会議・報告", t:119.1, c:26.8},
+      {n:"日報・訪問報告書の作成", t:67.1, c:47.0},
+      {n:"その他（移動待ち・雑務）", t:47.2, c:0}
     ],
     heat:{
       rows:["08–09","09–11","11–13","13–15","15–17","17–19"],
@@ -643,8 +797,8 @@ var DEPTS = [
     },
     hmNote:"<span class='lbl'>PATTERN</span>月曜午前に<b>受注入力</b>、金曜夕方に<b>日報作成</b>が集中。週の始まりと終わりの計<b>3.1h/人</b>が、顧客と関係のない社内作業で埋まっています。",
     person:{
-      title:"営業部・佐藤 健太（第二営業部 主任）",
-      log:[
+      title:"営業部・佐藤 健太（第二営業課 主任）",
+      before:[
         {t:"08:30", n:"メール・チャット対応", h:0.8, k:"rep"},
         {t:"09:20", n:"基幹システムへの受注入力（7件）", h:1.4, k:"rep"},
         {t:"10:45", n:"見積書作成（3件）", h:1.6, k:"rep"},
@@ -653,61 +807,79 @@ var DEPTS = [
         {t:"16:05", n:"提案書作成", h:1.3, k:"mix"},
         {t:"17:20", n:"日報・訪問報告書の作成", h:0.6, k:"rep"}
       ],
-      insight:"<span class='lbl'>INSIGHT</span>見積3件のうち<b>2件</b>は過去案件と同一構成でした。見積作成AIが過去データを参照して初稿を出せば、この日だけで約<b>50分</b>戻ります。顧客と接していた時間は8.6hのうち<b>2.0h</b>です。"
+      after:[
+        {t:"08:30", n:"メール確認・承認（AIが下書き）", h:0.6, k:"rep"},
+        {t:"09:05", n:"受注データの承認（AIが自動起票）", h:0.6, k:"rep"},
+        {t:"09:40", n:"見積の確認・調整（AIが初稿）", h:1.1, k:"rep"},
+        {t:"13:00", n:"オンライン商談（B工業・新規）", h:2.0, k:"core"},
+        {t:"15:10", n:"納期回答（在庫照会AIの回答を確認）", h:0.7, k:"rep"},
+        {t:"16:05", n:"提案書の仕上げ（AIが初稿）", h:1.0, k:"mix"},
+        {t:"17:20", n:"日報の確認・送信（自動生成）", h:0.2, k:"rep"}
+      ],
+      gain:"新規2社へのアプローチ・次回商談の準備",
+      insight:"<span class='lbl'>INSIGHT</span>見積3件のうち<b>2件</b>は過去案件と同一構成でした。顧客と接していた時間は8.6hのうち<b>2.0h</b>。AI化後は同じ業務が<b>6.2h</b>で終わり、<b>2.4h</b>が顧客に使える時間として戻ります。"
     },
     tr:[
-      {ini:"佐", who:"佐藤 健太", aff:"第二営業部", w:"基幹システムへの受注入力・転記", now:12.1, ai:"転記AI", aid:"OCR＋基幹システム連携", after:4.8, cut:7.3, r:60},
-      {ini:"高", who:"高橋 直人", aff:"第一営業部", w:"見積書作成・価格計算", now:14.8, ai:"見積作成AI", aid:"過去案件参照＋自動起票", after:10.4, cut:4.4, r:30},
-      {ini:"松", who:"松本 里奈", aff:"第二営業部", w:"日報・訪問報告書の作成", now:5.8, ai:"日報自動生成", aid:"商談ログから自動作成", after:1.7, cut:4.1, r:70},
-      {ini:"森", who:"森田 亮", aff:"営業企画課", w:"提案書・技術資料の作成", now:11.2, ai:"資料作成AI", aid:"初稿の自動生成", after:8.4, cut:2.8, r:25},
-      {ini:"岡", who:"岡田 圭", aff:"第一営業部", w:"納期回答・在庫確認", now:11.9, ai:"在庫照会AI", aid:"基幹在庫の自動回答", after:8.9, cut:3.0, r:25}
+      {ini:"佐", who:"佐藤 健太", aff:"第二営業課", w:"基幹システムへの受注入力・転記", now:20.2, ai:"転記AI", aid:"OCR＋基幹システム連携", after:8.1, cut:12.1, r:60},
+      {ini:"高", who:"高橋 直人", aff:"第一営業課", w:"見積書作成・価格計算", now:23.1, ai:"見積作成AI", aid:"過去案件参照＋自動起票", after:16.2, cut:6.9, r:30},
+      {ini:"松", who:"松本 里奈", aff:"第二営業課", w:"日報・訪問報告書の作成", now:9.1, ai:"日報自動生成", aid:"商談ログから自動作成", after:2.7, cut:6.4, r:70},
+      {ini:"森", who:"森田 亮", aff:"営業企画", w:"提案書・技術資料の作成", now:17.3, ai:"資料作成AI", aid:"初稿の自動生成", after:13.0, cut:4.3, r:25},
+      {ini:"岡", who:"岡田 圭", aff:"第一営業課", w:"納期回答・在庫確認", now:18.5, ai:"在庫照会AI", aid:"基幹在庫の自動回答", after:13.9, cut:4.6, r:25}
     ]
   },
   {
-    id:"ga", name:"総務部", head:42, total:1570.8, cut:319.4,
+    id:"ga", name:"総務部", head:10, total:374.0, cut:76.0,
     tasks:[
-      {n:"社内問い合わせ対応（規程・手続き）", t:312.6, c:156.3},
-      {n:"各種申請書の受付・チェック・回覧", t:268.9, c:94.1},
-      {n:"メール・電話対応", t:221.5, c:33.2},
-      {n:"備品・社用車・施設の管理", t:196.4, c:0},
-      {n:"安全衛生・教育記録の管理", t:174.2, c:0},
-      {n:"会議・議事録作成", t:158.7, c:35.8},
-      {n:"契約書・社内文書の管理", t:142.3, c:0},
-      {n:"その他（来客対応・庶務）", t:96.2, c:0}
+      {n:"社内問い合わせ対応（規程・手続き）", t:74.4, c:37.2},
+      {n:"各種申請書の受付・チェック・回覧", t:64.0, c:22.4},
+      {n:"メール・電話対応", t:52.7, c:7.9},
+      {n:"備品・社用車・施設の管理", t:46.8, c:0},
+      {n:"安全衛生・教育記録の管理", t:41.5, c:0},
+      {n:"会議・議事録作成", t:37.8, c:8.5},
+      {n:"契約書・社内文書の管理", t:33.9, c:0},
+      {n:"その他（来客対応・庶務）", t:22.9, c:0}
     ],
     heat:{
       rows:["08–09","09–11","11–13","13–15","15–17","17–19"],
       v:[[58,52,50,48,50],[82,68,64,62,66],[44,40,38,36,40],[60,58,72,56,58],[66,60,58,62,74],[30,26,24,26,34]]
     },
-    hmNote:"<span class='lbl'>PATTERN</span>問い合わせ対応は<b>毎日9–11時</b>に平坦に発生し、週<b>312.6h</b>。突発的ではなく常時発生型のため、FAQ AIによる一次回答の効果が最も出やすい形です。",
+    hmNote:"<span class='lbl'>PATTERN</span>問い合わせ対応は<b>毎日9–11時</b>に平坦に発生し、週<b>74.4h</b>。突発的ではなく常時発生型のため、FAQ AIによる一次回答の効果が最も出やすい形です。",
     person:{
       title:"総務部・中村 遥（総務課）",
-      log:[
+      before:[
         {t:"08:45", n:"社内問い合わせ対応（電話・チャット23件）", h:2.3, k:"rep"},
         {t:"11:00", n:"申請書のチェック・回覧", h:1.5, k:"rep"},
         {t:"13:15", n:"安全衛生委員会 準備・議事録作成", h:1.8, k:"mix"},
         {t:"15:20", n:"社用車・備品の管理", h:1.1, k:"core"},
         {t:"16:30", n:"契約書ファイリング・文書管理", h:0.9, k:"core"}
       ],
-      insight:"<span class='lbl'>INSIGHT</span>問い合わせ23件のうち<b>17件</b>が「就業規則・申請手順」の頻出質問でした。社内規程を読み込ませたFAQ AIが一次回答すれば、この日だけで約<b>1.4h</b>戻ります。"
+      after:[
+        {t:"08:45", n:"問い合わせ対応6件（17件はFAQ AIが回答）", h:1.0, k:"rep"},
+        {t:"09:45", n:"申請書の承認（不備はAIが自動検知）", h:1.0, k:"rep"},
+        {t:"13:15", n:"安全衛生委員会（議事録はAIが作成）", h:1.3, k:"mix"},
+        {t:"15:20", n:"社用車・備品の管理", h:1.1, k:"core"},
+        {t:"16:30", n:"契約書ファイリング・文書管理", h:0.9, k:"core"}
+      ],
+      gain:"就業規則の改訂と、次年度の教育計画づくり",
+      insight:"<span class='lbl'>INSIGHT</span>問い合わせ23件のうち<b>17件</b>が「就業規則・申請手順」の頻出質問でした。社内規程を読み込ませたFAQ AIが一次回答すれば、この日だけで約<b>2.3h</b>戻ります。"
     },
     tr:[
-      {ini:"中", who:"中村 遥", aff:"総務課", w:"社内問い合わせ対応", now:12.4, ai:"社内FAQ AI", aid:"規程を読ませた一次回答", after:6.2, cut:6.2, r:50},
-      {ini:"石", who:"石井 学", aff:"総務課", w:"各種申請書のチェック・回覧", now:10.7, ai:"申請チェックAI", aid:"フォーム化＋不備の自動検知", after:6.9, cut:3.8, r:35},
-      {ini:"藤", who:"藤井 恵", aff:"人事総務課", w:"会議・議事録作成", now:6.3, ai:"議事録AI", aid:"文字起こし＋要約＋タスク抽出", after:4.9, cut:1.4, r:23},
-      {ini:"大", who:"大西 徹", aff:"総務課", w:"メール・電話対応", now:8.8, ai:"メール下書きAI", aid:"定型返信の下書き生成", after:7.5, cut:1.3, r:15}
+      {ini:"中", who:"中村 遥", aff:"総務課", w:"社内問い合わせ対応", now:32.2, ai:"社内FAQ AI", aid:"規程を読ませた一次回答", after:16.1, cut:16.1, r:50},
+      {ini:"石", who:"石井 学", aff:"総務課", w:"各種申請書のチェック・回覧", now:27.7, ai:"申請チェックAI", aid:"フォーム化＋不備の自動検知", after:18.0, cut:9.7, r:35},
+      {ini:"藤", who:"藤井 恵", aff:"人事総務", w:"会議・議事録作成", now:16.4, ai:"議事録AI", aid:"文字起こし＋要約＋タスク抽出", after:12.6, cut:3.8, r:23},
+      {ini:"大", who:"大西 徹", aff:"総務課", w:"メール・電話対応", now:22.8, ai:"メール下書きAI", aid:"定型返信の下書き生成", after:19.4, cut:3.4, r:15}
     ]
   },
   {
-    id:"acct", name:"経理部", head:38, total:1504.8, cut:513.9,
+    id:"acct", name:"経理部", head:8, total:316.8, cut:108.2,
     tasks:[
-      {n:"請求書・支払処理（受領〜仕訳）", t:384.2, c:211.3},
-      {n:"伝票入力・システム転記", t:296.7, c:163.2},
-      {n:"経費精算のチェック・差戻し", t:218.4, c:98.3},
-      {n:"月次締め・残高照合", t:212.9, c:0},
-      {n:"原価計算・製造原価の集計", t:168.3, c:0},
-      {n:"問い合わせ対応（社内・取引先）", t:124.6, c:18.7},
-      {n:"会議・報告資料の作成", t:99.7, c:22.4}
+      {n:"請求書・支払処理（受領〜仕訳）", t:80.9, c:44.5},
+      {n:"伝票入力・システム転記", t:62.5, c:34.4},
+      {n:"経費精算のチェック・差戻し", t:46.0, c:20.7},
+      {n:"月次締め・残高照合", t:44.8, c:0},
+      {n:"原価計算・製造原価の集計", t:35.4, c:0},
+      {n:"問い合わせ対応（社内・取引先）", t:26.2, c:3.9},
+      {n:"会議・報告資料の作成", t:21.0, c:4.7}
     ],
     heat:{
       rows:["08–09","09–11","11–13","13–15","15–17","17–19"],
@@ -716,46 +888,54 @@ var DEPTS = [
     hmNote:"<span class='lbl'>PATTERN</span>月次締め週のため<b>全曜日で高負荷</b>。特に15–17時が連日ピークで、金曜は<b>17時以降</b>まで伸びています。締め処理そのものではなく、その前段の入力・照合が滞留の原因です。",
     person:{
       title:"経理部・小林 由紀（経理課）",
-      log:[
+      before:[
         {t:"09:00", n:"請求書の受領・スキャン・仕訳", h:2.6, k:"rep"},
         {t:"11:40", n:"経費精算のチェック・差戻し", h:1.2, k:"rep"},
         {t:"13:30", n:"伝票入力（購買）", h:2.1, k:"rep"},
         {t:"15:40", n:"支払データ作成・照合", h:1.4, k:"mix"},
         {t:"17:00", n:"社内問い合わせ対応", h:0.7, k:"core"}
       ],
-      insight:"<span class='lbl'>INSIGHT</span>処理した請求書142件のうち<b>118件</b>が取引先12社の定型フォーマットでした。OCR＋仕訳AIをこの12社に限定して当てるだけで、1日あたり約<b>2.0h</b>戻ります。"
+      after:[
+        {t:"09:00", n:"仕訳の確認（OCR＋AIが自動起票）", h:1.4, k:"rep"},
+        {t:"10:25", n:"精算の例外処理（違反はAIが検知）", h:0.8, k:"rep"},
+        {t:"11:15", n:"伝票の承認（AIが自動転記）", h:1.2, k:"rep"},
+        {t:"13:30", n:"支払データの照合（差異のみ確認）", h:1.1, k:"mix"},
+        {t:"14:40", n:"社内問い合わせ対応", h:0.6, k:"core"}
+      ],
+      gain:"月次決算の早期化と、工場別の原価分析",
+      insight:"<span class='lbl'>INSIGHT</span>処理した請求書142件のうち<b>118件</b>が取引先12社の定型フォーマットでした。この12社に限定してOCR＋仕訳AIを当てるだけで、1日あたり約<b>2.9h</b>戻ります。"
     },
     tr:[
-      {ini:"小", who:"小林 由紀", aff:"経理課", w:"請求書・支払処理", now:16.6, ai:"仕訳AI", aid:"OCR＋自動仕訳・突合", after:7.5, cut:9.1, r:55},
-      {ini:"渡", who:"渡辺 智也", aff:"経理課", w:"伝票入力・システム転記", now:12.8, ai:"転記AI", aid:"OCR＋会計システム連携", after:5.8, cut:7.0, r:55},
-      {ini:"清", who:"清水 綾", aff:"経理課", w:"経費精算のチェック・差戻し", now:9.4, ai:"精算チェックAI", aid:"規程違反の自動検知", after:5.2, cut:4.2, r:45},
-      {ini:"山", who:"山口 直樹", aff:"原価管理課", w:"会議・報告資料の作成", now:4.3, ai:"資料作成AI", aid:"月次数値からの自動作図", after:3.3, cut:1.0, r:23}
+      {ini:"小", who:"小林 由紀", aff:"経理課", w:"請求書・支払処理", now:43.8, ai:"仕訳AI", aid:"OCR＋自動仕訳・突合", after:19.7, cut:24.1, r:55},
+      {ini:"渡", who:"渡辺 智也", aff:"経理課", w:"伝票入力・システム転記", now:33.8, ai:"転記AI", aid:"OCR＋会計システム連携", after:15.2, cut:18.6, r:55},
+      {ini:"清", who:"清水 綾", aff:"経理課", w:"経費精算のチェック・差戻し", now:24.9, ai:"精算チェックAI", aid:"規程違反の自動検知", after:13.7, cut:11.2, r:45},
+      {ini:"山", who:"山口 直樹", aff:"原価管理", w:"会議・報告資料の作成", now:11.4, ai:"資料作成AI", aid:"月次数値からの自動作図", after:8.8, cut:2.6, r:23}
     ]
   }
 ];
 
 var CATS = [
-  {n:"入力・転記・照合", t:1764.3, c:924.6},
-  {n:"資料・書類の作成", t:1463.5, c:520.8},
-  {n:"管理・保全・その他", t:1179.4, c:0},
-  {n:"社内問い合わせ・調整", t:985.5, c:312.1},
-  {n:"メール・電話・チャット", t:953.4, c:143.0},
-  {n:"商談・顧客対応", t:884.2, c:0},
-  {n:"社内会議・報告", t:734.9, c:165.4}
+  {n:"入力・転記・照合", t:402.4, c:211.4},
+  {n:"資料・書類の作成", t:365.9, c:130.3},
+  {n:"管理・保全・その他", t:272.5, c:0},
+  {n:"社内問い合わせ・調整", t:237.7, c:75.4},
+  {n:"メール・電話・チャット", t:235.7, c:35.4},
+  {n:"商談・顧客対応", t:221.1, c:0},
+  {n:"社内会議・報告", t:177.9, c:40.0}
 ];
 
 var RANK = [
-  {n:"請求書・伝票処理", ai:"OCR＋仕訳AI", dept:"経理", base:680.9, cut:374.5, rate:55, diff:"中", conf:93},
-  {n:"基幹システムへの受注入力・転記", ai:"転記AI（基幹連携）", dept:"営業", base:596.1, cut:357.7, rate:60, diff:"中", conf:91},
-  {n:"見積書作成・価格計算", ai:"見積作成AI", dept:"営業", base:682.4, cut:204.7, rate:30, diff:"高", conf:84},
-  {n:"日報・訪問報告書の作成", ai:"日報自動生成", dept:"営業", base:268.4, cut:187.9, rate:70, diff:"低", conf:95},
-  {n:"議事録作成（会議の記録部分）", ai:"議事録AI", dept:"全社", base:220.5, cut:165.4, rate:75, diff:"低", conf:94},
-  {n:"定型メールの返信", ai:"メール下書きAI", dept:"全社", base:1078.0, cut:161.7, rate:15, diff:"低", conf:82},
-  {n:"社内問い合わせ対応", ai:"社内FAQ AI", dept:"総務", base:312.6, cut:156.3, rate:50, diff:"低", conf:89},
-  {n:"納期回答・在庫確認", ai:"在庫照会AI", dept:"営業", base:548.3, cut:137.1, rate:25, diff:"高", conf:76},
-  {n:"提案書・技術資料の作成", ai:"資料作成AI", dept:"営業", base:512.7, cut:128.2, rate:25, diff:"中", conf:80},
-  {n:"経費精算のチェック", ai:"精算チェックAI", dept:"経理", base:218.4, cut:98.3, rate:45, diff:"中", conf:88},
-  {n:"各種申請書のチェック・回覧", ai:"申請チェックAI", dept:"総務", base:268.9, cut:94.1, rate:35, diff:"中", conf:85}
+  {n:"基幹システムへの受注入力・転記", ai:"転記AI（基幹連携）", dept:"営業", base:149.0, cut:89.4, rate:60, diff:"中", conf:91},
+  {n:"請求書・伝票処理", ai:"OCR＋仕訳AI", dept:"経理", base:143.4, cut:78.9, rate:55, diff:"中", conf:93},
+  {n:"見積書作成・価格計算", ai:"見積作成AI", dept:"営業", base:170.6, cut:51.2, rate:30, diff:"高", conf:84},
+  {n:"日報・訪問報告書の作成", ai:"日報自動生成", dept:"営業", base:67.1, cut:47.0, rate:70, diff:"低", conf:95},
+  {n:"議事録作成（会議の記録部分）", ai:"議事録AI", dept:"全社", base:53.3, cut:40.0, rate:75, diff:"低", conf:94},
+  {n:"定型メール・問い合わせ返信", ai:"メール下書きAI", dept:"全社", base:261.9, cut:39.3, rate:15, diff:"低", conf:82},
+  {n:"社内問い合わせ対応", ai:"社内FAQ AI", dept:"総務", base:74.4, cut:37.2, rate:50, diff:"低", conf:89},
+  {n:"納期回答・在庫確認", ai:"在庫照会AI", dept:"営業", base:137.1, cut:34.3, rate:25, diff:"高", conf:76},
+  {n:"提案書・技術資料の作成", ai:"資料作成AI", dept:"営業", base:128.2, cut:32.1, rate:25, diff:"中", conf:80},
+  {n:"各種申請書のチェック・回覧", ai:"申請チェックAI", dept:"総務", base:64.0, cut:22.4, rate:35, diff:"中", conf:85},
+  {n:"経費精算のチェック", ai:"精算チェックAI", dept:"経理", base:46.0, cut:20.7, rate:45, diff:"中", conf:88}
 ];
 
 var DAYS = ["月","火","水","木","金"];
@@ -767,6 +947,41 @@ function el(tag, cls, html){
   if (cls) e.className = cls;
   if (html !== undefined) e.innerHTML = html;
   return e;
+}
+
+function sumOf(rows){
+  var t = 0;
+  rows.forEach(function(r){ t += r.h; });
+  return t;
+}
+
+function renderDay(hostId, rows, gain, gainLabel){
+  var tl = document.getElementById(hostId);
+  tl.innerHTML = "";
+  var sum = 0;
+  rows.forEach(function(r){
+    sum += r.h;
+    var row = el("div","tl-row");
+    row.appendChild(el("span","t", r.t));
+    row.appendChild(el("span","n", '<i class="swatch" style="background:' + KIND[r.k] + '"></i>' + r.n));
+    row.appendChild(el("span","h", fx(r.h) + "h"));
+    tl.appendChild(row);
+  });
+  var tot = el("div","tl-row");
+  tot.style.borderTop = "1px solid var(--line)";
+  tot.style.marginTop = "4px";
+  tot.appendChild(el("span","t",""));
+  tot.appendChild(el("span","n", '<span style="color:var(--muted);font-size:12px">記録合計</span>'));
+  tot.appendChild(el("span","h", "<b>" + fx(sum) + "h</b>"));
+  tl.appendChild(tot);
+  if (gain !== null && gain !== undefined){
+    var g = el("div","gain");
+    g.appendChild(el("span","g1","戻り"));
+    g.appendChild(el("span","g2", gainLabel + "へ"));
+    g.appendChild(el("span","g3","＋" + fx(gain) + "h"));
+    tl.appendChild(g);
+  }
+  return sum;
 }
 
 /* ---- bars ---- */
@@ -802,6 +1017,41 @@ function renderBars(host, rows, max){
 
   var cmax = Math.max.apply(null, CATS.map(function(r){ return r.t; }));
   renderBars(document.getElementById("catBars"), CATS, cmax);
+})();
+
+/* ---- before / after 部門バー ---- */
+(function(){
+  var host = document.getElementById("baxHost");
+  var rows = DEPTS.map(function(d){
+    return {n:d.name, head:d.head, t:d.total, c:d.cut};
+  });
+  rows.push({n:"間接部門 合計", head:50, t:1913.2, c:492.5});
+  var max = Math.max.apply(null, rows.map(function(r){ return r.t; }));
+  rows.forEach(function(r){
+    var after = r.t - r.c;
+    var box = el("div","bax");
+    box.appendChild(el("div","bax-h", r.n + '<span>' + r.head + '名 ／ 1人あたり週' + fx(r.t / r.head) + 'h → ' + fx(after / r.head) + 'h</span>'));
+
+    var b1 = el("div","bax-row");
+    b1.appendChild(el("span","lb","BEFORE"));
+    var bar1 = el("div","bar b");
+    var i1 = el("i"); i1.style.width = (r.t / max * 100) + "%"; bar1.appendChild(i1);
+    b1.appendChild(bar1);
+    b1.appendChild(el("span","vl", fx(r.t) + "h" + '<small>1人 ' + fx(r.t / r.head) + 'h／週</small>'));
+    box.appendChild(b1);
+
+    var b2 = el("div","bax-row aft");
+    b2.appendChild(el("span","lb","AFTER"));
+    var bar2 = el("div","bar a");
+    var i2 = el("i"); i2.style.width = (after / max * 100) + "%";
+    var u2 = el("u", null, "−" + fx(r.c) + "h"); u2.style.width = (r.c / max * 100) + "%";
+    bar2.appendChild(i2); bar2.appendChild(u2);
+    b2.appendChild(bar2);
+    b2.appendChild(el("span","vl", fx(after) + "h" + '<small>1人 ' + fx(after / r.head) + 'h／週</small>'));
+    box.appendChild(b2);
+
+    host.appendChild(box);
+  });
 })();
 
 /* ---- 職種タブ ---- */
@@ -852,26 +1102,10 @@ function paint(d){
   document.getElementById("hmTag").textContent = d.name + " ／ 反復業務の相対密度";
   document.getElementById("hmInsight").innerHTML = d.hmNote;
 
-  /* person */
+  /* person: before / after */
   document.getElementById("personTitle").textContent = d.person.title + "の1日";
-  var tl = document.getElementById("timeline");
-  tl.innerHTML = "";
-  var sum = 0;
-  d.person.log.forEach(function(r){
-    sum += r.h;
-    var row = el("div","tl-row");
-    row.appendChild(el("span","t", r.t));
-    row.appendChild(el("span","n", '<i class="swatch" style="background:' + KIND[r.k] + '"></i>' + r.n));
-    row.appendChild(el("span","h", fx(r.h) + "h"));
-    tl.appendChild(row);
-  });
-  var tot = el("div","tl-row");
-  tot.style.borderTop = "1px solid var(--line)";
-  tot.style.marginTop = "4px";
-  tot.appendChild(el("span","t",""));
-  tot.appendChild(el("span","n", '<span style="color:var(--muted);font-size:12px">記録合計（1分間隔・自動記録）</span>'));
-  tot.appendChild(el("span","h", "<b>" + fx(sum) + "h</b>"));
-  tl.appendChild(tot);
+  var beforeSum = renderDay("tlBefore", d.person.before, null, null);
+  var afterSum  = renderDay("tlAfter",  d.person.after, beforeSum - sumOf(d.person.after), d.person.gain);
   document.getElementById("personInsight").innerHTML = d.person.insight;
 
   /* transformation table */
