@@ -10,6 +10,9 @@
  * 初回手順：setupStatusDropdown() → initialLinkExisting() → setupTriggers() を1回ずつ実行
  */
 
+// このスクリプトの版。debugRow() が表示するので、貼り替えできているかの確認に使う。
+const CODE_VERSION = '2026-08-27d（担当営業の名寄せ対応）';
+
 // ===== 設定 =========================================================
 
 const CONFIG = {
@@ -252,6 +255,92 @@ function setupTriggers() {
   return msg;
 }
 
+/**
+ * 【診断】うまく転記されないときに実行する。会社名の一部を渡すと、
+ * 何が起きているかを実行ログ（Apps Scriptの「実行ログ」）に出力する。
+ *
+ *   例）debugRow('Lightning')
+ *
+ * 引数なしで実行すると、トリガーの設置状況と設定内容だけを表示する。
+ */
+function debugRow(companyKeyword) {
+  const out = [];
+  const say = function (s) { out.push(s); Logger.log(s); };
+
+  say('■ コード版： ' + CODE_VERSION);
+
+  const triggers = ScriptApp.getProjectTriggers().map(function (t) {
+    return t.getHandlerFunction() + '（' + t.getEventType() + '）';
+  });
+  say('■ 設置されているトリガー： ' + (triggers.length ? triggers.join(' / ') : '**なし**'));
+  say('■ 同期する列（転記先）： ' + CONFIG.SYNC_MAP.map(function (m) { return colLetter_(m.dst); }).join(','));
+
+  const ctx = buildContext_();
+  say('■ ヨミ表： 見出し' + ctx.srcHeaderRow + '行 / データ' + ctx.srcRows.length + '行');
+  say('■ Ａヨミ案件： 見出し' + ctx.dstHeaderRow + '行 / 担当営業の呼び名 ' + ctx.dstOwners.join(','));
+
+  if (!companyKeyword) {
+    say('※ 会社名の一部を引数に渡すと、その案件の状態を調べます。例： debugRow(\'Lightning\')');
+    return out.join('\n');
+  }
+
+  const needle = normalizeName_(companyKeyword);
+  let found = 0;
+
+  for (let i = 0; i < ctx.srcRows.length; i++) {
+    const row = ctx.srcRows[i];
+    const company = String(row[CONFIG.SRC.COL_COMPANY - 1] || '');
+    if (normalizeName_(company).indexOf(needle) < 0) continue;
+    found++;
+
+    const rowNo = ctx.srcHeaderRow + 1 + i;
+    const link = String(row[CONFIG.SRC.COL_LINK - 1] || '').trim();
+    const status = row[CONFIG.SRC.COL_STATUS - 1];
+
+    say('');
+    say('--- ヨミ表 ' + rowNo + '行： ' + company);
+    say('　P列 ステータス： 「' + status + '」 → 書き込む値「' + mapStatus_(status) + '」');
+    say('　R列 初回商談日： 「' + row[CONFIG.SRC.COL_FIRST_MTG - 1] + '」 → 対象期間内？ ' + (isTargetRow_(row) ? 'はい' : 'いいえ'));
+    say('　BB列 転記No： 「' + (link || '（空）') + '」');
+
+    if (!link) { say('　→ 未転記。' + (isTargetRow_(row) ? '次の同期で転記されるはず' : '条件を満たしていないので転記されない')); continue; }
+    if (link === CONFIG.EXCLUDE_MARK) { say('　→ 対象外なので同期しない'); continue; }
+
+    const hit = ctx.dstByLink[link];
+    if (!hit) { say('　→ **Ａヨミ案件に同じ転記Noの行が見つからない**（BB列を確認）'); continue; }
+
+    const width = Math.max(ctx.dstSheet.getLastColumn(), CONFIG.DST.COL_LINK);
+    const dstRow = ctx.dstSheet.getRange(hit.rowNo, 1, 1, width).getValues()[0];
+    say('　→ Ａヨミ案件 ' + hit.rowNo + '行と紐づいている（現在のP列： 「' + dstRow[CONFIG.DST.COL_STATUS - 1] + '」）');
+
+    syncBlocks_().forEach(function (b) {
+      const allowed = allowedValues_(ctx.dstSheet, hit.rowNo, b.start, b.cols.length);
+      b.cols.forEach(function (srcCol, k) {
+        const dstCol = b.start + k;
+        let v = srcValue_(row, srcCol);
+        if (dstCol === CONFIG.DST.COL_OWNER) {
+          const named = resolveOwner_(ctx, dstCol, v, allowed[k]);
+          if (named !== null) v = named;
+        }
+        const cur = dstRow[dstCol - 1];
+        if (sameCell_(cur, v)) return;
+        if (rejectedBy_(allowed[k], v)) {
+          say('　　' + colLetter_(dstCol) + '： 「' + cur + '」→「' + v + '」 **入力規則に無いので書けない**（候補： ' + allowed[k].join('/') + '）');
+        } else {
+          say('　　' + colLetter_(dstCol) + '： 「' + cur + '」→「' + v + '」 書き込み対象');
+        }
+      });
+    });
+
+    say('　→ この行だけ実際に同期してみます…');
+    const r = runSync_([rowNo]);
+    say('　→ 結果： ' + JSON.stringify(r));
+  }
+
+  if (!found) say('※ ヨミ表に「' + companyKeyword + '」を含む会社名が見つかりませんでした');
+  return out.join('\n');
+}
+
 // ===== トリガーから呼ばれる関数 =====================================
 
 /** 編集時トリガー：ヨミ表の編集行だけを同期する */
@@ -284,6 +373,11 @@ function syncAll() {
 function runSync_(onlyRows) {
   const lock = LockService.getScriptLock();
   if (!lock.tryLock(30 * 1000)) {
+    // 別の実行（毎時の全件チェックなど）が長引いていると、編集時の同期がここで捨てられる。
+    // 気づけるようにシートのログにも残す。
+    const ctx0 = { logBuffer: [] };
+    log_(ctx0, 'エラー', '', '', '', '他の同期処理が実行中だったため、この編集の同期を見送った（30秒待機してもロックが取れず）');
+    try { flushLog_(ctx0); } catch (e) { /* ログすら書けない場合は諦める */ }
     Logger.log('同期スキップ：他の処理が実行中');
     return;
   }
