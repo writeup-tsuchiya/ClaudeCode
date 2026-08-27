@@ -3,10 +3,11 @@
  *
  * ・ヨミ表のP列ステータスが「Aヨミ*」または「受注」になったら、Ａヨミ案件へ行を転記する
  * ・転記済みの行は、その後のヨミ表側の変更（ステータス・商談日など）をＡヨミ案件に上書き反映する
+ * ・Ａヨミ案件のステータスは「受注 / Aヨミ / 失注」の3つだけに丸める
  * ・同期は ヨミ表 → Ａヨミ案件 の一方向のみ
  *
  * 設置先：スプレッドシート1（ヨミ表があるファイル）の Apps Script
- * 初回手順：initialLinkExisting() を1回実行 → setupTriggers() を1回実行
+ * 初回手順：setupStatusDropdown() → initialLinkExisting() → setupTriggers() を1回ずつ実行
  */
 
 // ===== 設定 =========================================================
@@ -38,6 +39,24 @@ const CONFIG = {
   LINK_HEADER: 'Aヨミリスト転記',
   LOG_SHEET: '_同期ログ',
   LOG_MAX_ROWS: 5000,
+
+  /**
+   * Ａヨミ案件のP列に入れてよい値。これ以外は書き込まない。
+   * setupStatusDropdown() を実行すると、この3つだけのプルダウンに張り替える。
+   */
+  DST_STATUS_VALUES: ['受注', 'Aヨミ', '失注'],
+
+  /**
+   * ステータスの言い換え：ヨミ表の値 → Ａヨミ案件に書き込む値。
+   * ヨミ表は「Aヨミ（決裁者口頭合意済）」「Cヨミ（長期）」など細かいが、
+   * Ａヨミ案件は「受注 / Aヨミ / 失注」の3つだけに丸める。
+   * 上から順に判定し、最初に当たったものを使う（全角半角・空白を吸収した後の値で判定）。
+   */
+  STATUS_MAP: [
+    { when: /^Aヨミ/, to: 'Aヨミ' }, // Aヨミ（決裁者口頭合意済）/（決裁者確認中）など
+    { when: /^受注$/, to: '受注' },  // 「受注後キャンセル」は下の失注に落ちる
+    { when: /^/,      to: '失注' },  // 上記以外（Cヨミ・リスケ・追客NG・受注後キャンセル…）はすべて失注
+  ],
 
   /**
    * 列マッピング： { src: ヨミ表の列番号, dst: Ａヨミ案件の列番号 }
@@ -101,19 +120,25 @@ function initialLinkExisting() {
       const key = rowKey_(row[CONFIG.SRC.COL_COMPANY - 1], row[CONFIG.SRC.COL_LAST_NAME - 1]);
       const hit = key ? ctx.dstByKey[key] : null;
 
-      if (hit) {
-        const no = ctx.nextLinkNo();
-        ctx.srcSheet.getRange(rowNo, CONFIG.SRC.COL_LINK).setValue(no);
-        ctx.dstSheet.getRange(hit.rowNo, CONFIG.DST.COL_LINK).setValue(no);
-        ctx.dstByLink[no] = hit;
-        linked++;
-        log_(ctx, 'リンク', no, row[CONFIG.SRC.COL_COMPANY - 1], row[CONFIG.SRC.COL_STATUS - 1],
-             'ヨミ表' + rowNo + '行 ↔ Ａヨミ案件' + hit.rowNo + '行');
-      } else {
-        ctx.srcSheet.getRange(rowNo, CONFIG.SRC.COL_LINK).setValue(CONFIG.EXCLUDE_MARK);
-        excluded++;
-        log_(ctx, '対象外', '', row[CONFIG.SRC.COL_COMPANY - 1], row[CONFIG.SRC.COL_STATUS - 1],
-             '初期セットアップ時の既存行のため転記しない（ヨミ表' + rowNo + '行）');
+      try {
+        if (hit) {
+          const no = ctx.nextLinkNo();
+          ctx.srcSheet.getRange(rowNo, CONFIG.SRC.COL_LINK).setValue(no);
+          ctx.dstSheet.getRange(hit.rowNo, CONFIG.DST.COL_LINK).setValue(no);
+          ctx.dstByLink[no] = hit;
+          linked++;
+          log_(ctx, 'リンク', no, row[CONFIG.SRC.COL_COMPANY - 1], row[CONFIG.SRC.COL_STATUS - 1],
+               'ヨミ表' + rowNo + '行 ↔ Ａヨミ案件' + hit.rowNo + '行');
+        } else {
+          ctx.srcSheet.getRange(rowNo, CONFIG.SRC.COL_LINK).setValue(CONFIG.EXCLUDE_MARK);
+          excluded++;
+          log_(ctx, '対象外', '', row[CONFIG.SRC.COL_COMPANY - 1], row[CONFIG.SRC.COL_STATUS - 1],
+               '初期セットアップ時の既存行のため転記しない（ヨミ表' + rowNo + '行）');
+        }
+      } catch (err) {
+        // 1行のエラーで全体を止めない
+        log_(ctx, 'エラー', '', row[CONFIG.SRC.COL_COMPANY - 1], row[CONFIG.SRC.COL_STATUS - 1],
+             'ヨミ表' + rowNo + '行： ' + (err && err.message ? err.message : err));
       }
     }
     flushLog_(ctx);
@@ -123,6 +148,80 @@ function initialLinkExisting() {
   } finally {
     lock.releaseLock();
   }
+}
+
+/**
+ * 【任意・手動】「対象外」になった行を、会社名だけで突合し直して紐づける。
+ *
+ * initialLinkExisting() は 会社名＋担当名（姓）で突合するので、ヨミ表とＡヨミ案件で
+ * 姓の入れ方が違う（片方が「横田」、片方が「横田徳」など）と一致せず「対象外」になる。
+ * この関数は会社名だけで照合し、Ａヨミ案件にまだ番号が無い行が見つかれば紐づける。
+ */
+function relinkExcludedByCompany() {
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(30 * 1000)) throw new Error('他の同期処理が実行中です。少し待って再実行してください。');
+  try {
+    const ctx = buildContext_();
+    let linked = 0;
+
+    // Ａヨミ案件の「まだ番号が無い行」を会社名だけで引けるようにする
+    const dstLast = ctx.dstSheet.getLastRow();
+    const dstWidth = Math.max(ctx.dstSheet.getLastColumn(), CONFIG.DST.COL_LINK);
+    const dstRows = dstLast > ctx.dstHeaderRow
+      ? ctx.dstSheet.getRange(ctx.dstHeaderRow + 1, 1, dstLast - ctx.dstHeaderRow, dstWidth).getValues()
+      : [];
+    const freeByCompany = {};
+    dstRows.forEach(function (r, i) {
+      if (String(r[CONFIG.DST.COL_LINK - 1] || '').trim()) return;
+      const c = companyKey_(r[CONFIG.DST.COL_COMPANY - 1]);
+      if (c && !freeByCompany[c]) freeByCompany[c] = { rowNo: ctx.dstHeaderRow + 1 + i };
+    });
+
+    for (let i = 0; i < ctx.srcRows.length; i++) {
+      const row = ctx.srcRows[i];
+      const rowNo = ctx.srcHeaderRow + 1 + i;
+      if (String(row[CONFIG.SRC.COL_LINK - 1] || '').trim() !== CONFIG.EXCLUDE_MARK) continue;
+
+      const c = companyKey_(row[CONFIG.SRC.COL_COMPANY - 1]);
+      const hit = c ? freeByCompany[c] : null;
+      if (!hit) continue;
+
+      const no = ctx.nextLinkNo();
+      ctx.srcSheet.getRange(rowNo, CONFIG.SRC.COL_LINK).setValue(no);
+      ctx.dstSheet.getRange(hit.rowNo, CONFIG.DST.COL_LINK).setValue(no);
+      delete freeByCompany[c];
+      linked++;
+      log_(ctx, 'リンク', no, row[CONFIG.SRC.COL_COMPANY - 1], row[CONFIG.SRC.COL_STATUS - 1],
+           '会社名で再突合（ヨミ表' + rowNo + '行 ↔ Ａヨミ案件' + hit.rowNo + '行）');
+    }
+    flushLog_(ctx);
+    const msg = '会社名での再突合： ' + linked + '件を紐づけました';
+    Logger.log(msg);
+    return msg;
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+/**
+ * 【任意・手動】Ａヨミ案件のP列（ステータス）のプルダウンを「受注 / Aヨミ / 失注」の3つに固定する。
+ * この3つ以外は手入力でも選べなくなる。列を作り替えたくなったら CONFIG.DST_STATUS_VALUES を変えて再実行。
+ */
+function setupStatusDropdown() {
+  const dstSheet = getSheet_(SpreadsheetApp.openById(CONFIG.DST.ID), CONFIG.DST.SHEET);
+  const headerRow = findHeaderRow_(dstSheet, CONFIG.DST.COL_STATUS);
+  const rows = dstSheet.getMaxRows() - headerRow;
+  if (rows < 1) return 'Ａヨミ案件にデータ行がありません';
+
+  const rule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(CONFIG.DST_STATUS_VALUES, true)
+    .setAllowInvalid(false)
+    .build();
+  dstSheet.getRange(headerRow + 1, CONFIG.DST.COL_STATUS, rows, 1).setDataValidation(rule);
+
+  const msg = 'Ａヨミ案件のP列を「' + CONFIG.DST_STATUS_VALUES.join(' / ') + '」の3択に固定しました';
+  Logger.log(msg);
+  return msg;
 }
 
 /**
@@ -250,7 +349,7 @@ function syncOneRow_(ctx, row, rowNo, result) {
     // 手入力で既にＡヨミ案件にある案件 → 重複させず、その行に紐づけて更新
     ctx.dstSheet.getRange(existing.rowNo, CONFIG.DST.COL_LINK).setValue(no);
     ctx.dstByLink[no] = existing;
-    writeDstRow_(ctx, existing.rowNo, row);
+    writeDstRow_(ctx, existing.rowNo, row, true);
     ctx.srcSheet.getRange(rowNo, CONFIG.SRC.COL_LINK).setValue(no);
     result.updated++;
     log_(ctx, '紐づけ更新', no, company, status,
@@ -286,11 +385,7 @@ function syncBlocks_() {
 /** Ａヨミ案件の最終行に1行追加する */
 function appendDstRow_(ctx, srcRow, linkNo) {
   const rowNo = Math.max(ctx.dstSheet.getLastRow(), ctx.dstHeaderRow) + 1;
-
-  syncBlocks_().forEach(function (b) {
-    const values = b.cols.map(function (srcCol) { return toCell_(srcRow[srcCol - 1]); });
-    ctx.dstSheet.getRange(rowNo, b.start, 1, values.length).setValues([values]);
-  });
+  writeDstRow_(ctx, rowNo, srcRow, true);
   ctx.dstSheet.getRange(rowNo, CONFIG.DST.COL_LINK).setValue(linkNo);
 
   const entry = { rowNo: rowNo };
@@ -300,28 +395,136 @@ function appendDstRow_(ctx, srcRow, linkNo) {
   return entry;
 }
 
-/** Ａヨミ案件の既存行を、マッピング対象の列だけ上書きする。変更があれば true */
-function writeDstRow_(ctx, dstRowNo, srcRow) {
+/**
+ * Ａヨミ案件の1行を、マッピング対象の列だけ書き込む。変更があれば true。
+ *
+ * Ａヨミ案件の列にはプルダウン（データの入力規則）が設定されており、候補に無い値を
+ * 書こうとすると setValues ごと例外になる。そうなると同じ塊にある他の列（ステータス等）まで
+ * 巻き添えで書き込まれないので、**弾かれるセルだけ事前に外して**書き込む。
+ *
+ * @param {boolean} logSkips 弾かれたセルをログに残すか（毎時の全件チェックでは同じ行が
+ *                           何度もログに積もるので、新規転記時と編集起点のときだけ true）
+ */
+function writeDstRow_(ctx, dstRowNo, srcRow, logSkips) {
+  const company = srcRow[CONFIG.SRC.COL_COMPANY - 1];
+  const noteSkip = logSkips || ctx.verbose;
   let changed = false;
 
   syncBlocks_().forEach(function (b) {
     const range = ctx.dstSheet.getRange(dstRowNo, b.start, 1, b.cols.length);
     const current = range.getValues()[0];
+    const allowed = allowedValues_(ctx.dstSheet, dstRowNo, b.start, b.cols.length);
+    const next = current.slice();
     let blockChanged = false;
 
     b.cols.forEach(function (srcCol, i) {
-      const next = toCell_(srcRow[srcCol - 1]);
-      if (!sameCell_(current[i], next)) {
-        current[i] = next;
-        blockChanged = true;
+      const v = srcValue_(srcRow, srcCol);
+      if (sameCell_(current[i], v)) return;
+      if (rejectedBy_(allowed[i], v)) {
+        if (noteSkip) {
+          log_(ctx, 'スキップ', '', company, '',
+               'Ａヨミ案件 ' + colLetter_(b.start + i) + dstRowNo + ' は入力規則にない値なので書き込まなかった： 「' +
+               v + '」（候補： ' + allowed[i].join(' / ') + '）');
+        }
+        return;
       }
+      next[i] = v;
+      blockChanged = true;
     });
-    if (blockChanged) {
-      range.setValues([current]);
+    if (!blockChanged) return;
+
+    try {
+      range.setValues([next]);
       changed = true;
+    } catch (err) {
+      // 規則を読み切れなかった場合の保険：1セルずつ書いて、弾かれたセルだけ飛ばす
+      b.cols.forEach(function (srcCol, i) {
+        if (sameCell_(current[i], next[i])) return;
+        try {
+          ctx.dstSheet.getRange(dstRowNo, b.start + i).setValue(next[i]);
+          changed = true;
+        } catch (e2) {
+          if (noteSkip) {
+            log_(ctx, 'スキップ', '', company, '',
+                 'Ａヨミ案件 ' + colLetter_(b.start + i) + dstRowNo + ' が入力規則で拒否された： 「' + next[i] + '」');
+          }
+        }
+      });
     }
   });
   return changed;
+}
+
+/** ヨミ表の値を、Ａヨミ案件に書き込む値に変換する（ステータスだけ言い換える） */
+function srcValue_(srcRow, srcCol) {
+  const raw = toCell_(srcRow[srcCol - 1]);
+  return srcCol === CONFIG.SRC.COL_STATUS ? mapStatus_(raw) : raw;
+}
+
+/**
+ * ヨミ表のステータスを、Ａヨミ案件の「受注 / Aヨミ / 失注」に丸める。
+ * ヨミ表が空欄のときは空欄のまま（勝手に失注にしない）。
+ */
+function mapStatus_(v) {
+  const s = normalizeStatus_(v);
+  if (!s) return '';
+  for (let i = 0; i < CONFIG.STATUS_MAP.length; i++) {
+    if (CONFIG.STATUS_MAP[i].when.test(s)) return CONFIG.STATUS_MAP[i].to;
+  }
+  return toCell_(v);
+}
+
+/** 各セルの「入力規則で許可された値」の配列。制限が無い（または警告のみ）の列は null */
+function allowedValues_(sheet, rowNo, startCol, numCols) {
+  let dvs;
+  try {
+    dvs = sheet.getRange(rowNo, startCol, 1, numCols).getDataValidations()[0];
+  } catch (e) {
+    return new Array(numCols).fill(null);
+  }
+  return dvs.map(function (dv) { return dvAllowed_(dv); });
+}
+
+function dvAllowed_(dv) {
+  if (!dv) return null;
+  try {
+    if (dv.getAllowInvalid()) return null; // 「警告を表示」だけの規則は書き込めるので素通し
+    const C = SpreadsheetApp.DataValidationCriteria;
+    const type = dv.getCriteriaType();
+    const args = dv.getCriteriaValues();
+    if (type === C.VALUE_IN_LIST) {
+      return args[0].map(function (v) { return String(v).trim(); });
+    }
+    if (type === C.VALUE_IN_RANGE) {
+      const out = [];
+      args[0].getValues().forEach(function (r) {
+        r.forEach(function (v) { if (String(v).trim()) out.push(String(v).trim()); });
+      });
+      return out;
+    }
+  } catch (e) { /* 読み取れない規則は素通しし、書き込み時の例外で拾う */ }
+  return null;
+}
+
+/** その値が入力規則に弾かれるか */
+function rejectedBy_(allowed, value) {
+  if (!allowed || !allowed.length) return false;
+  if (value instanceof Date) return false; // 日付のリスト規則は想定しない
+  const s = String(value == null ? '' : value).trim();
+  if (!s) return false;                    // 空欄は規則に関わらず書ける
+  return allowed.indexOf(s) < 0;
+}
+
+/** 列番号 → 列名（1 → A、28 → AB） */
+function colLetter_(col) {
+  let s = '';
+  let n = col;
+  while (n > 0) {
+    const r = (n - 1) % 26;
+    s = String.fromCharCode(65 + r) + s;
+    n = Math.floor((n - 1) / 26);
+  }
+  return s;
 }
 
 // ===== 判定・ユーティリティ =========================================
@@ -356,11 +559,15 @@ function normalizeStatus_(v) {
 
 /** 重複判定キー：会社名＋担当名（姓）。法人格・記号・空白の表記ゆれを吸収する */
 function rowKey_(company, lastName) {
-  const c = normalizeName_(company)
-    .replace(/(株式会社|有限会社|合同会社|合資会社|合名会社|一般社団法人|一般財団法人|㈱|㈲|株|有)/g, '');
-  const n = normalizeName_(lastName);
+  const c = companyKey_(company);
   if (!c) return '';
-  return c + '|' + n;
+  return c + '|' + normalizeName_(lastName);
+}
+
+/** 会社名だけのキー（法人格を落として比較する） */
+function companyKey_(company) {
+  return normalizeName_(company)
+    .replace(/(株式会社|有限会社|合同会社|合資会社|合名会社|一般社団法人|一般財団法人|㈱|㈲|株|有)/g, '');
 }
 
 function normalizeName_(v) {
