@@ -1,0 +1,932 @@
+<title>1,000名の見えない時間</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EFF0EC;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8F5;
+  --line:#D6D9D2;
+  --line-soft:#E5E7E1;
+  --ink:#182028;
+  --ink-2:#3C4A56;
+  --muted:#6C7A85;
+  --steel:#2E4A63;
+  --steel-soft:#8FA3B4;
+  --accent:#DE5A12;
+  --accent-soft:#F2C6AC;
+  --good:#0E7A68;
+  --warn:#B0800A;
+  --crit:#B4331F;
+  --shadow:0 1px 0 rgba(24,32,40,.04), 0 12px 28px -22px rgba(24,32,40,.5);
+  --r:3px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#12171B;
+    --surface:#1A2127;
+    --surface-2:#212A31;
+    --line:#2E3941;
+    --line-soft:#262F36;
+    --ink:#E7EBEC;
+    --ink-2:#B9C4CA;
+    --muted:#8494A0;
+    --steel:#7FA6C4;
+    --steel-soft:#4A6072;
+    --accent:#F27430;
+    --accent-soft:#5A3620;
+    --good:#3FB59C;
+    --warn:#D9A93A;
+    --crit:#E0705C;
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 14px 30px -24px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#12171B;
+  --surface:#1A2127;
+  --surface-2:#212A31;
+  --line:#2E3941;
+  --line-soft:#262F36;
+  --ink:#E7EBEC;
+  --ink-2:#B9C4CA;
+  --muted:#8494A0;
+  --steel:#7FA6C4;
+  --steel-soft:#4A6072;
+  --accent:#F27430;
+  --accent-soft:#5A3620;
+  --good:#3FB59C;
+  --warn:#D9A93A;
+  --crit:#E0705C;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 14px 30px -24px rgba(0,0,0,.9);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",system-ui,sans-serif;
+  font-size:15px;
+  line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+.num{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+
+/* ---------- masthead ---------- */
+.mast{
+  position:sticky;top:0;z-index:40;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.mast-in{display:flex;align-items:center;gap:20px;height:56px}
+.brand{display:flex;align-items:baseline;gap:10px;white-space:nowrap}
+.brand b{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:13px;letter-spacing:.16em}
+.brand span{font-size:10px;letter-spacing:.22em;color:var(--accent);border:1px solid var(--accent);padding:1px 6px;border-radius:2px;font-family:"IBM Plex Mono",monospace}
+.mast-nav{margin-left:auto;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.mast-nav::-webkit-scrollbar{display:none}
+.mast-nav a{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;color:var(--muted);
+  text-decoration:none;padding:6px 10px;border-radius:2px;white-space:nowrap;
+}
+.mast-nav a:hover,.mast-nav a:focus-visible{color:var(--ink);background:var(--surface-2)}
+
+/* ---------- hero ---------- */
+.hero{padding:64px 0 40px;border-bottom:1px solid var(--line)}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.24em;
+  color:var(--muted);text-transform:uppercase;display:flex;align-items:center;gap:12px;
+}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+h1{
+  font-family:"Zen Old Mincho","Yu Mincho",serif;font-weight:900;
+  font-size:clamp(34px,5.4vw,62px);line-height:1.24;letter-spacing:.01em;
+  margin:22px 0 0;text-wrap:balance;
+}
+h1 em{font-style:normal;color:var(--accent)}
+.lede{max-width:62ch;color:var(--ink-2);margin:20px 0 0;font-size:15.5px}
+.spec{
+  margin-top:28px;display:flex;flex-wrap:wrap;gap:8px 0;
+  border:1px solid var(--line);border-radius:var(--r);background:var(--surface);
+}
+.spec div{padding:12px 18px;border-right:1px solid var(--line-soft);flex:1 1 auto}
+.spec div:last-child{border-right:0}
+.spec dt{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;color:var(--muted);margin:0}
+.spec dd{margin:2px 0 0;font-size:14px;font-weight:500}
+
+/* ---------- kpi ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:36px;border-radius:var(--r);overflow:hidden}
+.kpi{background:var(--surface);padding:18px 20px 20px}
+.kpi .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;color:var(--muted)}
+.kpi .v{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:32px;letter-spacing:-.03em;line-height:1.25;margin-top:6px}
+.kpi .v small{font-size:14px;font-weight:500;color:var(--muted);letter-spacing:0;margin-left:2px}
+.kpi .s{font-size:12px;color:var(--muted);line-height:1.6;margin-top:4px}
+.kpi.hot .v{color:var(--accent)}
+
+/* ---------- sections ---------- */
+section{padding:60px 0;border-bottom:1px solid var(--line)}
+h2{
+  font-family:"Zen Old Mincho","Yu Mincho",serif;font-weight:700;
+  font-size:clamp(24px,3vw,34px);line-height:1.4;margin:18px 0 0;text-wrap:balance;
+}
+.sub{color:var(--ink-2);max-width:64ch;margin:12px 0 0;font-size:14.5px}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.panel-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:14px 20px;border-bottom:1px solid var(--line-soft)}
+.panel-h h3{margin:0;font-size:14px;font-weight:700;letter-spacing:.02em}
+.panel-h .tag{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;color:var(--muted)}
+.panel-b{padding:20px}
+
+/* ---------- bars ---------- */
+.barlist{display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:1fr;gap:5px}
+.bar-top{display:flex;align-items:baseline;gap:10px;font-size:13px}
+.bar-top .nm{font-weight:500}
+.bar-top .rt{margin-left:auto;display:flex;gap:14px;align-items:baseline}
+.bar-top .tot{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink-2)}
+.bar-top .cut{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--accent);font-weight:600;min-width:74px;text-align:right}
+.bar-top .cut.zero{color:var(--muted);font-weight:400}
+.track{height:16px;background:var(--surface-2);border:1px solid var(--line-soft);border-radius:2px;display:flex;overflow:hidden}
+.seg-keep{background:var(--steel-soft)}
+.seg-cut{background:var(--accent);background-image:repeating-linear-gradient(45deg,transparent 0 4px,rgba(255,255,255,.28) 4px 8px)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-top:16px;font-family:"IBM Plex Mono",monospace}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+
+/* ---------- dept tabs ---------- */
+.tabs{display:flex;gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface);width:fit-content;max-width:100%;flex-wrap:wrap}
+.tabs button{
+  appearance:none;border:0;border-right:1px solid var(--line-soft);background:transparent;color:var(--muted);
+  font-family:"Noto Sans JP",sans-serif;font-size:13px;font-weight:500;padding:11px 22px;cursor:pointer;
+  display:flex;align-items:center;gap:9px;transition:background .16s,color .16s;
+}
+.tabs button:last-child{border-right:0}
+.tabs button .cnt{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted)}
+.tabs button:hover{background:var(--surface-2);color:var(--ink)}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.tabs button[aria-selected="true"] .cnt{color:var(--paper);opacity:.65}
+.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+
+.grid2{display:grid;grid-template-columns:1.35fr 1fr;gap:20px;margin-top:22px;align-items:start}
+.stack{display:flex;flex-direction:column;gap:20px}
+
+/* ---------- heatmap ---------- */
+.hm{display:grid;grid-template-columns:auto repeat(5,1fr);gap:3px;font-family:"IBM Plex Mono",monospace;font-size:10.5px}
+.hm .hd{color:var(--muted);text-align:center;padding-bottom:2px}
+.hm .rl{color:var(--muted);padding-right:8px;text-align:right;line-height:26px;white-space:nowrap}
+.hm .cell{height:26px;border-radius:2px;display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:10px;border:1px solid var(--line-soft)}
+.hm-scale{display:flex;align-items:center;gap:6px;margin-top:12px;font-size:11px;color:var(--muted);font-family:"IBM Plex Mono",monospace}
+.hm-scale span{width:20px;height:9px;border-radius:1px;display:inline-block}
+
+/* ---------- timeline ---------- */
+.tl{display:flex;flex-direction:column}
+.tl-row{display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line-soft)}
+.tl-row:last-of-type{border-bottom:0}
+.tl-row .t{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted)}
+.tl-row .n{font-size:13px}
+.tl-row .h{font-family:"IBM Plex Mono",monospace;font-size:12.5px}
+.tl-row .swatch{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:8px;vertical-align:1px}
+.insight{margin-top:16px;background:var(--surface-2);border-left:2px solid var(--accent);padding:12px 16px;font-size:13px;color:var(--ink-2);border-radius:0 var(--r) var(--r) 0}
+.insight b{color:var(--ink);font-weight:700}
+.insight .lbl{display:block;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;color:var(--accent);margin-bottom:4px}
+
+/* ---------- tables ---------- */
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+thead th{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.13em;color:var(--muted);font-weight:500;border-bottom:1px solid var(--line);white-space:nowrap}
+td.n,th.n{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td .who{font-weight:600}
+td .aff{display:block;font-size:11px;color:var(--muted)}
+td .ai{font-weight:600;color:var(--steel)}
+td .ai small{display:block;font-weight:400;color:var(--muted);font-size:11px}
+td.cutcell{color:var(--accent);font-weight:600}
+td.cutcell small{display:block;color:var(--muted);font-weight:400;font-size:11px}
+
+/* ---------- ranking ---------- */
+.rank{display:flex;flex-direction:column}
+.rk{display:grid;grid-template-columns:34px 1fr 150px;gap:14px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line-soft)}
+.rk:last-child{border-bottom:0}
+.rk .no{font-family:"IBM Plex Mono",monospace;font-size:16px;color:var(--muted);text-align:right}
+.rk.top .no{color:var(--accent);font-weight:600}
+.rk .nm{font-size:14px;font-weight:600;line-height:1.5}
+.rk .meta{font-size:11.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:1px}
+.rk .rbar{height:8px;background:var(--surface-2);border:1px solid var(--line-soft);border-radius:2px;overflow:hidden;margin-top:6px}
+.rk .rbar i{display:block;height:100%;background:var(--accent)}
+.rk .val{text-align:right;font-family:"IBM Plex Mono",monospace}
+.rk .val b{font-size:17px;color:var(--accent);font-weight:600;letter-spacing:-.02em}
+.rk .val span{display:block;font-size:10.5px;color:var(--muted)}
+.chip{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.08em;padding:1px 7px;border-radius:2px;border:1px solid var(--line);color:var(--muted)}
+.chip.d-low{color:var(--good);border-color:color-mix(in srgb,var(--good) 40%,transparent)}
+.chip.d-mid{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,transparent)}
+.chip.d-high{color:var(--crit);border-color:color-mix(in srgb,var(--crit) 40%,transparent)}
+.chip.dept{color:var(--steel);border-color:color-mix(in srgb,var(--steel) 40%,transparent)}
+
+/* ---------- roadmap ---------- */
+.road{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:26px}
+.ph{background:var(--surface);padding:20px;display:flex;flex-direction:column;gap:10px}
+.ph .p{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;color:var(--accent)}
+.ph h4{margin:0;font-size:15px;font-weight:700}
+.ph .mo{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
+.ph ul{margin:0;padding-left:16px;font-size:12.5px;color:var(--ink-2);line-height:1.75}
+.ph .res{margin-top:auto;padding-top:12px;border-top:1px solid var(--line-soft);font-family:"IBM Plex Mono",monospace}
+.ph .res b{font-size:20px;color:var(--accent);font-weight:600}
+.ph .res span{font-size:11px;color:var(--muted);display:block}
+
+/* ---------- roi ---------- */
+.roi{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:26px;align-items:start}
+.calc{display:flex;flex-direction:column}
+.calc-row{display:flex;align-items:baseline;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line-soft);font-size:13.5px}
+.calc-row:last-child{border-bottom:0}
+.calc-row .lbl{color:var(--ink-2)}
+.calc-row .val{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:14px;white-space:nowrap}
+.calc-row.sum{border-top:1px solid var(--line);border-bottom:0;margin-top:4px;padding-top:14px}
+.calc-row.sum .lbl{font-weight:700;color:var(--ink)}
+.calc-row.sum .val{font-size:22px;font-weight:600;color:var(--accent)}
+.calc-row.neg .val{color:var(--muted)}
+.assume{font-size:11.5px;color:var(--muted);line-height:1.8;margin-top:14px;padding-top:12px;border-top:1px solid var(--line-soft)}
+
+/* ---------- report sample ---------- */
+.rep{background:var(--ink);color:var(--paper);border-radius:var(--r);padding:30px 32px;box-shadow:var(--shadow)}
+.rep .rh{display:flex;justify-content:space-between;gap:16px;align-items:baseline;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;color:color-mix(in srgb,var(--paper) 62%,transparent);border-bottom:1px solid color-mix(in srgb,var(--paper) 22%,transparent);padding-bottom:12px;flex-wrap:wrap}
+.rep h3{font-family:"Zen Old Mincho",serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);line-height:1.45;margin:22px 0 6px;text-wrap:balance}
+.rep .rmeta{font-size:12px;color:color-mix(in srgb,var(--paper) 60%,transparent);font-family:"IBM Plex Mono",monospace}
+.rep .rstat{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:color-mix(in srgb,var(--paper) 20%,transparent);border:1px solid color-mix(in srgb,var(--paper) 20%,transparent);margin-top:24px;border-radius:2px;overflow:hidden}
+.rep .rstat div{background:var(--ink);padding:14px 16px}
+.rep .rstat dt{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;color:color-mix(in srgb,var(--paper) 55%,transparent);margin:0}
+.rep .rstat dd{margin:4px 0 0;font-family:"IBM Plex Mono",monospace;font-size:22px;font-weight:600;letter-spacing:-.02em}
+.rep .rstat dd.hi{color:var(--accent)}
+.rep .acts{margin-top:26px;display:grid;gap:10px}
+.rep .act{display:grid;grid-template-columns:22px 1fr;gap:12px;font-size:13.5px;align-items:baseline;color:color-mix(in srgb,var(--paper) 88%,transparent)}
+.rep .act .i{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--accent)}
+.rep .note{margin-top:24px;padding-top:16px;border-top:1px solid color-mix(in srgb,var(--paper) 22%,transparent);font-size:12.5px;color:color-mix(in srgb,var(--paper) 72%,transparent)}
+.rep .note b{color:var(--accent);font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;display:block;margin-bottom:4px}
+
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+.mini .panel-b{display:flex;flex-direction:column;gap:8px}
+.mini .q{font-size:13px;color:var(--ink-2)}
+.mini .q b{color:var(--ink)}
+
+/* ---------- policy ---------- */
+.pol{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:26px}
+.pol .panel-b p{margin:0;font-size:13.5px;color:var(--ink-2)}
+.pol h4{margin:0 0 8px;font-size:14.5px;font-weight:700;font-family:"Zen Old Mincho",serif}
+
+footer{padding:44px 0 64px;color:var(--muted);font-size:12px;line-height:1.9}
+footer .fnote{max-width:78ch}
+footer .fbrand{font-family:"IBM Plex Mono",monospace;letter-spacing:.16em;color:var(--ink-2);font-size:12px;margin-bottom:10px}
+
+@media (max-width:900px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .grid2,.roi,.mini,.pol{grid-template-columns:1fr}
+  .road{grid-template-columns:1fr 1fr}
+  .rep .rstat{grid-template-columns:1fr 1fr}
+  .spec div{border-right:0;border-bottom:1px solid var(--line-soft);flex:1 1 100%}
+  .spec div:last-child{border-bottom:0}
+}
+@media (max-width:560px){
+  .road{grid-template-columns:1fr}
+  .rk{grid-template-columns:26px 1fr;gap:10px}
+  .rk .val{grid-column:2;text-align:left;display:flex;align-items:baseline;gap:8px}
+  .rk .val span{display:inline}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="mast">
+  <div class="wrap mast-in">
+    <div class="brand"><b>WORK VISIBILITY AI</b><span>DEMO</span></div>
+    <nav class="mast-nav">
+      <a href="#overview">全社</a>
+      <a href="#dept">職種別</a>
+      <a href="#candidates">AI化候補</a>
+      <a href="#roadmap">ロードマップ</a>
+      <a href="#roi">費用対効果</a>
+      <a href="#report">週次レポート</a>
+      <a href="#policy">運用ポリシー</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+  <div class="hero" id="top">
+    <p class="eyebrow">SIMULATION ／ 中堅製造業A社</p>
+    <h1>1,000名の会社で、<br><em>誰が何に時間を使っているか</em>を、<br>1週間分そのまま出した。</h1>
+    <p class="lede">従業員1,000名・3拠点の製造業A社。間接部門208名（営業128／総務42／経理38）のPCが1分に1回だけ自分の画面を記録し、AIが「誰が・何の業務に・何時間」を判定・集計した1週間のサンプルです。日報も工数入力も、現場は1秒も書いていません。</p>
+
+    <dl class="spec">
+      <div><dt>対象企業</dt><dd>中堅製造業A社（従業員1,000名／本社・2工場）</dd></div>
+      <div><dt>計測対象</dt><dd>間接部門 208名（営業128・総務42・経理38）</dd></div>
+      <div><dt>計測期間</dt><dd>2026.08.17（月）— 08.23（日）／第3週</dd></div>
+      <div><dt>解析枚数</dt><dd>約47.8万枚／週（1分間隔・稼働時間のみ）</dd></div>
+    </dl>
+
+    <div class="kpis">
+      <div class="kpi">
+        <div class="k">TOTAL MEASURED</div>
+        <div class="v">7,965.2<small>h／週</small></div>
+        <div class="s">対象208名・1人あたり週38.3h</div>
+      </div>
+      <div class="kpi hot">
+        <div class="k">AI-REPLACEABLE</div>
+        <div class="v">2,065.9<small>h／週</small></div>
+        <div class="s">実測の25.9%。11の業務に集中している</div>
+      </div>
+      <div class="kpi">
+        <div class="k">TOP CANDIDATE</div>
+        <div class="v">−374.5<small>h</small></div>
+        <div class="s">経理／請求書・伝票処理をOCR＋仕訳AIへ</div>
+      </div>
+      <div class="kpi">
+        <div class="k">DATA QUALITY</div>
+        <div class="v">94<small>%</small></div>
+        <div class="s">業務判定の確信度。残り6%は未分類として保留</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 全社 ============ -->
+  <section id="overview">
+    <p class="eyebrow">Overview ／ 全社</p>
+    <h2>時間は、営業に集まっている。<br>ムダは、経理に集まっている。</h2>
+    <p class="sub">職種ごとに「総実測時間」と「そのうちAIへ移せる時間」を並べると、量の大きい部署と、率の高い部署が別だとわかります。着手順を決めるのはこの2軸です。</p>
+
+    <div class="panel" style="margin-top:26px">
+      <div class="panel-h"><h3>職種別 実測時間とAI化可能時間</h3><span class="tag">2026.08.17 — 08.23 ／ 単位：時間／週</span></div>
+      <div class="panel-b">
+        <div class="barlist" id="deptBars"></div>
+        <div class="legend">
+          <span><i style="background:var(--steel-soft)"></i>人が担い続ける時間</span>
+          <span><i style="background:var(--accent)"></i>AIへ移せる時間</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel">
+        <div class="panel-h"><h3>全社の時間の使われ方（業務カテゴリ横断）</h3><span class="tag">h／週</span></div>
+        <div class="panel-b">
+          <div class="barlist" id="catBars"></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-h"><h3>この週、AIが最初に指したもの</h3></div>
+        <div class="panel-b">
+          <div class="insight" style="margin-top:0">
+            <span class="lbl">FINDING 01</span>
+            入力・転記・照合だけで週<b>1,764.3h</b>。208名の総実測の<b>22.1%</b>が、「別のシステムに同じ情報を入れ直す」作業に使われています。
+          </div>
+          <div class="insight">
+            <span class="lbl">FINDING 02</span>
+            営業128名が顧客と向き合っている時間は週<b>884.2h</b>（実測の18.1%）。社内向けの入力・調整・報告（受注入力・納期調整・会議・日報）は<b>1,889.3h</b>で、顧客接点の<b>2.1倍</b>あります。
+          </div>
+          <div class="insight">
+            <span class="lbl">FINDING 03</span>
+            経理38名は実測の<b>34.2%</b>がAI化可能。人数は営業の3割ですが、1人あたりの削減余地は<b>週13.5h</b>と全職種で最大です。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 職種別 ============ -->
+  <section id="dept">
+    <p class="eyebrow">Drill Down ／ 職種別</p>
+    <h2>職種を選ぶと、<br>1週間の中身が開きます。</h2>
+    <p class="sub">業務内訳・作業が集中する曜日と時間帯・代表社員1名の1日ログ・そしてAI化後の姿。同じログを4つの角度から見ています。</p>
+
+    <div class="tabs" role="tablist" aria-label="職種を選択" style="margin-top:26px" id="tabs"></div>
+
+    <div class="grid2">
+      <div class="panel">
+        <div class="panel-h"><h3 id="taskTitle">業務別の実測時間</h3><span class="tag" id="taskTag"></span></div>
+        <div class="panel-b">
+          <div class="barlist" id="taskBars"></div>
+          <div class="legend">
+            <span><i style="background:var(--steel-soft)"></i>人が担い続ける時間</span>
+            <span><i style="background:var(--accent)"></i>AIへ移せる時間</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div class="panel">
+          <div class="panel-h"><h3>反復業務が集中する曜日・時間帯</h3><span class="tag" id="hmTag"></span></div>
+          <div class="panel-b">
+            <div class="hm" id="heat"></div>
+            <div class="hm-scale">
+              <span style="background:color-mix(in srgb,var(--accent) 8%,var(--surface-2))"></span>
+              <span style="background:color-mix(in srgb,var(--accent) 30%,var(--surface-2))"></span>
+              <span style="background:color-mix(in srgb,var(--accent) 55%,var(--surface-2))"></span>
+              <span style="background:color-mix(in srgb,var(--accent) 80%,var(--surface-2))"></span>
+              <span style="background:var(--accent)"></span>
+              低 → 高（部門内の相対値）
+            </div>
+            <div class="insight" id="hmInsight"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-h"><h3 id="personTitle">代表社員の1日</h3><span class="tag">2026.08.20（木）／ 本人にも同じ内容が届きます</span></div>
+          <div class="panel-b">
+            <div class="tl" id="timeline"></div>
+            <div class="insight" id="personInsight"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:20px">
+      <div class="panel-h"><h3>この作業を、このAIで、こう変える</h3><span class="tag" id="trTag">月間換算・想定値</span></div>
+      <div class="panel-b tbl-wrap">
+        <table id="trTable">
+          <thead><tr><th>担当</th><th>対象作業</th><th class="n">現状／月</th><th>置き換えるAI</th><th class="n">導入後</th><th class="n">削減</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 候補 ============ -->
+  <section id="candidates">
+    <p class="eyebrow">Candidates ／ AI化候補</p>
+    <h2>11の業務に、<br>週2,065.9時間が沈んでいる。</h2>
+    <p class="sub">削減見込み時間の大きい順。実装難易度と判定の確信度を併記しているので、「効果は大きいが難しいもの」と「小さくても今週始められるもの」を分けて着手できます。</p>
+
+    <div class="panel" style="margin-top:26px">
+      <div class="panel-h"><h3>AI化候補ランキング（全社・週次）</h3><span class="tag">削減見込み時間／週</span></div>
+      <div class="panel-b"><div class="rank" id="rank"></div></div>
+    </div>
+  </section>
+
+  <!-- ============ ロードマップ ============ -->
+  <section id="roadmap">
+    <p class="eyebrow">Roadmap ／ 12ヶ月</p>
+    <h2>全員同時ではなく、<br>マネージャーから始める。</h2>
+    <p class="sub">最初の1ヶ月は削減しません。管理職32名だけで計測し、「何が記録され、何が記録されないか」を自分の目で確認してもらう期間に充てます。抵抗感の正体はたいてい、見えないことへの不安です。</p>
+
+    <div class="road">
+      <div class="ph">
+        <div class="p">PHASE 0</div>
+        <h4>マネージャー先行導入</h4>
+        <div class="mo">1ヶ月目 ／ 32名</div>
+        <ul><li>管理職のみで計測を開始</li><li>取得範囲・非取得範囲を実機で確認</li><li>従業員説明会の資料を実データで作成</li></ul>
+        <div class="res"><b>±0h</b><span>計測精度の確立に充てる期間</span></div>
+      </div>
+      <div class="ph">
+        <div class="p">PHASE 1</div>
+        <h4>経理・総務へ展開</h4>
+        <div class="mo">2—4ヶ月目 ／ +80名</div>
+        <ul><li>請求書・伝票のOCR＋仕訳AI</li><li>社内問い合わせFAQ AI</li><li>議事録AI（全部門共通）</li></ul>
+        <div class="res"><b>−510h</b><span>週あたり／達成率75%想定</span></div>
+      </div>
+      <div class="ph">
+        <div class="p">PHASE 2</div>
+        <h4>営業へ展開</h4>
+        <div class="mo">5—8ヶ月目 ／ +128名</div>
+        <ul><li>受注入力・転記AI（基幹連携）</li><li>日報・訪問報告の自動生成</li><li>議事録AI（営業の会議記録）</li></ul>
+        <div class="res"><b>−455h</b><span>週あたり／達成率70%想定</span></div>
+      </div>
+      <div class="ph">
+        <div class="p">PHASE 3</div>
+        <h4>判断を含む業務へ</h4>
+        <div class="mo">9—12ヶ月目 ／ 208名</div>
+        <ul><li>見積作成AI・資料作成AI</li><li>在庫・納期照会AI</li><li>メール下書きAI・経費精算チェックAI</li></ul>
+        <div class="res"><b>−400h</b><span>週あたり／達成率55%想定</span></div>
+      </div>
+    </div>
+    <p class="assume" style="max-width:78ch">達成率は「AI化可能と判定された時間のうち、実際に運用へ乗った割合」の想定値です。12ヶ月時点の累計削減は<strong>週約1,370h（ポテンシャル2,065.9hの66%）</strong>。初月の実測ログが貯まり次第、この試算は自社データで自動補正されます。</p>
+  </section>
+
+  <!-- ============ ROI ============ -->
+  <section id="roi">
+    <p class="eyebrow">Economics ／ 費用対効果</p>
+    <h2>208名分のIDで、<br>月208万円。</h2>
+    <p class="sub">左が12ヶ月目時点の月次収支。効果は「削減時間 × 人件費単価」をそのまま計上せず、残業削減・増員回避として実際に転換できる分だけを40%として見込んでいます。</p>
+
+    <div class="roi">
+      <div class="panel">
+        <div class="panel-h"><h3>月次収支（12ヶ月目時点）</h3><span class="tag">税別・想定値</span></div>
+        <div class="panel-b">
+          <div class="calc">
+            <div class="calc-row"><span class="lbl">削減時間</span><span class="val">5,932 h／月</span></div>
+            <div class="calc-row"><span class="lbl">1人あたり削減</span><span class="val">28.5 h／月</span></div>
+            <div class="calc-row"><span class="lbl">人件費単価（間接部門・総額ベース）</span><span class="val">¥3,600 ／ h</span></div>
+            <div class="calc-row"><span class="lbl">理論効果額</span><span class="val">¥21,355,200</span></div>
+            <div class="calc-row"><span class="lbl">実現率 40%を掛けた効果額</span><span class="val">¥8,542,080</span></div>
+            <div class="calc-row neg"><span class="lbl">ソフト利用料（208ID × ¥10,000）</span><span class="val">−¥2,080,000</span></div>
+            <div class="calc-row sum"><span class="lbl">月次差引</span><span class="val">＋¥6,462,080</span></div>
+          </div>
+          <p class="assume">年間換算 約7,750万円／投資回収 導入後およそ4ヶ月目。AIツールの実装費・研修費は別途。人件費単価は賞与・法定福利費を含む総額人件費÷総労働時間で算出しています。</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-h"><h3>コストの比較対象</h3></div>
+        <div class="panel-b">
+          <div class="calc">
+            <div class="calc-row"><span class="lbl">業務棚卸しコンサル（外部委託・一式）</span><span class="val">¥1,000,000 —</span></div>
+            <div class="calc-row"><span class="lbl">同・所要期間</span><span class="val">2 — 3ヶ月</span></div>
+            <div class="calc-row"><span class="lbl">自己申告の工数入力（208名 × 週15分）</span><span class="val">52 h／週</span></div>
+            <div class="calc-row"><span class="lbl">同・年間の人件費換算</span><span class="val">¥9,734,400</span></div>
+            <div class="calc-row sum"><span class="lbl">本システム</span><span class="val">¥2,080,000／月</span></div>
+          </div>
+          <p class="assume">棚卸しは1回きりのスナップショットで、終わった瞬間から古くなります。実測ログは毎週更新され、AI化の効果検証にもそのまま使えます。「測るために働く時間」は0分です。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 週次レポート ============ -->
+  <section id="report">
+    <p class="eyebrow">Output ／ 毎週届くもの</p>
+    <h2>ログ画面ではなく、<br>読めば判断できる文書として。</h2>
+    <p class="sub">同じ実測ログを、本人・マネージャー・経営の3視点で書き分けます。以下は営業部マネージャーに届いた実物サンプルです。</p>
+
+    <div class="rep" style="margin-top:26px">
+      <div class="rh"><span>WORK VISIBILITY AI ／ WEEKLY REPORT</span><span>FOR MANAGER</span></div>
+      <h3>顧客と向き合う時間を守るため、<br>受注入力と日報作成を先に手放します。</h3>
+      <p class="rmeta">2026.08.17 — 08.23 ／ 第二営業部・営業課 32名 ／ 担当マネージャー 高橋 部長</p>
+      <dl class="rstat">
+        <div><dt>チーム実測</dt><dd>1,224.8h</dd></div>
+        <div><dt>顧客接点</dt><dd>221.1h</dd></div>
+        <div><dt>受注入力・転記</dt><dd>149.0h</dd></div>
+        <div><dt>削減見込み</dt><dd class="hi">308.2h</dd></div>
+      </dl>
+      <div class="acts">
+        <div class="act"><span class="i">01</span><span>受注情報が基幹システムとExcel台帳の2箇所に入力されています。二重入力の箇所を今週中に棚卸ししてください（対象32名中28名で発生）。</span></div>
+        <div class="act"><span class="i">02</span><span>日報・訪問報告書に週67.1h（1人あたり2.1h）。商談ログから自動生成する運用を、次回の課会で3名に先行トライアルとして提示してください。</span></div>
+        <div class="act"><span class="i">03</span><span>納期回答の社内問い合わせが生産管理部へ週184件。上位20品目の在庫照会を自動化すれば、この課だけで週約34h戻ります。</span></div>
+      </div>
+      <div class="note"><b>AIからの示唆</b>受注入力は月曜午前と金曜夕方に集中し、特定の4名が全体の38%を担っています。担当の偏りは業務量ではなく、基幹システムの操作習熟度の差に起因している可能性があります。この4名の作業手順を録画・標準化するだけでも、AI化前に一定の平準化が見込めます。</div>
+    </div>
+
+    <div class="mini">
+      <div class="panel">
+        <div class="panel-h"><h3>FOR MEMBER ／ 本人向け</h3><span class="tag">評価には使用しません</span></div>
+        <div class="panel-b">
+          <p class="q">今週の総実測 <b>38.1h</b>。うち見積作成 <b>5.3h</b>、受注入力 <b>4.7h</b>。</p>
+          <p class="q">見積13件のうち<b>9件</b>が過去案件と同一構成でした。参照して作り始めれば、来週は約<b>2.1h</b>戻ります。</p>
+          <p class="q" style="color:var(--muted);font-size:12px">生のスクリーンショットは管理画面に一切表示されません。本人だけが自分の記録を確認できます。</p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-h"><h3>FOR EXECUTIVE ／ 経営向け</h3><span class="tag">月次・役員会向け</span></div>
+        <div class="panel-b">
+          <p class="q">間接部門208名の実測 <b>7,965.2h／週</b>。AI化可能 <b>2,065.9h（25.9%）</b>。</p>
+          <p class="q">12ヶ月ロードマップ完了時の年間効果 <b>約7,750万円</b>（実現率40%・保守試算）。投資回収 <b>4ヶ月目</b>。</p>
+          <p class="q">次の投資判断：<b>経理のOCR＋仕訳AI</b>。単独で週374.5h、投資対効果が最も高い。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ポリシー ============ -->
+  <section id="policy">
+    <p class="eyebrow">Policy ／ 運用の前提</p>
+    <h2>監視ではなく、可視化。<br>減らすのは、人ではなく業務。</h2>
+    <p class="sub">「自分の仕事が丸裸にされる」——導入で最初に出る抵抗は、ほぼこれです。設計思想の側で先に答えを用意しておきます。</p>
+
+    <div class="pol">
+      <div class="panel"><div class="panel-b">
+        <h4>本人に、まず還元する</h4>
+        <p>記録から生成された日報は、まず本人に届きます。自分の1日を振り返る道具であることが先。生のスクリーンショットは管理画面に表示せず、勤務態度の評価には使用しないことを、導入時に文書で明示します。</p>
+      </div></div>
+      <div class="panel"><div class="panel-b">
+        <h4>空いた時間の使い道を、先に決める</h4>
+        <p>削減した時間で何をするのかが決まっていなければ、可視化は不安しか生みません。A社の場合は「営業の顧客接点を週884.2hから1,200hへ」を先に会社の方針として掲げ、そのための手段としてAI化を位置づけます。</p>
+      </div></div>
+      <div class="panel"><div class="panel-b">
+        <h4>管理職から、自分の業務で始める</h4>
+        <p>最初の対象は管理職32名。自分の業務をまずAIで減らし、その結果を実データで共有してもらいます。「やらされる側」から始めない設計が、現場の納得を左右します。</p>
+      </div></div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fbrand">WORK VISIBILITY AI ／ DEMO</div>
+    <p class="fnote">本ページは導入イメージを共有するためのデモです。企業名「中堅製造業A社」、社員氏名、および全ての数値はサンプルであり、実在の企業・個人のデータではありません。削減率・達成率・人件費単価は業界平均をもとにした想定値で、実導入時は初月の実測ログをもとに自動補正されます。</p>
+  </div>
+</footer>
+
+<script>
+"use strict";
+
+var DEPTS = [
+  {
+    id:"sales", name:"営業部", head:128, total:4889.6, cut:1232.6,
+    tasks:[
+      {n:"商談・顧客訪問（移動含む）", t:884.2, c:0},
+      {n:"メール・チャット対応", t:731.9, c:109.8},
+      {n:"見積書作成・価格計算", t:682.4, c:204.7},
+      {n:"基幹システムへの受注入力・転記", t:596.1, c:357.7},
+      {n:"納期回答・在庫確認の社内調整", t:548.3, c:137.1},
+      {n:"提案書・技術資料の作成", t:512.7, c:128.2},
+      {n:"社内会議・報告", t:476.5, c:107.2},
+      {n:"日報・訪問報告書の作成", t:268.4, c:187.9},
+      {n:"その他（移動待ち・雑務）", t:189.1, c:0}
+    ],
+    heat:{
+      rows:["08–09","09–11","11–13","13–15","15–17","17–19"],
+      v:[[72,38,32,30,44],[88,54,48,46,62],[46,34,30,30,38],[40,62,58,60,52],[52,58,54,56,70],[64,42,40,44,92]]
+    },
+    hmNote:"<span class='lbl'>PATTERN</span>月曜午前に<b>受注入力</b>、金曜夕方に<b>日報作成</b>が集中。週の始まりと終わりの計<b>3.1h/人</b>が、顧客と関係のない社内作業で埋まっています。",
+    person:{
+      title:"営業部・佐藤 健太（第二営業部 主任）",
+      log:[
+        {t:"08:30", n:"メール・チャット対応", h:0.8, k:"rep"},
+        {t:"09:20", n:"基幹システムへの受注入力（7件）", h:1.4, k:"rep"},
+        {t:"10:45", n:"見積書作成（3件）", h:1.6, k:"rep"},
+        {t:"13:00", n:"オンライン商談（B工業・新規）", h:2.0, k:"core"},
+        {t:"15:10", n:"納期確認（生産管理部へ問い合わせ）", h:0.9, k:"rep"},
+        {t:"16:05", n:"提案書作成", h:1.3, k:"mix"},
+        {t:"17:20", n:"日報・訪問報告書の作成", h:0.6, k:"rep"}
+      ],
+      insight:"<span class='lbl'>INSIGHT</span>見積3件のうち<b>2件</b>は過去案件と同一構成でした。見積作成AIが過去データを参照して初稿を出せば、この日だけで約<b>50分</b>戻ります。顧客と接していた時間は8.6hのうち<b>2.0h</b>です。"
+    },
+    tr:[
+      {ini:"佐", who:"佐藤 健太", aff:"第二営業部", w:"基幹システムへの受注入力・転記", now:12.1, ai:"転記AI", aid:"OCR＋基幹システム連携", after:4.8, cut:7.3, r:60},
+      {ini:"高", who:"高橋 直人", aff:"第一営業部", w:"見積書作成・価格計算", now:14.8, ai:"見積作成AI", aid:"過去案件参照＋自動起票", after:10.4, cut:4.4, r:30},
+      {ini:"松", who:"松本 里奈", aff:"第二営業部", w:"日報・訪問報告書の作成", now:5.8, ai:"日報自動生成", aid:"商談ログから自動作成", after:1.7, cut:4.1, r:70},
+      {ini:"森", who:"森田 亮", aff:"営業企画課", w:"提案書・技術資料の作成", now:11.2, ai:"資料作成AI", aid:"初稿の自動生成", after:8.4, cut:2.8, r:25},
+      {ini:"岡", who:"岡田 圭", aff:"第一営業部", w:"納期回答・在庫確認", now:11.9, ai:"在庫照会AI", aid:"基幹在庫の自動回答", after:8.9, cut:3.0, r:25}
+    ]
+  },
+  {
+    id:"ga", name:"総務部", head:42, total:1570.8, cut:319.4,
+    tasks:[
+      {n:"社内問い合わせ対応（規程・手続き）", t:312.6, c:156.3},
+      {n:"各種申請書の受付・チェック・回覧", t:268.9, c:94.1},
+      {n:"メール・電話対応", t:221.5, c:33.2},
+      {n:"備品・社用車・施設の管理", t:196.4, c:0},
+      {n:"安全衛生・教育記録の管理", t:174.2, c:0},
+      {n:"会議・議事録作成", t:158.7, c:35.8},
+      {n:"契約書・社内文書の管理", t:142.3, c:0},
+      {n:"その他（来客対応・庶務）", t:96.2, c:0}
+    ],
+    heat:{
+      rows:["08–09","09–11","11–13","13–15","15–17","17–19"],
+      v:[[58,52,50,48,50],[82,68,64,62,66],[44,40,38,36,40],[60,58,72,56,58],[66,60,58,62,74],[30,26,24,26,34]]
+    },
+    hmNote:"<span class='lbl'>PATTERN</span>問い合わせ対応は<b>毎日9–11時</b>に平坦に発生し、週<b>312.6h</b>。突発的ではなく常時発生型のため、FAQ AIによる一次回答の効果が最も出やすい形です。",
+    person:{
+      title:"総務部・中村 遥（総務課）",
+      log:[
+        {t:"08:45", n:"社内問い合わせ対応（電話・チャット23件）", h:2.3, k:"rep"},
+        {t:"11:00", n:"申請書のチェック・回覧", h:1.5, k:"rep"},
+        {t:"13:15", n:"安全衛生委員会 準備・議事録作成", h:1.8, k:"mix"},
+        {t:"15:20", n:"社用車・備品の管理", h:1.1, k:"core"},
+        {t:"16:30", n:"契約書ファイリング・文書管理", h:0.9, k:"core"}
+      ],
+      insight:"<span class='lbl'>INSIGHT</span>問い合わせ23件のうち<b>17件</b>が「就業規則・申請手順」の頻出質問でした。社内規程を読み込ませたFAQ AIが一次回答すれば、この日だけで約<b>1.4h</b>戻ります。"
+    },
+    tr:[
+      {ini:"中", who:"中村 遥", aff:"総務課", w:"社内問い合わせ対応", now:12.4, ai:"社内FAQ AI", aid:"規程を読ませた一次回答", after:6.2, cut:6.2, r:50},
+      {ini:"石", who:"石井 学", aff:"総務課", w:"各種申請書のチェック・回覧", now:10.7, ai:"申請チェックAI", aid:"フォーム化＋不備の自動検知", after:6.9, cut:3.8, r:35},
+      {ini:"藤", who:"藤井 恵", aff:"人事総務課", w:"会議・議事録作成", now:6.3, ai:"議事録AI", aid:"文字起こし＋要約＋タスク抽出", after:4.9, cut:1.4, r:23},
+      {ini:"大", who:"大西 徹", aff:"総務課", w:"メール・電話対応", now:8.8, ai:"メール下書きAI", aid:"定型返信の下書き生成", after:7.5, cut:1.3, r:15}
+    ]
+  },
+  {
+    id:"acct", name:"経理部", head:38, total:1504.8, cut:513.9,
+    tasks:[
+      {n:"請求書・支払処理（受領〜仕訳）", t:384.2, c:211.3},
+      {n:"伝票入力・システム転記", t:296.7, c:163.2},
+      {n:"経費精算のチェック・差戻し", t:218.4, c:98.3},
+      {n:"月次締め・残高照合", t:212.9, c:0},
+      {n:"原価計算・製造原価の集計", t:168.3, c:0},
+      {n:"問い合わせ対応（社内・取引先）", t:124.6, c:18.7},
+      {n:"会議・報告資料の作成", t:99.7, c:22.4}
+    ],
+    heat:{
+      rows:["08–09","09–11","11–13","13–15","15–17","17–19"],
+      v:[[64,60,58,62,66],[86,84,80,88,90],[50,48,46,50,54],[78,76,82,80,84],[88,86,84,90,96],[56,60,58,64,78]]
+    },
+    hmNote:"<span class='lbl'>PATTERN</span>月次締め週のため<b>全曜日で高負荷</b>。特に15–17時が連日ピークで、金曜は<b>17時以降</b>まで伸びています。締め処理そのものではなく、その前段の入力・照合が滞留の原因です。",
+    person:{
+      title:"経理部・小林 由紀（経理課）",
+      log:[
+        {t:"09:00", n:"請求書の受領・スキャン・仕訳", h:2.6, k:"rep"},
+        {t:"11:40", n:"経費精算のチェック・差戻し", h:1.2, k:"rep"},
+        {t:"13:30", n:"伝票入力（購買）", h:2.1, k:"rep"},
+        {t:"15:40", n:"支払データ作成・照合", h:1.4, k:"mix"},
+        {t:"17:00", n:"社内問い合わせ対応", h:0.7, k:"core"}
+      ],
+      insight:"<span class='lbl'>INSIGHT</span>処理した請求書142件のうち<b>118件</b>が取引先12社の定型フォーマットでした。OCR＋仕訳AIをこの12社に限定して当てるだけで、1日あたり約<b>2.0h</b>戻ります。"
+    },
+    tr:[
+      {ini:"小", who:"小林 由紀", aff:"経理課", w:"請求書・支払処理", now:16.6, ai:"仕訳AI", aid:"OCR＋自動仕訳・突合", after:7.5, cut:9.1, r:55},
+      {ini:"渡", who:"渡辺 智也", aff:"経理課", w:"伝票入力・システム転記", now:12.8, ai:"転記AI", aid:"OCR＋会計システム連携", after:5.8, cut:7.0, r:55},
+      {ini:"清", who:"清水 綾", aff:"経理課", w:"経費精算のチェック・差戻し", now:9.4, ai:"精算チェックAI", aid:"規程違反の自動検知", after:5.2, cut:4.2, r:45},
+      {ini:"山", who:"山口 直樹", aff:"原価管理課", w:"会議・報告資料の作成", now:4.3, ai:"資料作成AI", aid:"月次数値からの自動作図", after:3.3, cut:1.0, r:23}
+    ]
+  }
+];
+
+var CATS = [
+  {n:"入力・転記・照合", t:1764.3, c:924.6},
+  {n:"資料・書類の作成", t:1463.5, c:520.8},
+  {n:"管理・保全・その他", t:1179.4, c:0},
+  {n:"社内問い合わせ・調整", t:985.5, c:312.1},
+  {n:"メール・電話・チャット", t:953.4, c:143.0},
+  {n:"商談・顧客対応", t:884.2, c:0},
+  {n:"社内会議・報告", t:734.9, c:165.4}
+];
+
+var RANK = [
+  {n:"請求書・伝票処理", ai:"OCR＋仕訳AI", dept:"経理", base:680.9, cut:374.5, rate:55, diff:"中", conf:93},
+  {n:"基幹システムへの受注入力・転記", ai:"転記AI（基幹連携）", dept:"営業", base:596.1, cut:357.7, rate:60, diff:"中", conf:91},
+  {n:"見積書作成・価格計算", ai:"見積作成AI", dept:"営業", base:682.4, cut:204.7, rate:30, diff:"高", conf:84},
+  {n:"日報・訪問報告書の作成", ai:"日報自動生成", dept:"営業", base:268.4, cut:187.9, rate:70, diff:"低", conf:95},
+  {n:"議事録作成（会議の記録部分）", ai:"議事録AI", dept:"全社", base:220.5, cut:165.4, rate:75, diff:"低", conf:94},
+  {n:"定型メールの返信", ai:"メール下書きAI", dept:"全社", base:1078.0, cut:161.7, rate:15, diff:"低", conf:82},
+  {n:"社内問い合わせ対応", ai:"社内FAQ AI", dept:"総務", base:312.6, cut:156.3, rate:50, diff:"低", conf:89},
+  {n:"納期回答・在庫確認", ai:"在庫照会AI", dept:"営業", base:548.3, cut:137.1, rate:25, diff:"高", conf:76},
+  {n:"提案書・技術資料の作成", ai:"資料作成AI", dept:"営業", base:512.7, cut:128.2, rate:25, diff:"中", conf:80},
+  {n:"経費精算のチェック", ai:"精算チェックAI", dept:"経理", base:218.4, cut:98.3, rate:45, diff:"中", conf:88},
+  {n:"各種申請書のチェック・回覧", ai:"申請チェックAI", dept:"総務", base:268.9, cut:94.1, rate:35, diff:"中", conf:85}
+];
+
+var DAYS = ["月","火","水","木","金"];
+var KIND = {core:"var(--good)", mix:"var(--steel)", rep:"var(--accent)"};
+
+function fx(n, d){ return n.toFixed(d === undefined ? 1 : d); }
+function el(tag, cls, html){
+  var e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (html !== undefined) e.innerHTML = html;
+  return e;
+}
+
+/* ---- bars ---- */
+function renderBars(host, rows, max){
+  host.innerHTML = "";
+  rows.forEach(function(r){
+    var keep = r.t - r.c;
+    var row = el("div","bar-row");
+    var top = el("div","bar-top");
+    top.appendChild(el("span","nm", r.n));
+    var rt = el("div","rt");
+    rt.appendChild(el("span","tot", fx(r.t) + "h"));
+    rt.appendChild(el("span", r.c > 0 ? "cut" : "cut zero", r.c > 0 ? "−" + fx(r.c) + "h" : "—"));
+    top.appendChild(rt);
+    row.appendChild(top);
+    var track = el("div","track");
+    var a = el("div","seg-keep"); a.style.width = (keep / max * 100) + "%";
+    var b = el("div","seg-cut"); b.style.width = (r.c / max * 100) + "%";
+    b.title = "AIへ移せる時間 " + fx(r.c) + "h";
+    track.appendChild(a); track.appendChild(b);
+    row.appendChild(track);
+    host.appendChild(row);
+  });
+}
+
+/* ---- 全社 ---- */
+(function(){
+  var rows = DEPTS.map(function(d){
+    return {n: d.name + "（" + d.head + "名）", t: d.total, c: d.cut};
+  });
+  var max = Math.max.apply(null, rows.map(function(r){ return r.t; }));
+  renderBars(document.getElementById("deptBars"), rows, max);
+
+  var cmax = Math.max.apply(null, CATS.map(function(r){ return r.t; }));
+  renderBars(document.getElementById("catBars"), CATS, cmax);
+})();
+
+/* ---- 職種タブ ---- */
+var tabsHost = document.getElementById("tabs");
+var current = 0;
+
+DEPTS.forEach(function(d, i){
+  var b = el("button", null, d.name + '<span class="cnt">' + d.head + '名</span>');
+  b.setAttribute("role","tab");
+  b.setAttribute("aria-selected", i === 0 ? "true" : "false");
+  b.addEventListener("click", function(){ select(i); });
+  tabsHost.appendChild(b);
+});
+
+function select(i){
+  current = i;
+  var btns = tabsHost.querySelectorAll("button");
+  for (var k = 0; k < btns.length; k++){
+    btns[k].setAttribute("aria-selected", k === i ? "true" : "false");
+  }
+  paint(DEPTS[i]);
+}
+
+function paint(d){
+  /* tasks */
+  document.getElementById("taskTitle").textContent = d.name + "の業務別 実測時間";
+  document.getElementById("taskTag").textContent =
+    "総実測 " + fx(d.total) + "h ／ AI化可能 " + fx(d.cut) + "h（" + fx(d.cut / d.total * 100) + "%）";
+  var max = Math.max.apply(null, d.tasks.map(function(r){ return r.t; }));
+  renderBars(document.getElementById("taskBars"), d.tasks, max);
+
+  /* heatmap */
+  var hm = document.getElementById("heat");
+  hm.innerHTML = "";
+  hm.appendChild(el("div","hd",""));
+  DAYS.forEach(function(day){ hm.appendChild(el("div","hd", day)); });
+  d.heat.rows.forEach(function(label, ri){
+    hm.appendChild(el("div","rl", label));
+    d.heat.v[ri].forEach(function(v, ci){
+      var c = el("div","cell");
+      c.style.background = "color-mix(in srgb, var(--accent) " + Math.round(v * 0.92) + "%, var(--surface-2))";
+      if (v >= 70) c.style.color = "#fff";
+      c.textContent = v >= 80 ? v : "";
+      c.title = DAYS[ci] + " " + label + "時 ／ 反復業務の密度 " + v;
+      hm.appendChild(c);
+    });
+  });
+  document.getElementById("hmTag").textContent = d.name + " ／ 反復業務の相対密度";
+  document.getElementById("hmInsight").innerHTML = d.hmNote;
+
+  /* person */
+  document.getElementById("personTitle").textContent = d.person.title + "の1日";
+  var tl = document.getElementById("timeline");
+  tl.innerHTML = "";
+  var sum = 0;
+  d.person.log.forEach(function(r){
+    sum += r.h;
+    var row = el("div","tl-row");
+    row.appendChild(el("span","t", r.t));
+    row.appendChild(el("span","n", '<i class="swatch" style="background:' + KIND[r.k] + '"></i>' + r.n));
+    row.appendChild(el("span","h", fx(r.h) + "h"));
+    tl.appendChild(row);
+  });
+  var tot = el("div","tl-row");
+  tot.style.borderTop = "1px solid var(--line)";
+  tot.style.marginTop = "4px";
+  tot.appendChild(el("span","t",""));
+  tot.appendChild(el("span","n", '<span style="color:var(--muted);font-size:12px">記録合計（1分間隔・自動記録）</span>'));
+  tot.appendChild(el("span","h", "<b>" + fx(sum) + "h</b>"));
+  tl.appendChild(tot);
+  document.getElementById("personInsight").innerHTML = d.person.insight;
+
+  /* transformation table */
+  var tb = document.querySelector("#trTable tbody");
+  tb.innerHTML = "";
+  var sN = 0, sA = 0, sC = 0;
+  d.tr.forEach(function(r){
+    sN += r.now; sA += r.after; sC += r.cut;
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      '<td><span class="who">' + r.who + '</span><span class="aff">' + r.aff + '</span></td>' +
+      '<td>' + r.w + '</td>' +
+      '<td class="n">' + fx(r.now) + 'h</td>' +
+      '<td><span class="ai">' + r.ai + '<small>' + r.aid + '</small></span></td>' +
+      '<td class="n">' + fx(r.after) + 'h</td>' +
+      '<td class="n cutcell">−' + fx(r.cut) + 'h<small>' + r.r + '%減</small></td>';
+    tb.appendChild(tr);
+  });
+  var ft = document.createElement("tr");
+  ft.innerHTML =
+    '<td colspan="2" style="color:var(--muted);font-size:12px">対象' + d.tr.length + '名の合計（月間換算・想定値）</td>' +
+    '<td class="n">' + fx(sN) + 'h</td><td></td>' +
+    '<td class="n">' + fx(sA) + 'h</td>' +
+    '<td class="n cutcell">−' + fx(sC) + 'h</td>';
+  ft.style.borderTop = "1px solid var(--line)";
+  tb.appendChild(ft);
+}
+
+/* ---- ranking ---- */
+(function(){
+  var host = document.getElementById("rank");
+  var max = RANK[0].cut;
+  var diffCls = {"低":"d-low","中":"d-mid","高":"d-high"};
+  RANK.forEach(function(r, i){
+    var row = el("div", i < 3 ? "rk top" : "rk");
+    row.appendChild(el("div","no", String(i + 1).padStart(2,"0")));
+    var mid = el("div");
+    mid.appendChild(el("div","nm", r.n + " → " + r.ai));
+    var meta = el("div","meta");
+    meta.innerHTML =
+      '<span class="chip dept">' + r.dept + '</span>' +
+      '<span class="chip ' + diffCls[r.diff] + '">難易度 ' + r.diff + '</span>' +
+      '<span>現状 ' + fx(r.base) + 'h／週</span>' +
+      '<span>自動化率 ' + r.rate + '%</span>' +
+      '<span>判定確信度 ' + r.conf + '%</span>';
+    mid.appendChild(meta);
+    var rb = el("div","rbar");
+    var fill = el("i"); fill.style.width = (r.cut / max * 100) + "%";
+    rb.appendChild(fill);
+    mid.appendChild(rb);
+    row.appendChild(mid);
+    row.appendChild(el("div","val", "<b>−" + fx(r.cut) + "h</b><span>／週</span>"));
+    host.appendChild(row);
+  });
+})();
+
+paint(DEPTS[0]);
+</script>
