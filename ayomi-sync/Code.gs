@@ -16,6 +16,7 @@ const CONFIG = {
   SRC: {
     ID: '1t7pVp895kKB0vWWHbq-h_hfDAp0HkW5oc1cW20HeCtQ',
     SHEET: 'ヨミ表',
+    COL_OWNER: 1,      // A 担当営業
     COL_COMPANY: 2,    // B 会社名
     COL_LAST_NAME: 3,  // C 担当名（姓）
     COL_STATUS: 16,    // P ステータス
@@ -25,6 +26,7 @@ const CONFIG = {
   DST: {
     ID: '1svI03RoBoqNtrhpWBSCJ8_W4uaPQBcRvEfIpw9D_hH0',
     SHEET: 'Ａヨミ案件',
+    COL_OWNER: 1,      // A 担当営業
     COL_COMPANY: 2,    // B 会社名
     COL_LAST_NAME: 3,  // C 担当名（姓）
     COL_STATUS: 16,    // P ステータス
@@ -59,18 +61,24 @@ const CONFIG = {
   ],
 
   /**
+   * 担当営業の名寄せ（手動指定）。ヨミ表の表記 → Ａヨミ案件の表記。
+   * 通常は自動照合（Ａヨミ案件の呼び名がヨミ表の氏名に含まれるか）で解決するので空でよい。
+   * 「渡辺→ナベさん」のように文字が重ならないケースだけここに書く。
+   */
+  OWNER_MAP: {
+    // '菅野敬彦': '敬彦',
+  },
+
+  /**
    * 列マッピング： { src: ヨミ表の列番号, dst: Ａヨミ案件の列番号 }
    * A〜Q列は両シートで同じ並びなので 1:1。R列以降は並びが違うので個別に対応させる。
    *
    * 【同期しない列】Ａヨミ案件の U / V回収予定日 / Wメモ / X初期費用 / Y月額費用 /
    * Z期間 / AA合計金額 は、ヨミ表に対応する列が無い（または単位が違う）ため touch しない。
    * ＝ Ａヨミ案件側で手入力した内容は上書きで消えない。
-   *
-   * A列（担当営業）も同期しない。両シートで表記が違い（フルネーム／苗字のみ）、
-   * Ａヨミ案件のプルダウンに弾かれるため。＝ Ａヨミ案件のA列は手入力で運用する。
-   * 同期させたくなったら { src: 1, dst: 1 } を先頭に足す。
    */
   SYNC_MAP: [
+    { src: 1,  dst: 1 },  // A 担当営業（表記が違う場合は名寄せしてから書き込む）
     { src: 2,  dst: 2 },  // B 会社名
     { src: 3,  dst: 3 },  // C 担当名（姓）
     { src: 4,  dst: 4 },  // D 担当名（名）
@@ -421,9 +429,15 @@ function writeDstRow_(ctx, dstRowNo, srcRow, logSkips) {
     let blockChanged = false;
 
     b.cols.forEach(function (srcCol, i) {
-      const v = srcValue_(srcRow, srcCol);
+      let v = srcValue_(srcRow, srcCol);
+      if (b.start + i === CONFIG.DST.COL_OWNER) {
+        const named = resolveOwner_(ctx, b.start + i, v, allowed[i]);
+        if (named !== null) v = named;
+      }
       if (sameCell_(current[i], v)) return;
       if (rejectedBy_(allowed[i], v)) {
+        const fixed = resolveOwner_(ctx, b.start + i, v, allowed[i]);
+        if (fixed !== null) { next[i] = fixed; blockChanged = true; return; }
         if (noteSkip) {
           log_(ctx, 'スキップ', '', company, '',
                'Ａヨミ案件 ' + colLetter_(b.start + i) + dstRowNo + ' は入力規則にない値なので書き込まなかった： 「' +
@@ -456,6 +470,34 @@ function writeDstRow_(ctx, dstRowNo, srcRow, logSkips) {
     }
   });
   return changed;
+}
+
+/**
+ * 担当営業を、Ａヨミ案件で使われている呼び名に寄せる。
+ * ヨミ表「土屋慧介」→ Ａヨミ案件「土屋」、ヨミ表「菅野敬彦」→ Ａヨミ案件「敬彦」のように、
+ * 「候補がヨミ表の氏名に含まれる（または逆）」で1つに絞れたらその候補を使う。
+ * 絞れなければ null を返し、呼び出し側でスキップ扱いにする。
+ *
+ * @param {Array<string>|null} allowed その列のプルダウン候補（無ければ null）
+ * @return {string|null}
+ */
+function resolveOwner_(ctx, dstCol, value, allowed) {
+  if (dstCol !== CONFIG.DST.COL_OWNER) return null;
+  const raw = String(value == null ? '' : value).trim();
+  if (!raw) return null;
+
+  if (CONFIG.OWNER_MAP[raw]) return CONFIG.OWNER_MAP[raw];
+
+  // プルダウンがあればその候補、無ければＡヨミ案件で既に使われている呼び名から探す
+  const candidates = (allowed && allowed.length) ? allowed : ctx.dstOwners;
+  if (!candidates || !candidates.length) return null;
+
+  const v = normalizeName_(raw);
+  const hits = candidates.filter(function (c) {
+    const n = normalizeName_(c);
+    return n && (v.indexOf(n) >= 0 || n.indexOf(v) >= 0);
+  });
+  return hits.length === 1 ? hits[0] : null; // 複数に当たったら曖昧なので書かない
 }
 
 /** ヨミ表の値を、Ａヨミ案件に書き込む値に変換する（ステータスだけ言い換える） */
@@ -643,6 +685,8 @@ function buildContext_() {
 
   const dstByLink = {};
   const dstByKey = {};
+  const ownerSeen = {};
+  const dstOwners = [];
   let maxNo = 0;
 
   dstRows.forEach(function (r, i) {
@@ -655,6 +699,9 @@ function buildContext_() {
     }
     const key = rowKey_(r[CONFIG.DST.COL_COMPANY - 1], r[CONFIG.DST.COL_LAST_NAME - 1]);
     if (key && !dstByKey[key]) dstByKey[key] = entry; // 同一キーが複数あれば上の行を優先
+
+    const owner = String(r[CONFIG.DST.COL_OWNER - 1] || '').trim();
+    if (owner && !ownerSeen[owner]) { ownerSeen[owner] = true; dstOwners.push(owner); }
   });
 
   srcRows.forEach(function (r) {
@@ -667,6 +714,7 @@ function buildContext_() {
     srcHeaderRow: srcHeaderRow, dstHeaderRow: dstHeaderRow,
     srcRows: srcRows,
     dstByLink: dstByLink, dstByKey: dstByKey,
+    dstOwners: dstOwners,
     logBuffer: [],
     verbose: false,
     nextLinkNo: function () {
