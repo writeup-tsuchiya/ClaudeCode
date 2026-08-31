@@ -320,6 +320,13 @@
       "url": "https://docs.google.com/document/d/1V5oilRKI4ZCrF0_-kPOJ9dVzomG-gGcl5R_C17Ta8Ks/edit?usp=drivesdk",
       "charCount": 86664,
       "meetingsIncluded": 3
+    },
+    {
+      "title": "商談文字起こし集約（全期間）_46",
+      "fileId": "1c8-hwjhAvvhCMS_zEWvlyP3hWQqJNLj_Ta9UGxQ7B3w",
+      "url": "https://docs.google.com/document/d/1c8-hwjhAvvhCMS_zEWvlyP3hWQqJNLj_Ta9UGxQ7B3w/edit?usp=drivesdk",
+      "charCount": 186294,
+      "meetingsIncluded": 8
     }
   ],
   "includedSourceFileIds": [
@@ -1921,9 +1928,17 @@
     "13UEOWCPxc5OS9fZy1Pm9GrxFPf3UBvKYSajYGFluJz0",
     "15EZq1TEDxrpnKZbYVKwhMV9FCggZBk-i3C6D1blVDKk",
     "1pLuvWgzVdVhVIaZzUrKX-eQM85TR-1Wl4xyjS00Yym0",
-    "1gFJaQWMczn5tx7g6PWZaQDGmxrpqRsT3txrf4oQloZk"
+    "1gFJaQWMczn5tx7g6PWZaQDGmxrpqRsT3txrf4oQloZk",
+    "1ZqOEmfeud9IbExl6FWbY7krP72bndKy_D4yPxGrUgWs",
+    "1PKDhIlp_37bC30mh7163tdLEm8Cl-5KACt9BGRtRanI",
+    "1v-rDXWUFQRPXz5RgiQAJnBOvkYh6lKIrh2YHk3FG4-4",
+    "1MXVib6sD9uJndqmMo4bnTDKSkuA3FsvPiL4IkFgn8wQ",
+    "10jGVZzvzMq99Tz0xpVLASDfgq4XYiPH6RRYs0isE-TM",
+    "1wTzuKsQYCirwIFWGz4TymhrFEreSmcXfC1E2ADAO3dI",
+    "1onYusuhywUMn4bV2UHuTVjlw2DZMIeG9-FqRAvv_Cwk",
+    "1bTxlYRZdCY25nHLmq-u7n6ia0d6-ZyVnwp4mqvWjXNQ"
   ],
-  "totalMeetingsIncluded": 1599,
+  "totalMeetingsIncluded": 1607,
   "fullScopeDiscovered": {
     "_note": "config/meet-collector.json の members[] 6名全員について、owner=各メール and title contains 'Gemini によるメモ' and parentId != 集約フォルダID で全期間検索した結果（このセッションで実施済み）。config/team.json の exclude.titleContains 相当のキーワードで社内MTG等を除外済み。 【訂正】この節の数値（2,667件等）は不正確だった。正しい実測値は verifiedFinal を参照。",
     "totalSourceMeetingsFound": 2767,
