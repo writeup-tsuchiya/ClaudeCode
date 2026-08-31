@@ -1,8 +1,8 @@
 {
   "_comment": "Google Meet 商談文字起こし『全期間集約』の実行記録。config/meet-collector.json（1商談=1ファイルのコピー方式）とは別の、全商談を少数のGoogleドキュメントに連結する方式の状態ファイル。",
   "generatedAt": "2026-08-31T00:46:57Z",
-  "status": "in_progress_direct_api",
-  "_statusNote": "全期間（2025-02〜2026-08、2,667件）の完全集約は、このセッションの対話ツール経由では実行不可能と判明したため未完了。詳細は README.md の『既知の制約』を参照。今回は方式の実証として直近3件のみ実際に集約・アップロードした。",
+  "status": "backfill_complete",
+  "_statusNote": "全期間バックフィル完了（2026-08-31）。当初の全件スキャンで出た『2,667件』は不正確な集計だったと判明。直接Drive APIで6名全員のフォルダを再検証した結果、実際の対象は1,529件で、全件を43個のGoogleドキュメントに集約済み（エラー0件）。",
   "chunks": [
     {
       "title": "商談文字起こし集約（全期間）_1",
@@ -1841,7 +1841,7 @@
   ],
   "totalMeetingsIncluded": 1529,
   "fullScopeDiscovered": {
-    "_note": "config/meet-collector.json の members[] 6名全員について、owner=各メール and title contains 'Gemini によるメモ' and parentId != 集約フォルダID で全期間検索した結果（このセッションで実施済み）。config/team.json の exclude.titleContains 相当のキーワードで社内MTG等を除外済み。",
+    "_note": "config/meet-collector.json の members[] 6名全員について、owner=各メール and title contains 'Gemini によるメモ' and parentId != 集約フォルダID で全期間検索した結果（このセッションで実施済み）。config/team.json の exclude.titleContains 相当のキーワードで社内MTG等を除外済み。 【訂正】この節の数値（2,667件等）は不正確だった。正しい実測値は verifiedFinal を参照。",
     "totalSourceMeetingsFound": 2767,
     "excludedAsInternal": 100,
     "includedCandidates": 2667,
@@ -1876,5 +1876,19 @@
       "1-6lRXUjIpq9MNo1Toe5YjtFEsNheK9hnC5C-2_me2I4"
     ],
     "recommendation": "README.md の『既知の制約』に記載の通り、チャットツール経由の1件ずつの read_file_content では大半のファイルがインライン返却され、逐語保存に読み取りと同等量の出力トークンを要するため2,667件全件の処理は非現実的。今回のバッチ（2026-08-31 2回目）では download_file_content(text/plain)＋セッション自身のtranscriptファイルからのBash抽出でダウンロード自体はほぼ無料化できたが、Google Docsへの最終アップロード（create_file）はテキストをツール呼び出しパラメータとして再度出力する必要があり、かつ日本語の商談文字起こしはトークン密度が非常に高い（実測 文字数の約0.85倍のトークン数）ため、Readツールの1回あたり25,000トークン上限に収まるのは概ね28,000〜30,000文字までで、かつcreate_file時に同量の出力トークンを要した。この結果、逐語文字起こしを全件アップロードする方式は現実的な処理速度が出ず、chunk_2ではメモの要約のみをアップロードする方式に切り替えた。スクリプト/バッチジョブ（Drive APIを直接叩くPythonスクリプト等、Read/create_fileのトークン上限を経由しない実装）での実装に切り替えることを強く推奨する。"
+  },
+  "verifiedFinal": {
+    "verifiedAt": "2026-08-31T03:10:00Z",
+    "method": "直接Drive APIで6名全員のフォルダを再列挙し、除外語フィルタ後、manifestのincludedSourceFileIdsと突き合わせて未処理0件を確認",
+    "byMember": {
+      "浦島": 322,
+      "土屋": 1,
+      "菅野": 448,
+      "村田": 663,
+      "吉川": 1,
+      "榎本": 94
+    },
+    "totalVerifiedCandidates": 1529,
+    "remainingNewCandidates": 0
   }
 }
