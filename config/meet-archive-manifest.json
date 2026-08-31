@@ -1,0 +1,59 @@
+{
+  "_comment": "Google Meet 商談文字起こし『全期間集約』の実行記録。config/meet-collector.json（1商談=1ファイルのコピー方式）とは別の、全商談を少数のGoogleドキュメントに連結する方式の状態ファイル。",
+
+  "generatedAt": "2026-08-31T00:46:57Z",
+
+  "status": "partial_pilot",
+  "_statusNote": "全期間（2025-02〜2026-08、2,667件）の完全集約は、このセッションの対話ツール経由では実行不可能と判明したため未完了。詳細は README.md の『既知の制約』を参照。今回は方式の実証として直近3件のみ実際に集約・アップロードした。",
+
+  "chunks": [
+    {
+      "title": "商談文字起こし集約（全期間）_1",
+      "fileId": "12zUQytSratb9VmB7Cui5PwsOnvwladXaWv_Dm7r0tBI",
+      "url": "https://docs.google.com/document/d/12zUQytSratb9VmB7Cui5PwsOnvwladXaWv_Dm7r0tBI/edit",
+      "charCount": 12300,
+      "meetingsIncluded": 3,
+      "_note": "うち2件（菅野・浦島）はメモ＋文字起こし全文を格納。1件（村田）はメモの決定事項・詳細までは全文格納したが、逐語文字起こし本文は文字数節約のため未格納（元ファイルURLをヘッダーに記載）。"
+    }
+  ],
+
+  "includedSourceFileIds": [
+    "1X-NDlN0Qjppl22fwckUam4SMjJp875l9qflJErzj7Ns",
+    "1m5wAb5Vr3MFrl1Mc5VarZ3K3XijiuZaZLrFsXs5cJjc",
+    "1TO6RQ-d2fEr68uHXIyIA-xzHYIMjukV2apU1EyGzGBM"
+  ],
+
+  "totalMeetingsIncluded": 3,
+
+  "fullScopeDiscovered": {
+    "_note": "config/meet-collector.json の members[] 6名全員について、owner=各メール and title contains 'Gemini によるメモ' and parentId != 集約フォルダID で全期間検索した結果（このセッションで実施済み）。config/team.json の exclude.titleContains 相当のキーワードで社内MTG等を除外済み。",
+    "totalSourceMeetingsFound": 2767,
+    "excludedAsInternal": 100,
+    "includedCandidates": 2667,
+    "dateRange": {
+      "earliest": "2025-02-03T07:44:49.223Z",
+      "latest": "2026-08-28T08:35:54.989Z"
+    },
+    "byMember": {
+      "浦島 (urashima@writeup.co.jp)": 324,
+      "土屋 (k_tsuchiya@writeup.co.jp)": 721,
+      "菅野 (t_kanno@writeup.co.jp)": 445,
+      "村田 (murata@writeup.co.jp)": 660,
+      "吉川 (k_yoshikawa@writeup.co.jp)": 430,
+      "榎本 (enomoto@writeup.co.jp)": 87
+    },
+    "estimatedTotalSourceBytes": 73563933,
+    "estimatedSourceMB": 73.6
+  },
+
+  "resumption": {
+    "_note": "次回セッションで続きから再開する場合の指針。",
+    "nextCursorCreatedTime": "2025-02-03T07:44:49.223Z",
+    "processedFileIds": [
+      "1X-NDlN0Qjppl22fwckUam4SMjJp875l9qflJErzj7Ns",
+      "1m5wAb5Vr3MFrl1Mc5VarZ3K3XijiuZaZLrFsXs5cJjc",
+      "1TO6RQ-d2fEr68uHXIyIA-xzHYIMjukV2apU1EyGzGBM"
+    ],
+    "recommendation": "README.md の『既知の制約』に記載の通り、チャットツール経由の1件ずつの read_file_content では大半のファイルがインライン返却され、逐語保存に読み取りと同等量の出力トークンを要するため2,667件全件の処理は非現実的。スクリプト/バッチジョブ（Drive APIを直接叩くPythonスクリプト等）での実装に切り替えることを推奨。"
+  }
+}
