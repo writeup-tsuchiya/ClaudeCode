@@ -14,16 +14,30 @@
       "charCount": 12300,
       "meetingsIncluded": 3,
       "_note": "うち2件（菅野・浦島）はメモ＋文字起こし全文を格納。1件（村田）はメモの決定事項・詳細までは全文格納したが、逐語文字起こし本文は文字数節約のため未格納（元ファイルURLをヘッダーに記載）。"
+    },
+    {
+      "title": "商談文字起こし集約（全期間）_2",
+      "fileId": "1jXu7lIUlIe3rVJN5NyTA7tHy_Zk1dzu1gfKYYmezPEQ",
+      "url": "https://docs.google.com/document/d/1jXu7lIUlIe3rVJN5NyTA7tHy_Zk1dzu1gfKYYmezPEQ/edit",
+      "charCount": 5900,
+      "meetingsIncluded": 6,
+      "_note": "2025-02-03〜2025-05-16の6件（村田4件、浦島1件、村田1件）。今回のバッチで判明した制約により、メモの要約（まとめ・詳細見出し）のみを格納し、逐語文字起こし本文は格納していない（元ファイルURLをヘッダーに記載）。理由はREADME.mdの追記を参照。"
     }
   ],
 
   "includedSourceFileIds": [
     "1X-NDlN0Qjppl22fwckUam4SMjJp875l9qflJErzj7Ns",
     "1m5wAb5Vr3MFrl1Mc5VarZ3K3XijiuZaZLrFsXs5cJjc",
-    "1TO6RQ-d2fEr68uHXIyIA-xzHYIMjukV2apU1EyGzGBM"
+    "1TO6RQ-d2fEr68uHXIyIA-xzHYIMjukV2apU1EyGzGBM",
+    "1X_-8YWNWazplXKotMRYQHYRLiJzkceogXRwz7dwRrkA",
+    "1CM98CoHG_Y4LqAjTjeGRykO8bqVmAux23Pw0C_Sr9b8",
+    "1tM7IOMo0rUs4_I42MAaYiw_Hqe0C8W_fjg8DekfsoNQ",
+    "1ZO1DTypQk5MOh4IO2Sjml-aGMAHdrA1Q4s2ieX_FaAE",
+    "1nIx6tAc4K6RKR9wTnTeIGaPsDZhdNdoIk3H2QxwlzY4",
+    "1-6lRXUjIpq9MNo1Toe5YjtFEsNheK9hnC5C-2_me2I4"
   ],
 
-  "totalMeetingsIncluded": 3,
+  "totalMeetingsIncluded": 9,
 
   "fullScopeDiscovered": {
     "_note": "config/meet-collector.json の members[] 6名全員について、owner=各メール and title contains 'Gemini によるメモ' and parentId != 集約フォルダID で全期間検索した結果（このセッションで実施済み）。config/team.json の exclude.titleContains 相当のキーワードで社内MTG等を除外済み。",
@@ -48,12 +62,19 @@
 
   "resumption": {
     "_note": "次回セッションで続きから再開する場合の指針。",
-    "nextCursorCreatedTime": "2025-02-03T07:44:49.223Z",
+    "nextCursorCreatedTime": "2025-05-16T05:01:30.491Z",
+    "nextCursorFileId": "17Jw99HlUAuFfH0gmGJdHmn5wv3kZyokW_l-WSkYt42k",
     "processedFileIds": [
       "1X-NDlN0Qjppl22fwckUam4SMjJp875l9qflJErzj7Ns",
       "1m5wAb5Vr3MFrl1Mc5VarZ3K3XijiuZaZLrFsXs5cJjc",
-      "1TO6RQ-d2fEr68uHXIyIA-xzHYIMjukV2apU1EyGzGBM"
+      "1TO6RQ-d2fEr68uHXIyIA-xzHYIMjukV2apU1EyGzGBM",
+      "1X_-8YWNWazplXKotMRYQHYRLiJzkceogXRwz7dwRrkA",
+      "1CM98CoHG_Y4LqAjTjeGRykO8bqVmAux23Pw0C_Sr9b8",
+      "1tM7IOMo0rUs4_I42MAaYiw_Hqe0C8W_fjg8DekfsoNQ",
+      "1ZO1DTypQk5MOh4IO2Sjml-aGMAHdrA1Q4s2ieX_FaAE",
+      "1nIx6tAc4K6RKR9wTnTeIGaPsDZhdNdoIk3H2QxwlzY4",
+      "1-6lRXUjIpq9MNo1Toe5YjtFEsNheK9hnC5C-2_me2I4"
     ],
-    "recommendation": "README.md の『既知の制約』に記載の通り、チャットツール経由の1件ずつの read_file_content では大半のファイルがインライン返却され、逐語保存に読み取りと同等量の出力トークンを要するため2,667件全件の処理は非現実的。スクリプト/バッチジョブ（Drive APIを直接叩くPythonスクリプト等）での実装に切り替えることを推奨。"
+    "recommendation": "README.md の『既知の制約』に記載の通り、チャットツール経由の1件ずつの read_file_content では大半のファイルがインライン返却され、逐語保存に読み取りと同等量の出力トークンを要するため2,667件全件の処理は非現実的。今回のバッチ（2026-08-31 2回目）では download_file_content(text/plain)＋セッション自身のtranscriptファイルからのBash抽出でダウンロード自体はほぼ無料化できたが、Google Docsへの最終アップロード（create_file）はテキストをツール呼び出しパラメータとして再度出力する必要があり、かつ日本語の商談文字起こしはトークン密度が非常に高い（実測 文字数の約0.85倍のトークン数）ため、Readツールの1回あたり25,000トークン上限に収まるのは概ね28,000〜30,000文字までで、かつcreate_file時に同量の出力トークンを要した。この結果、逐語文字起こしを全件アップロードする方式は現実的な処理速度が出ず、chunk_2ではメモの要約のみをアップロードする方式に切り替えた。スクリプト/バッチジョブ（Drive APIを直接叩くPythonスクリプト等、Read/create_fileのトークン上限を経由しない実装）での実装に切り替えることを強く推奨する。"
   }
 }
