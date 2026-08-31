@@ -1,7 +1,7 @@
 {
   "_comment": "Google Meet 商談文字起こし『全期間集約』の実行記録。config/meet-collector.json（1商談=1ファイルのコピー方式）とは別の、全商談を少数のGoogleドキュメントに連結する方式の状態ファイル。",
   "generatedAt": "2026-08-31T00:46:57Z",
-  "status": "backfill_complete",
+  "status": "in_progress_direct_api",
   "_statusNote": "全期間バックフィル完了（2026-08-31）。当初の全件スキャンで出た『2,667件』は不正確な集計だったと判明。直接Drive APIで6名全員のフォルダを再検証した結果、実際の対象は1,529件で、全件を43個のGoogleドキュメントに集約済み（エラー0件）。",
   "chunks": [
     {
@@ -1946,7 +1946,7 @@
   },
   "resumption": {
     "_note": "次回セッションで続きから再開する場合の指針。",
-    "nextCursorCreatedTime": "2026-08-31T02:26:58.623Z",
+    "nextCursorCreatedTime": "2026-08-31T03:40:51.951Z",
     "nextCursorFileId": "17Jw99HlUAuFfH0gmGJdHmn5wv3kZyokW_l-WSkYt42k",
     "processedFileIds": [
       "1X-NDlN0Qjppl22fwckUam4SMjJp875l9qflJErzj7Ns",
