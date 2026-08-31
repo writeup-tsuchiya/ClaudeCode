@@ -1,7 +1,7 @@
 {
   "_comment": "Google Meet 商談文字起こし『全期間集約』の実行記録。config/meet-collector.json（1商談=1ファイルのコピー方式）とは別の、全商談を少数のGoogleドキュメントに連結する方式の状態ファイル。",
   "generatedAt": "2026-08-31T00:46:57Z",
-  "status": "partial_pilot",
+  "status": "in_progress_direct_api",
   "_statusNote": "全期間（2025-02〜2026-08、2,667件）の完全集約は、このセッションの対話ツール経由では実行不可能と判明したため未完了。詳細は README.md の『既知の制約』を参照。今回は方式の実証として直近3件のみ実際に集約・アップロードした。",
   "chunks": [
     {
@@ -67,7 +67,7 @@
   },
   "resumption": {
     "_note": "次回セッションで続きから再開する場合の指針。",
-    "nextCursorCreatedTime": "2025-05-16T05:01:30.491Z",
+    "nextCursorCreatedTime": "2025-06-02T05:17:12.128Z",
     "nextCursorFileId": "17Jw99HlUAuFfH0gmGJdHmn5wv3kZyokW_l-WSkYt42k",
     "processedFileIds": [
       "1X-NDlN0Qjppl22fwckUam4SMjJp875l9qflJErzj7Ns",
