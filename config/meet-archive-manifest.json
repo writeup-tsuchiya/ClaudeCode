@@ -1,11 +1,8 @@
 {
   "_comment": "Google Meet 商談文字起こし『全期間集約』の実行記録。config/meet-collector.json（1商談=1ファイルのコピー方式）とは別の、全商談を少数のGoogleドキュメントに連結する方式の状態ファイル。",
-
   "generatedAt": "2026-08-31T00:46:57Z",
-
   "status": "partial_pilot",
   "_statusNote": "全期間（2025-02〜2026-08、2,667件）の完全集約は、このセッションの対話ツール経由では実行不可能と判明したため未完了。詳細は README.md の『既知の制約』を参照。今回は方式の実証として直近3件のみ実際に集約・アップロードした。",
-
   "chunks": [
     {
       "title": "商談文字起こし集約（全期間）_1",
@@ -22,9 +19,15 @@
       "charCount": 5900,
       "meetingsIncluded": 6,
       "_note": "2025-02-03〜2025-05-16の6件（村田4件、浦島1件、村田1件）。今回のバッチで判明した制約により、メモの要約（まとめ・詳細見出し）のみを格納し、逐語文字起こし本文は格納していない（元ファイルURLをヘッダーに記載）。理由はREADME.mdの追記を参照。"
+    },
+    {
+      "title": "商談文字起こし集約（全期間）_3",
+      "fileId": "1t4_N_4tjK6nxZGy2-omSz7a1AFDo70phtIikJpfFVV8",
+      "url": "https://docs.google.com/document/d/1t4_N_4tjK6nxZGy2-omSz7a1AFDo70phtIikJpfFVV8/edit?usp=drivesdk",
+      "charCount": 25113,
+      "meetingsIncluded": 5
     }
   ],
-
   "includedSourceFileIds": [
     "1X-NDlN0Qjppl22fwckUam4SMjJp875l9qflJErzj7Ns",
     "1m5wAb5Vr3MFrl1Mc5VarZ3K3XijiuZaZLrFsXs5cJjc",
@@ -34,11 +37,14 @@
     "1tM7IOMo0rUs4_I42MAaYiw_Hqe0C8W_fjg8DekfsoNQ",
     "1ZO1DTypQk5MOh4IO2Sjml-aGMAHdrA1Q4s2ieX_FaAE",
     "1nIx6tAc4K6RKR9wTnTeIGaPsDZhdNdoIk3H2QxwlzY4",
-    "1-6lRXUjIpq9MNo1Toe5YjtFEsNheK9hnC5C-2_me2I4"
+    "1-6lRXUjIpq9MNo1Toe5YjtFEsNheK9hnC5C-2_me2I4",
+    "17Jw99HlUAuFfH0gmGJdHmn5wv3kZyokW_l-WSkYt42k",
+    "14wpML7K5sUjDYjQdaSgygcqEYNOearl67RNoi3ncw_Y",
+    "1l-MjhB7IEnSxXtFLX-NEKECLZx9Aghqm8uj3k8E2dCY",
+    "1mfIp_45OrEdrNvgY1-Y-i-8gsGP4_1JqAi3bw8X58MQ",
+    "1ged8O388BuFyG3yEQqbCzUC7vlf4WVfD-RPnwNLkHdw"
   ],
-
-  "totalMeetingsIncluded": 9,
-
+  "totalMeetingsIncluded": 14,
   "fullScopeDiscovered": {
     "_note": "config/meet-collector.json の members[] 6名全員について、owner=各メール and title contains 'Gemini によるメモ' and parentId != 集約フォルダID で全期間検索した結果（このセッションで実施済み）。config/team.json の exclude.titleContains 相当のキーワードで社内MTG等を除外済み。",
     "totalSourceMeetingsFound": 2767,
@@ -59,7 +65,6 @@
     "estimatedTotalSourceBytes": 73563933,
     "estimatedSourceMB": 73.6
   },
-
   "resumption": {
     "_note": "次回セッションで続きから再開する場合の指針。",
     "nextCursorCreatedTime": "2025-05-16T05:01:30.491Z",
