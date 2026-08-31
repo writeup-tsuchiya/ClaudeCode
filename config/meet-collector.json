@@ -1,0 +1,38 @@
+{
+  "_comment": "Google Meet 商談データ集約の設定。値を書き換えるだけで挙動が変わります。",
+
+  "targetFolder": {
+    "id": "1_Rr4LqPD6fHhcmXFX4LsEORuAJlZaPKG",
+    "url": "https://drive.google.com/drive/u/0/folders/1_Rr4LqPD6fHhcmXFX4LsEORuAJlZaPKG",
+    "title": "Google Meet",
+    "owner": "k_tsuchiya@writeup.co.jp",
+    "_note": "ai.firststep2026@gmail.com に共有済み（編集者）。ここにフラットにコピーを集約する。"
+  },
+
+  "members": [
+    { "email": "urashima@writeup.co.jp",    "name": "浦島" },
+    { "email": "k_tsuchiya@writeup.co.jp",  "name": "土屋" },
+    { "email": "t_kanno@writeup.co.jp",     "name": "菅野" },
+    { "email": "murata@writeup.co.jp",      "name": "村田" },
+    { "email": "k_yoshikawa@writeup.co.jp", "name": "吉川" },
+    { "email": "enomoto@writeup.co.jp",     "name": "榎本" }
+  ],
+
+  "source": {
+    "titlePattern": "Gemini によるメモ",
+    "_note": "Gemini in Meetが生成するドキュメントのタイトル末尾。このドキュメント内に「メモ」タブと「文字起こし」タブの両方が含まれる（別ファイルではない）ため、コピー対象はこの1ファイルでよい。",
+    "mimeType": "application/vnd.google-apps.document"
+  },
+
+  "collection": {
+    "lookbackDays": 3,
+    "_lookbackNote": "毎日実行される前提で、取りこぼし防止に3日分をさかのぼって検索する。コピー済みかどうかはタイムスタンプではなく、コピー先フォルダに同名ファイルが無いかで判定する（状態ファイルを持たない設計）。",
+    "namePrefixWithRep": true,
+    "_namePrefixNote": "true の場合、コピー先のファイル名を「[担当名] 元のタイトル」にする。フラットに集約するため、誰の商談か一目で分かるようにする。"
+  },
+
+  "schedule": {
+    "runAtJst": "07:30",
+    "cronUtc": "30 22 * * *"
+  }
+}
