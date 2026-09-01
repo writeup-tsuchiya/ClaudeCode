@@ -327,6 +327,13 @@
       "url": "https://docs.google.com/document/d/1c8-hwjhAvvhCMS_zEWvlyP3hWQqJNLj_Ta9UGxQ7B3w/edit?usp=drivesdk",
       "charCount": 186294,
       "meetingsIncluded": 8
+    },
+    {
+      "title": "商談文字起こし集約（全期間）_47",
+      "fileId": "1RP6ZTjHQ3e4s-1v7Drw91bnDCHOArRbyZ2yHmDc9-LI",
+      "url": "https://docs.google.com/document/d/1RP6ZTjHQ3e4s-1v7Drw91bnDCHOArRbyZ2yHmDc9-LI/edit?usp=drivesdk",
+      "charCount": 311184,
+      "meetingsIncluded": 15
     }
   ],
   "includedSourceFileIds": [
@@ -1936,9 +1943,24 @@
     "10jGVZzvzMq99Tz0xpVLASDfgq4XYiPH6RRYs0isE-TM",
     "1wTzuKsQYCirwIFWGz4TymhrFEreSmcXfC1E2ADAO3dI",
     "1onYusuhywUMn4bV2UHuTVjlw2DZMIeG9-FqRAvv_Cwk",
-    "1bTxlYRZdCY25nHLmq-u7n6ia0d6-ZyVnwp4mqvWjXNQ"
+    "1bTxlYRZdCY25nHLmq-u7n6ia0d6-ZyVnwp4mqvWjXNQ",
+    "1R3wplRLPmjpi--YRu2BQbBxnJaSbZl8UaZVSTP9aCUI",
+    "18Tw_ZYcij0X7Yx0wFPdupvoARoEWvqLd6ihoP8BqfA8",
+    "1Wpb59AHGw6fhSBFHT7fX2D7WxXAsrkPZg4f29foOvDs",
+    "1UrmJT4-W5Us8vW_XpFAZLwXOsTm57LJJLD_3qzx5QC8",
+    "1Ubqp_a0jqrzu5PsHnY8RoIyrYOYX7RJrMrevMxzdnz0",
+    "1a8oLu8gLlxyj56FS9qNsbjlD26qBpfsh358EUFqra3s",
+    "14IYDXWcA8wcE5eYJh0BZRG0agokABEhkDpM0r9IuN78",
+    "1sGvbd2KhxrHaH6cBEVsmyUujge6wXlM7ZiB26x6exo0",
+    "1zWCx_ms7FQxjr5XXfwVjDmQqrPCEEMvUqcnK3F7bypM",
+    "13O0BkJSGv2XX8pAfThezUsjE1kqHrx0uvBShpbAhqrY",
+    "1ZfjVFn_tJWklJjF17l6kOJXObYVWOLdk6dG7mf2a6gw",
+    "1QUGh9wrXkJBpkECkHXvAMQnrsyHJFLSQBOclgAu_mos",
+    "1ZDt4PT5lwbjThb0qD4TzwwzwT_mC02g2kDtJXl-Xp60",
+    "1PqucF57G_hLWE4nokQ3x2JsmCRS-hn1hV2H1z2IMMUY",
+    "1NBoFq33UFzLT3ceUMnsIB0pW3LyvLhCmtlCtK7-l97c"
   ],
-  "totalMeetingsIncluded": 1607,
+  "totalMeetingsIncluded": 1622,
   "fullScopeDiscovered": {
     "_note": "config/meet-collector.json の members[] 6名全員について、owner=各メール and title contains 'Gemini によるメモ' and parentId != 集約フォルダID で全期間検索した結果（このセッションで実施済み）。config/team.json の exclude.titleContains 相当のキーワードで社内MTG等を除外済み。 【訂正】この節の数値（2,667件等）は不正確だった。正しい実測値は verifiedFinal を参照。",
     "totalSourceMeetingsFound": 2767,
