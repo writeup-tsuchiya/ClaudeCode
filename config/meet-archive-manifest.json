@@ -334,6 +334,13 @@
       "url": "https://docs.google.com/document/d/1RP6ZTjHQ3e4s-1v7Drw91bnDCHOArRbyZ2yHmDc9-LI/edit?usp=drivesdk",
       "charCount": 311184,
       "meetingsIncluded": 15
+    },
+    {
+      "title": "商談文字起こし集約（全期間）_48",
+      "fileId": "16KzL-VbemGApBwYIZpG7tUXcLvZS9TBlno5_WN2e_LI",
+      "url": "https://docs.google.com/document/d/16KzL-VbemGApBwYIZpG7tUXcLvZS9TBlno5_WN2e_LI/edit?usp=drivesdk",
+      "charCount": 516792,
+      "meetingsIncluded": 16
     }
   ],
   "includedSourceFileIds": [
@@ -1958,9 +1965,25 @@
     "1QUGh9wrXkJBpkECkHXvAMQnrsyHJFLSQBOclgAu_mos",
     "1ZDt4PT5lwbjThb0qD4TzwwzwT_mC02g2kDtJXl-Xp60",
     "1PqucF57G_hLWE4nokQ3x2JsmCRS-hn1hV2H1z2IMMUY",
-    "1NBoFq33UFzLT3ceUMnsIB0pW3LyvLhCmtlCtK7-l97c"
+    "1NBoFq33UFzLT3ceUMnsIB0pW3LyvLhCmtlCtK7-l97c",
+    "1HtrWjYnZtdzAlni8i9KurJ-rU8Ml30s2IhDevbdvFnU",
+    "1-dASOQ1i1xNtfQlUYboZvPqCYQh3qQ1WCtQdZdIlqB0",
+    "1T2Z5movds87qIx5IQ-rfBRvIBiWwvqtoTa-GPDwSGSc",
+    "1DvCsSsLQoWtCUALD7QiVNhRuaSPYKQT3QWO1kZuKD_Y",
+    "1TCAwSVAGuWgyrS9P89D9PObFOftHxBeM8cZUjyIIloU",
+    "1HCZpuBDzewZTIR6gp16t7MARnhsCAcoK8DnGBFm4Txw",
+    "1A0efQbnDv9NjRYY36vqm4W22hcbFCRh8K765TDFitTk",
+    "1yJE9gA6XAwYSXbpMwTk0ynwh-K7If8xtAZ0W2NpzNvg",
+    "1bdrv4tdl4KY9xD58HJPY3-ZM2dJqK3vePuLaWeDm_cE",
+    "1AVE__6Nmn6fs7QYvo5JOlBad-8kM93FGP7sxJQcVuv4",
+    "1cF4X9NSgeeSbBnAzdMnzE8lyuVoZKw7MmTwSnkP8wIk",
+    "1mPFIq3CD0GAU3ojlcUUdpnHe1ifkN0Oc7WrBxLa81lY",
+    "1j2VflmaFgWUIwRVNeaI6lF2kvIZFT_MSQ5sczE3M9Es",
+    "1NAQCGiOWUG2ZZToenccr-QNR-k0rv7s_r8kjdAnsXHs",
+    "1EASV2KkT4YMzhjuw5hSbXpBFtpXg6Mv9JA9FLS30EqQ",
+    "15-JXPjMclkjYbB06VsTi2FimIQCHeBkOesoBfSY0Vx0"
   ],
-  "totalMeetingsIncluded": 1622,
+  "totalMeetingsIncluded": 1638,
   "fullScopeDiscovered": {
     "_note": "config/meet-collector.json の members[] 6名全員について、owner=各メール and title contains 'Gemini によるメモ' and parentId != 集約フォルダID で全期間検索した結果（このセッションで実施済み）。config/team.json の exclude.titleContains 相当のキーワードで社内MTG等を除外済み。 【訂正】この節の数値（2,667件等）は不正確だった。正しい実測値は verifiedFinal を参照。",
     "totalSourceMeetingsFound": 2767,
