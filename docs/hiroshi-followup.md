@@ -86,12 +86,33 @@ Slack #チーム浦嶋-aiセールスch (C094LNTDYGG) に1回だけ投稿：
 （失敗があれば会社名とエラー内容を列挙）
 ```
 
-## 既知の制約
+## スプレッドシートへの自動追記（Apps Script 経由）
 
-- **Googleスプレッドシートにセルを書き込む手段が無い。** Drive MCP の `update_file` は
-  タイトルと保存先しか変えられない。そのため送信台帳はリポジトリ側（`data/`）が正本で、
-  スプレッドシートの「送信mailログ」タブは人間向けのミラー。
-  シート側を自動更新したい場合は、Google Sheets 用のコネクタを別途追加する必要がある。
+Claude 側から Google スプレッドシートのセルを直接書き換える手段は無い。
+Drive MCP の `update_file` はタイトルと保存先しか変えられず、コネクタ一覧にも
+Google スプレッドシートを編集できるものは存在しない（2026/09 時点で確認済み）。
+
+そこで、**Drive へのファイル作成はできる**ことを利用して、次の形で自動化する。
+
+```
+夜1時のバッチ → Drive「ヒロシ送信キュー」フォルダに CSV を作成
+                  ↓
+スプシ側の Apps Script（毎朝6時台のトリガー）が CSV を読んで
+「送信mailログ」へ行を追加し、CSV を「処理済み」へ移動
+```
+
+- キューフォルダ: `1tlwhtOwSh8J6_N8xaPNdNoUm3BRyXUfq`
+  https://drive.google.com/drive/folders/1tlwhtOwSh8J6_N8xaPNdNoUm3BRyXUfq
+- スクリプト本体: `docs/appsscript-import.gs`（導入手順はファイル冒頭のコメント参照）
+- スプレッドシートの所有者は k_yoshikawa@writeup.co.jp なので、
+  **スクリプトの設置とトリガー登録はその所有者アカウントで行うこと。**
+  キューフォルダは同アカウントへ編集者として共有済み。
+- D列（送信先）が既にシートにある行は取り込まれないので、同じ CSV を置き直しても安全。
+
+送信履歴の正本は引き続きリポジトリ側の `data/hiroshi-sent-log.csv`。
+スプレッドシートは人間が見るためのミラーという位置づけは変わらない。
+
+## そのほかの制約
 - 「送信mailログ」タブは `read_file_content` では読めない。
   `download_file_content` に `exportMimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'`
   を指定して xlsx として取得すると全タブ読める。
