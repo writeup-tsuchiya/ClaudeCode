@@ -341,6 +341,13 @@
       "url": "https://docs.google.com/document/d/16KzL-VbemGApBwYIZpG7tUXcLvZS9TBlno5_WN2e_LI/edit?usp=drivesdk",
       "charCount": 516792,
       "meetingsIncluded": 16
+    },
+    {
+      "title": "商談文字起こし集約（全期間）_49",
+      "fileId": "1Ic9ff4usse0EMuJ0kngO9ImKCUiXYOCqvRoDm_dPkmE",
+      "url": "https://docs.google.com/document/d/1Ic9ff4usse0EMuJ0kngO9ImKCUiXYOCqvRoDm_dPkmE/edit?usp=drivesdk",
+      "charCount": 508305,
+      "meetingsIncluded": 22
     }
   ],
   "includedSourceFileIds": [
@@ -1981,9 +1988,31 @@
     "1j2VflmaFgWUIwRVNeaI6lF2kvIZFT_MSQ5sczE3M9Es",
     "1NAQCGiOWUG2ZZToenccr-QNR-k0rv7s_r8kjdAnsXHs",
     "1EASV2KkT4YMzhjuw5hSbXpBFtpXg6Mv9JA9FLS30EqQ",
-    "15-JXPjMclkjYbB06VsTi2FimIQCHeBkOesoBfSY0Vx0"
+    "15-JXPjMclkjYbB06VsTi2FimIQCHeBkOesoBfSY0Vx0",
+    "19m8Crope6vALNzK5FdWkT-4u5xBW_KJUhz1luBzbdgY",
+    "1Fe13bo4bPOqKD2uanu9SJLwjJ-8fQSdWpsO285i24pE",
+    "1I9yd4LpTwYHjSi4ra_JAcGUdtfO_2lnm3rfML16G7pY",
+    "15AeE383dLiHGNk8eDgyI52VKTQ-VOdOBoHLXE1bPLJc",
+    "1mFNWzBoPYMyror30xhhiadvfTCfSZVZUEfZx7LGcjCo",
+    "1m6GOn7_PRDU2r96SNO8qQ9Is90vvgvcCF_VB56KQtXg",
+    "1oeHH1RgWzQO-71dIdEyLNmP_0DCOclykJhSGb_MstYs",
+    "1WzZ_vm8Pg4NGlr9auiTPvdaRrRXY1evb7numDdLpEmI",
+    "13pEimd2M3NBkQIfViiHByf8F1fRa6nepa5WN7cUMhJk",
+    "1L3tAYXWvSZ6l1QOwFKfhOZCEUoGm5xQDcHwECtM-r7Q",
+    "1Njd9oP61dy4d-gmgqu1CbagULTz4pwb4TjR3Xespg8w",
+    "1pRU7tICj001ssfL5U_sT72070pCA3k1ZrU1DDJA2mGU",
+    "1ZQwwqgRg8-T9cTSbn4Ke3pphO_DJBKbEkr1KXky0NxA",
+    "1idPAKXTPVrglvD0TFEFhmYi2790ngWyC8X4lARRPQEI",
+    "1eT7TfW7Mv4cD4seoqBMaFwtN4ycaeoYvJ6rh3tnoLps",
+    "14K-j-mUUgM1STI7Z_xYJaF88RxyHrJzIjaccV9q8WoU",
+    "1RywwECle6nHJFSTQCyI5VFgHpc-ob9pCXw56x0npSFo",
+    "1pGNRtmQ3J4Te0u5aGL0RN43FpgYLvmaA8YW7jEZjSrg",
+    "1kobE06VsSP-kn8Z5-_xZYBSIUpkFwlqOqY_j89bOQco",
+    "1Q9hHlKsDmqDDnaaKgwzHCl9hOrICR86lkkbsQZ0b2rI",
+    "1Hg9-5LL-IrY-fu3yZ91zw_8F5wcHXcgn7SLKOzpcwzA",
+    "1M0RoO4SFZ67EJ_S37_JVGu_nbIrTd00LmKlhs7Z_6mg"
   ],
-  "totalMeetingsIncluded": 1638,
+  "totalMeetingsIncluded": 1660,
   "fullScopeDiscovered": {
     "_note": "config/meet-collector.json の members[] 6名全員について、owner=各メール and title contains 'Gemini によるメモ' and parentId != 集約フォルダID で全期間検索した結果（このセッションで実施済み）。config/team.json の exclude.titleContains 相当のキーワードで社内MTG等を除外済み。 【訂正】この節の数値（2,667件等）は不正確だった。正しい実測値は verifiedFinal を参照。",
     "totalSourceMeetingsFound": 2767,
