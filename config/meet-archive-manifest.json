@@ -2035,7 +2035,7 @@
   },
   "resumption": {
     "_note": "次回セッションで続きから再開する場合の指針。",
-    "nextCursorCreatedTime": "2026-09-02T10:04:05.287Z",
+    "nextCursorCreatedTime": "2026-09-03T09:54:36.809Z",
     "nextCursorFileId": "17Jw99HlUAuFfH0gmGJdHmn5wv3kZyokW_l-WSkYt42k",
     "processedFileIds": [
       "1X-NDlN0Qjppl22fwckUam4SMjJp875l9qflJErzj7Ns",
