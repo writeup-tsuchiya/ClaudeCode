@@ -362,6 +362,13 @@
       "url": "https://docs.google.com/document/d/1mCihBOOwKpGFZamU22ulh-iBKJT0ZOhMbdMGILxp3qg/edit?usp=drivesdk",
       "charCount": 529596,
       "meetingsIncluded": 21
+    },
+    {
+      "title": "商談文字起こし集約（全期間）_52",
+      "fileId": "1I2IbA_OqDT4U-A77GIalquWapeYGpQopMCC7npgdrdk",
+      "url": "https://docs.google.com/document/d/1I2IbA_OqDT4U-A77GIalquWapeYGpQopMCC7npgdrdk/edit?usp=drivesdk",
+      "charCount": 532126,
+      "meetingsIncluded": 19
     }
   ],
   "includedSourceFileIds": [
@@ -2060,9 +2067,28 @@
     "1-o1S5f0zZz6RZlWuP2ci9bykJ_iJaORMxkbQFLEdn6c",
     "10tsmV6mgO9jkCkbFUOrUM5yNqoYj3t--5PEe6qsASsg",
     "1YLDw0r6X_wtcCDihlDwPLa3dwbBrt73Q0uH-P_Nof28",
-    "1n3pMM8RexTPHch8rzvdxlCxy3cC8Qi9lGjGKoUAlHBk"
+    "1n3pMM8RexTPHch8rzvdxlCxy3cC8Qi9lGjGKoUAlHBk",
+    "13-8Bg6txgKloUYdLKzaDkxcu18FuHYKwozGgy9stsqA",
+    "1kEZ2VoxZ1tgr5W_wFg5ryaXOKA2KnDWz0HCGwjT0YwQ",
+    "1D-jciHVvcghQ7SV49YTeAd3yRoyLK8oHRGbhiMhjMv8",
+    "1gf_6pWTu1cCWOQ9ZdLgSf5ov7AE5jlTUyWE4UH9rWh4",
+    "11YaZYb7YxWFbpTmlf19VYscoYkTvrT0TvHpFdFwVaJA",
+    "11cDBrihOwvm-x-yMxQ51lCtmOynQqYScGDfKSyP9HdM",
+    "1tBB9lFWHjxG42XMvT4VR0gUSmiM__V758MsBGl1Wjjc",
+    "1ybvuCttWaALLVOgIbwPinLuFrWtOSL0vHK9om-H4DaU",
+    "1EdOB2Xku_ZlcND0TXVcoABIHdGip-Kpfz4FkDSQr7IQ",
+    "1s7698mF0wPA7ERcYWA5cFDdQXhb2I0QHZ6d0BDAooPU",
+    "1a5WoDpBzdHtxlnWRPB9iWsNiSS7JguX3guZHUn1i8Ug",
+    "1TIuwDREXgseQdAh8Nl_Cpy2t4nOMgGNb8KEzmqEpJL4",
+    "1RK-ofuh5e_V55gYo0ZjfmEwtBfjSMnTfpVPuAeNovio",
+    "1-PuE5SDdXCGHW2wzvOru6FvDbhkm-HPXVkgvz0cFnKQ",
+    "1AqeMRHOlGdbo140SddVqvzVVcMpsIMtSiJMzp-63tWc",
+    "1u6LbmCh2pukLk1W0RTuosg6lMXE4WBbVKXCab3MVW4M",
+    "1Ik7xWIsTGAjcCRhTETOcBpZ_EMhCR2qOjhJZTlcN9u8",
+    "1laJ3RCvn4HOYJjQzc5hOXTmOBbV1ZAT-NtNNFwGu0is",
+    "1TVnBHtXdfiV9HY-ej292igN_cMpz4I2mhZfVOxJO4KU"
   ],
-  "totalMeetingsIncluded": 1696,
+  "totalMeetingsIncluded": 1715,
   "fullScopeDiscovered": {
     "_note": "config/meet-collector.json の members[] 6名全員について、owner=各メール and title contains 'Gemini によるメモ' and parentId != 集約フォルダID で全期間検索した結果（このセッションで実施済み）。config/team.json の exclude.titleContains 相当のキーワードで社内MTG等を除外済み。 【訂正】この節の数値（2,667件等）は不正確だった。正しい実測値は verifiedFinal を参照。",
     "totalSourceMeetingsFound": 2767,
