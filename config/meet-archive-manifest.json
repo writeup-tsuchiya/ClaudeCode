@@ -376,6 +376,13 @@
       "url": "https://docs.google.com/document/d/1T60vEZTM3z7KqFarN15XbHzP76JNwujs32vTy3ZD-hg/edit?usp=drivesdk",
       "charCount": 497040,
       "meetingsIncluded": 21
+    },
+    {
+      "title": "商談文字起こし集約（全期間）_54",
+      "fileId": "1GxxhpEdHyOJLZSj9Tduxy1asqGgm-YP8xzql7_rvcjw",
+      "url": "https://docs.google.com/document/d/1GxxhpEdHyOJLZSj9Tduxy1asqGgm-YP8xzql7_rvcjw/edit?usp=drivesdk",
+      "charCount": 480442,
+      "meetingsIncluded": 17
     }
   ],
   "includedSourceFileIds": [
@@ -2114,9 +2121,26 @@
     "1zPtQlMfHRRQr5CRNZpZxVsCdMnUbR0yD_RU7-AW4yok",
     "1MXBy55AmbcKIUrUryWSMUqf-Ci9jBvUiW65wrtzXavw",
     "1SubD25f2SGirEKTRLWw1ZU8xjW5J_CHHq0j37GLKL9s",
-    "1xteHJ1SeR6HHVuJ1Q3XRvEJw5A4kcgZDLi2SX13jmIQ"
+    "1xteHJ1SeR6HHVuJ1Q3XRvEJw5A4kcgZDLi2SX13jmIQ",
+    "1M-0QmPYVapKsgQ9Lph5vDsXBeOMYIpT113bCdHJeJwc",
+    "1qdVd9MGILoSpMxq1K0TBeu3JKYRxbq8bQsK7o4DSKJU",
+    "17boWIQaTocnczAPUPcQ_VQkzWz8_0XeOONdaXU6NoOM",
+    "1ReoaT0_yZwaL7sFsB8c8B8gZT0p7V1_3fidOQO8eUiQ",
+    "1DnXXHO0ldZvWMst46iwRmVVUauFf9GSiSTi3mOi3cD4",
+    "1VDSvCBkU6Xvvqv5ny6njHhH2oqWzhUj49CSVuABW7pU",
+    "1WuD96cpZNWNdg_8q2vZm-qh2Xm9eSRAht3msGne5N7A",
+    "1kJgU0llQb9jv3CnQCIvACRCpDN3mDg7SvteqvpCej7M",
+    "1YIbDR7fZRABySLby1rLWYbk2R5dWpv7FoSd8EajpbhE",
+    "1FR2Y7lMlSY09fXlHy37egowaJzmbXvcqETignx7dK7A",
+    "1oj9NUZaItXo8WAlPcbzsxd-TCIxk3-JZQ7soqon0R90",
+    "1rz-Giv6A8kV5tUtprgIGoFxbAQoZR04EBRn2o_Q1pd0",
+    "184VXdFXXvCw2qiUZ9ICj7BYhG7ZXWEFybPB9UVvogm0",
+    "1JAByArdbiw-8eft-Qob0ij32MHxFlKOTAFDCV6jPH7s",
+    "1tAgbq9s-o1EiNGFUn-8IFvjFra3QihIGKo2VCXHfxC0",
+    "1bDpr3guTvJOkyWGBfHQMHpcqTx-IwFm6JziFooz17Rk",
+    "1cki1dKcMjTFSmUcOTbHt6kiHP3PY8gdrxufZr6OEYt8"
   ],
-  "totalMeetingsIncluded": 1736,
+  "totalMeetingsIncluded": 1753,
   "fullScopeDiscovered": {
     "_note": "config/meet-collector.json の members[] 6名全員について、owner=各メール and title contains 'Gemini によるメモ' and parentId != 集約フォルダID で全期間検索した結果（このセッションで実施済み）。config/team.json の exclude.titleContains 相当のキーワードで社内MTG等を除外済み。 【訂正】この節の数値（2,667件等）は不正確だった。正しい実測値は verifiedFinal を参照。",
     "totalSourceMeetingsFound": 2767,
