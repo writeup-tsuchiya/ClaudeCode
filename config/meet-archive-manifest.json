@@ -390,6 +390,13 @@
       "url": "https://docs.google.com/document/d/1e7dYoo4jeIF-Rukgvs0q9H6FiuULkEhcqX0KaVm2iqA/edit?usp=drivesdk",
       "charCount": 112980,
       "meetingsIncluded": 4
+    },
+    {
+      "title": "商談文字起こし集約（全期間）_56",
+      "fileId": "1C8z6SZ341Tecja6Wlj4ueo0KaGvKa11CM6gtUJidaS8",
+      "url": "https://docs.google.com/document/d/1C8z6SZ341Tecja6Wlj4ueo0KaGvKa11CM6gtUJidaS8/edit?usp=drivesdk",
+      "charCount": 16624,
+      "meetingsIncluded": 1
     }
   ],
   "includedSourceFileIds": [
@@ -2149,9 +2156,10 @@
     "11zqofYF5s4fNw-4IgK1489cH3ttllTTNgZT_4quCLGQ",
     "120J3z_kZgZ-QrVu4I-qFue6c6WkIZW4382zlur7RAs4",
     "1HJ6A6BVcmS_OxhDDAie-HN5hANDJLktrwh866lJc174",
-    "1iMLw3naJr0u5hBcH7AAItMGumuCRKDoBx8L5ReA96y4"
+    "1iMLw3naJr0u5hBcH7AAItMGumuCRKDoBx8L5ReA96y4",
+    "1rSfcE2F4lwqluHABjzAJRyagIJa5o172RzFpaMQZlSY"
   ],
-  "totalMeetingsIncluded": 1757,
+  "totalMeetingsIncluded": 1758,
   "fullScopeDiscovered": {
     "_note": "config/meet-collector.json の members[] 6名全員について、owner=各メール and title contains 'Gemini によるメモ' and parentId != 集約フォルダID で全期間検索した結果（このセッションで実施済み）。config/team.json の exclude.titleContains 相当のキーワードで社内MTG等を除外済み。 【訂正】この節の数値（2,667件等）は不正確だった。正しい実測値は verifiedFinal を参照。",
     "totalSourceMeetingsFound": 2767,
