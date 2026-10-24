@@ -1,87 +1,84 @@
 ---
 name: meet-collector
-description: 第一営業部の営業マンが商談したGoogle Meetの記録（Geminiによるメモ・文字起こし）を、各営業マンの個人Driveから1つの共有フォルダ「Google Meet」にコピーとして集約するスキル。「Meetのデータ集めて」「商談データ集約して」「Meetの文字起こしをフォルダにまとめて」と言われたとき、および毎日7:30のRoutineから起動されたときに必ず使用すること。
+description: 第一営業部7名の商談（Google Meet）で Gemini が生成した「Gemini によるメモ」を、カレンダー起点で発見し、土屋所有の集約フォルダ内ドキュメント「商談文字起こし集約（全期間）_N」に連結して蓄積するスキル。「Meetのデータ集めて」「商談データ集約して」「商談ログを集約して」と言われたとき、および毎日7:30のRoutine「Google Meet 商談アーカイブ（日次追記）」から起動されたときに必ず使用すること。
 ---
 
-# Google Meet 商談データ集約
+# Google Meet 商談ログ集約（カレンダー起点）
 
-第一営業部6名が商談したGoogle Meetの記録（Gemini in Meetが自動生成するメモ＋文字起こし）は、
-デフォルトでは**各営業マン個人のDrive**にしか保存されない。これを毎日、共有フォルダ「Google Meet」に
-**コピー**として集約し、全員がいつでも横断的に参照できるようにする。
+設計と運用の全体は `docs/meet-archive-ops.md`。ここは日次実行の手順だけを書く。
 
-## 前提
+## 前提（毎回確認）
 
-- Gemini in Meetが生成するドキュメントは、タイトルが `<会議名> - <日時> JST - Gemini によるメモ` で終わる
-  Googleドキュメント1つ。この中に「メモ」タブと「文字起こし」タブの**両方**が入っている（別ファイルではない）ので、
-  コピー対象はこの1ファイルでよい。
-- 元ファイルは削除・移動しない。**コピーのみ**を集約フォルダに置く（元の営業マンの手元にも残す）。
-- 状態ファイルは持たない。実行のたびに集約フォルダの中身を見て「すでにコピー済みか」を判定する
-  （Routineは毎回新しいセッションでリポジトリを再cloneするため、ファイルに保存した状態は次回に引き継がれない）。
+- 作業ディレクトリ `/home/user/ClaudeCode`。ブランチは `config/meet-collector.json` の `schedule.branch`。
+- 鍵はスクラッチパッド `secrets/service-account.json`。無ければ **処理せず** Slack に「鍵なし」を報告して終わる（`docs/meet-archive-ops.md` 7章）。
+- Python 環境はスクラッチパッドの `venv`（無ければ `python3 -m venv venv && ./venv/bin/pip install -r scripts/meet_archive/requirements.txt`）。
 
 ## 手順
 
-### 1. 設定を読む
-
-`config/meet-collector.json` を読む。以下は必ずこのファイルの値を使い、ハードコードしない。
-
-- `targetFolder.id` … コピー先の共有フォルダID
-- `members[]` … 対象の営業マンとメールアドレス
-- `source.titlePattern` / `source.mimeType` … 検索条件
-- `collection.lookbackDays` … 何日分さかのぼって検索するか
-- `collection.namePrefixWithRep` … コピー先のファイル名に担当名を付けるか
-
-### 2. 集約フォルダの中身を先に取得する
-
-`search_files` で `parentId = '<targetFolder.id>'` を検索し、既にコピー済みのファイルタイトル一覧を取得する。
-これを重複コピー防止のチェックリストとして使う。
-
-**正規化して比較すること。** このフォルダには運用開始前に手動で作られたコピー（Driveのデフォルト命名 `<元のタイトル> のコピー`）が
-大量に存在する。比較する際は、既存タイトルから末尾の `のコピー` と、このスキルが付ける先頭の `[担当名] ` を取り除いた上で、
-元ファイルのタイトルと一致するかを見る。
-
-### 3. 各営業マンのMeet記録を検索する
-
-`members[]` の各 `email` について、以下のクエリで `search_files` を呼ぶ。**6件は並列で実行する。**
+### 1. 最新を取得
 
 ```
-owner = '<email>'
-and mimeType = 'application/vnd.google-apps.document'
-and title contains 'Gemini によるメモ'
-and createdTime > '<今日から collection.lookbackDays 日前 の RFC3339>'
-and parentId != '<targetFolder.id>'
+git fetch origin <branch> && git checkout <branch> && git pull origin <branch>
 ```
 
-**`parentId != '<targetFolder.id>'` を必ず付けること。** 集約フォルダ内のコピー自体もタイトルに
-`Gemini によるメモ` を含むため、これを付けないと「集約フォルダ内の既存コピー」を新規ソースとして
-誤検知してしまう（土屋のケースで実際に発生した）。
+### 2. カレンダーから候補を抜く（サブエージェントに委任）
 
-さらに、`config/team.json` の `exclude.titleContains` に該当するタイトル（社内MTG等、例：「全件壁打ち会」）は
-顧客商談ではないため、検索結果から**除外**する。
+`config/meet-collector.json` の `members[]` 7名について、Google Calendar コネクタ `list_events` を
+`calendarId=<email>`、`startTime=今日-lookbackDays日 00:00`、`endTime=今日 23:59`（日本時間）、`orderBy=startTime`、`pageSize=100` で呼ぶ。
 
-### 4. 未コピーのものだけコピーする
+各予定の `attachments[]` のうち `title` に「Gemini によるメモ」を含むものだけを取り、次の1行JSONの配列にする:
 
-各検索結果について:
-
-1. `collection.namePrefixWithRep` が true なら、コピー先のタイトルを `[<担当名>] <元のタイトル>` にする。false なら元のタイトルのまま。
-2. 手順2の正規化済みチェックリストに**同じ元タイトルが既に存在する場合はスキップ**する（重複コピー防止）。
-3. 存在しなければ `copy_file` で以下を実行する：
-   - `fileId`: 元ファイルのID
-   - `title`: 上記で決めたタイトル
-   - `parentId`: `targetFolder.id`
-
-### 5. 完了報告
-
-最後に必ず、この形で報告する：
-
-```
-Google Meet集約｜対象 <lookbackDays>日分 ｜ 新規コピー N件 ｜ スキップ（コピー済み） N件
+```json
+{"fileId":"<fileUrl の /d/ と /edit の間>","member":"<担当名>","memberEmail":"<email>","eventTitle":"<summary>","eventStart":"<start.dateTime>"}
 ```
 
-新規コピーがあった場合は、担当ごとに「誰の・どの商談か」を一覧で示す。
-コピー0件（新しい商談がなかった、または全て既にコピー済み）でも、その旨を報告して終了する（異常ではない）。
+- 添付が無い予定、`conferenceData` が無い予定は無視する。
+- `config/team.json` の `exclude.titleContains` / `titleExact` に当たるタイトル（全件壁打ち会、営業MTG 等）は**候補に入れなくてよい**（入れてもスクリプト側で落とす）。
+- 同じ fileId が複数人のカレンダーに出るのは正常（スクリプトで重複排除）。
+- **この工程はサブエージェントに任せ、返り値は候補JSONだけにする。** 予定の生データを親セッションに流さない。
+- 結果をスクラッチパッドに `candidates-YYYY-MM-DD.json` として保存する。候補0件でも空配列 `[]` を保存する。
+
+### 3. スクリプト実行
+
+```
+cd /home/user/ClaudeCode
+MEET_ARCHIVE_KEY=<scratchpad>/secrets/service-account.json \
+  <scratchpad>/venv/bin/python scripts/meet_archive/archive.py --candidates <scratchpad>/candidates-YYYY-MM-DD.json 2>&1 | tail -40
+```
+
+標準出力の最終行が JSON サマリ。`processed`（取り込んだ件数）、`unreadableCount`、`unreadableByMember`、`chunksWritten`、`placeholdersFree`、`ok` を見る。
+終了コード 2 はプレースホルダ枯渇（`docs/meet-archive-ops.md` 6章）、3 は鍵なし。
+
+### 4. 記録
+
+`config/meet-archive-manifest.json` に差分があれば（毎回 `lastRun` が更新されるので通常ある）:
+
+```
+git add config/meet-archive-manifest.json && git commit -m "Meet archive: YYYY-MM-DD 取り込み N件 / 未取得 M件" && git push -u origin <branch>
+```
+
+### 5. Slack 報告（#チーム浦嶋-aiセールスch / C094LNTDYGG）
+
+**毎回1回だけ投稿する。0件でも投稿する**（「0件＝正常」で黙らない。黙ったせいで1か月気づけなかった）。
+
+```
+📚 商談ログ集約（YYYY-MM-DD）
+取り込み: N件（チャンク _NN に追記 / 累計 T件） ／ 候補: C件 ／ 読めず: M件
+読めなかった商談（共有が必要）:
+　・浦島 10/14 有限会社中嶋設備様
+　・土屋 10/16 ★元気でんき株式会社 ...
+→ 該当メンバーはマイドライブ「Google Meet」フォルダを ai.firststep2026@gmail.com と meet-archive-bot@meet-archive-tool.iam.gserviceaccount.com に共有してください（手順: docs/meet-archive-ops.md 5-a）
+プレースホルダ残: P
+```
+
+- 読めずが0件なら「読めなかった商談」の段落は省く。
+- 読めずが続いている間は毎日載せる（消えたら共有されたということ）。
+- 鍵なし・プレースホルダ枯渇・スクリプト異常終了は先頭を ⚠️ にして理由を1行書く。
 
 ## やってはいけないこと
 
-- 元ファイルを `trash_file` で削除したり、`update_file` で移動させたりすること（コピーのみ）。
-- `config/meet-collector.json` にない営業マンのDriveを検索すること。
-- タイトルが完全一致しないものを「同じ商談」と判断してスキップすること（タイトルには会社名・日時が入っているため、通常は誤判定しない設計になっている）。
+- 元ファイル（各メンバーのメモ）を移動・削除・編集すること。読むだけ。
+- 読めなかった商談を報告から落とすこと。
+- manifest を手で書き換えて「処理済み」にすること（取り込んだことにならない）。
+- Drive の `read_file_content` で本文を読んでチャットに流すこと（トークンを浪費する。本文はスクリプトが扱う）。
+- 鍵の中身を表示・コミットすること。

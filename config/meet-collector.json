@@ -1,56 +1,50 @@
 {
-  "_comment": "Google Meet 商談データ集約の設定。値を書き換えるだけで挙動が変わります。",
+  "_comment": "Google Meet 商談ログ集約の設定。値を書き換えるだけで挙動が変わります。実行本体は scripts/meet_archive/archive.py、運用手順は docs/meet-archive-ops.md。",
   "targetFolder": {
     "id": "1_Rr4LqPD6fHhcmXFX4LsEORuAJlZaPKG",
     "url": "https://drive.google.com/drive/u/0/folders/1_Rr4LqPD6fHhcmXFX4LsEORuAJlZaPKG",
     "title": "Google Meet",
     "owner": "k_tsuchiya@writeup.co.jp",
-    "_note": "ai.firststep2026@gmail.com に共有済み（編集者）。ここにフラットにコピーを集約する。"
+    "_note": "集約先。土屋所有。ai.firststep2026@gmail.com とサービスアカウント meet-archive-bot に編集者権限で共有済み。集約ドキュメント『商談文字起こし集約（全期間）_N』はここに置く。"
   },
   "members": [
-    {
-      "email": "urashima@writeup.co.jp",
-      "name": "浦島"
-    },
-    {
-      "email": "k_tsuchiya@writeup.co.jp",
-      "name": "土屋"
-    },
-    {
-      "email": "t_kanno@writeup.co.jp",
-      "name": "菅野"
-    },
-    {
-      "email": "murata@writeup.co.jp",
-      "name": "村田"
-    },
-    {
-      "email": "k_yoshikawa@writeup.co.jp",
-      "name": "吉川"
-    },
-    {
-      "email": "enomoto@writeup.co.jp",
-      "name": "榎本"
-    },
-    {
-      "email": "atsushi_suzuki@writeup.co.jp",
-      "name": "鈴木"
-    }
+    { "email": "urashima@writeup.co.jp",       "name": "浦島" },
+    { "email": "k_tsuchiya@writeup.co.jp",     "name": "土屋" },
+    { "email": "t_kanno@writeup.co.jp",        "name": "菅野" },
+    { "email": "murata@writeup.co.jp",         "name": "村田" },
+    { "email": "k_yoshikawa@writeup.co.jp",    "name": "吉川" },
+    { "email": "enomoto@writeup.co.jp",        "name": "榎本" },
+    { "email": "atsushi_suzuki@writeup.co.jp", "name": "鈴木" }
   ],
   "source": {
     "titlePattern": "Gemini によるメモ",
-    "_note": "Gemini in Meetが生成するドキュメントのタイトル末尾。このドキュメント内に「メモ」タブと「文字起こし」タブの両方が含まれる（別ファイルではない）ため、コピー対象はこの1ファイルでよい。",
     "mimeType": "application/vnd.google-apps.document",
-    "_searchNote": "検索は「オーナー指定」で行う（'<email>' in owners）。Gemini in Meet は商談ごとに新しいフォルダを作るため、フォルダIDを列挙する方式では新規商談を取りこぼす。集約フォルダ自体は not '<targetFolder.id>' in parents で除外する。2026-10-16に方式変更。"
+    "_note": "Gemini in Meet が生成するドキュメント。1商談=1ファイルで、メモと文字起こしは同じドキュメント内のタブ。カレンダーの予定には attachments[].title='Gemini によるメモ' として添付される。"
   },
-  "collection": {
+  "discovery": {
+    "primary": "calendar",
     "lookbackDays": 3,
-    "_lookbackNote": "毎日実行される前提で、取りこぼし防止に3日分をさかのぼって検索する。コピー済みかどうかはタイムスタンプではなく、コピー先フォルダに同名ファイルが無いかで判定する（状態ファイルを持たない設計）。",
-    "namePrefixWithRep": true,
-    "_namePrefixNote": "true の場合、コピー先のファイル名を「[担当名] 元のタイトル」にする。フラットに集約するため、誰の商談か一目で分かるようにする。"
+    "excludeFrom": "config/team.json#exclude",
+    "_note": "新規商談の発見はカレンダーを正とする。7名のカレンダーから直近 lookbackDays 日の予定を取り、『Gemini によるメモ』添付のファイルIDを候補にする。Drive のフォルダ構造（Meet Recordings / Google Meet/<商談名>/ など）には依存しない。2026-09 以降 Gemini が保存先を作り直すたびに共有が切れて取りこぼしが起きたため、2026-10-25 に Drive 走査からカレンダー起点へ切り替えた。Drive 走査（--scan-drive）は共有済みファイルの一括回収用に残す。",
+    "_calendarNote": "委任（auth.impersonateEnv）が無い間は、Claude が MCP の Google Calendar コネクタ（ai.firststep2026 は7名のカレンダーを閲覧可）で予定を取得し、候補JSONを作ってスクリプトに渡す。候補JSONの形式は docs/meet-archive-ops.md 参照。"
+  },
+  "archive": {
+    "manifest": "config/meet-archive-manifest.json",
+    "chunkMaxChars": 800000,
+    "separator": "================================================================",
+    "placeholderTitlePrefix": "商談文字起こし集約（全期間）_",
+    "_note": "1チャンク=最大80万文字（商談25件前後）。サービスアカウントはDrive容量を持たないため新規作成できず、ai.firststep2026 が作った空ドキュメント（プレースホルダ）の中身を files().update で書き換える。残数は manifest.placeholders の status=free の数。書式: 区切り行 / 【担当】【会議名】【日時】【元ファイル】 / 区切り行 / 本文(text/plain export)。下流（ヒロシ商談フォロー）がこの書式に依存しているので変えないこと。"
+  },
+  "auth": {
+    "serviceAccount": "meet-archive-bot@meet-archive-tool.iam.gserviceaccount.com",
+    "keyEnv": "MEET_ARCHIVE_KEY",
+    "impersonateEnv": "MEET_ARCHIVE_IMPERSONATE",
+    "_note": "鍵ファイルはリポジトリに置かない。実行セッションのスクラッチパッド secrets/service-account.json に置き、MEET_ARCHIVE_KEY で渡す。MEET_ARCHIVE_IMPERSONATE=1 を立てるとドメイン全体の委任で各メンバーとしてカレンダー・Driveを読む（Workspace管理者の設定が必要。手順は docs/meet-archive-ops.md）。委任が入れば共有依頼は一切不要になる。"
   },
   "schedule": {
     "runAtJst": "07:30",
-    "cronUtc": "30 22 * * *"
+    "cronUtc": "30 22 * * 0-4",
+    "routineName": "Google Meet 商談アーカイブ（日次追記）",
+    "branch": "claude/dreamy-ritchie-6spk4d"
   }
 }

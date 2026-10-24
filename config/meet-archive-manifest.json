@@ -1,8 +1,8 @@
 {
   "_comment": "Google Meet 商談文字起こし『全期間集約』の実行記録。config/meet-collector.json（1商談=1ファイルのコピー方式）とは別の、全商談を少数のGoogleドキュメントに連結する方式の状態ファイル。",
   "generatedAt": "2026-08-31T00:46:57Z",
-  "status": "in_progress_direct_api",
-  "_statusNote": "全期間バックフィル完了（2026-08-31）。当初の全件スキャンで出た『2,667件』は不正確な集計だったと判明。直接Drive APIで6名全員のフォルダを再検証した結果、実際の対象は1,529件で、全件を43個のGoogleドキュメントに集約済み（エラー0件）。",
+  "status": "daily_increment_calendar_based",
+  "_statusNote": "全期間バックフィル完了（2026-08-31）。当初の全件スキャンで出た『2,667件』は不正確な集計だったと判明。直接Drive APIで6名全員のフォルダを再検証した結果、実際の対象は1,529件で、全件を43個のGoogleドキュメントに集約済み（エラー0件）。 【2026-10-25】発見方式をカレンダー起点に変更（scripts/meet_archive/archive.py）。lastRun に直近実行の結果（読めなかった商談の一覧を含む）を記録する。",
   "chunks": [
     {
       "title": "商談文字起こし集約（全期間）_1",
@@ -2268,7 +2268,7 @@
     "estimatedSourceMB": 73.6
   },
   "resumption": {
-    "_note": "次回セッションで続きから再開する場合の指針。",
+    "_note": "【2026-10-25】この節はチャット経由バックフィル時代の記録。現行スクリプトは includedSourceFileIds のみを状態として使う。参考として残す。",
     "nextCursorCreatedTime": "2026-08-31T03:01:07.862Z",
     "nextCursorFileId": "17Jw99HlUAuFfH0gmGJdHmn5wv3kZyokW_l-WSkYt42k",
     "processedFileIds": [
@@ -2299,5 +2299,44 @@
     "totalVerifiedCandidates": 1599,
     "remainingNewCandidates": 0,
     "_note2": "2026-08-31 追加: Slackで共有された鈴木淳さんのフォルダ(1bBb8NAN5sdKVTsW8C_i6sQjg4iCK6lgp)から70件を追加処理。未共有のため未処理のフォルダ: 榎本さん別フォルダ(1nr0vp5YyWmTAa8qSlf899DMS9cOWzL7G)、吉川さんGooglemeet(1LDcIAINAnmdztlBjmShTdf2G9eFcP0_D)。共有され次第、同じスクリプトで追加可能。"
-  }
+  },
+  "placeholders": [
+    {
+      "title": "商談文字起こし集約（全期間）_61",
+      "fileId": "1O3NGlHSd1FddOE7VfKrwS1m2p6mZReKeMYoabl3MDgQ",
+      "status": "free"
+    },
+    {
+      "title": "商談文字起こし集約（全期間）_62",
+      "fileId": "1o36ygikIQ7BMgMfZEKtQfp1p9ggNUrUiUFidJSC-utY",
+      "status": "reserved-unknown",
+      "_note": "2026-10-25確認: 空のはずが2025-06-09 菅野『株式会社M＆Co』の文字起こし(約2.4万字、集約書式なし)が入っていた(9/16書込)。上書きすると消えるため使用しない。中身の扱いを人が判断してから free に戻す。"
+    },
+    {
+      "title": "商談文字起こし集約（全期間）_63",
+      "fileId": "1MvmIFInYPL5z5yWn8PDJ6xLw-JyDKSU6J0K87VA6CUY",
+      "status": "free"
+    },
+    {
+      "title": "商談文字起こし集約（全期間）_64",
+      "fileId": "1w3dRs59Ivo3EUwuXxGInloZVq64epYRsmdmv9mHgCFc",
+      "status": "free"
+    },
+    {
+      "title": "商談文字起こし集約（全期間）_65",
+      "fileId": "1_JAIM1fWE6iJNEhu8Ux9opWzCZW8RMmcyUoalRKe3bY",
+      "status": "free"
+    },
+    {
+      "title": "商談文字起こし集約（全期間）_66",
+      "fileId": "1txyRJoNaG2O5Nr7cdhJrKBwb0nhZ5aaXNfIgtLbo9D4",
+      "status": "free"
+    },
+    {
+      "title": "商談文字起こし集約（全期間）_67",
+      "fileId": "1LEDACGGtTvxWY1CevhEoXKN61ZH_zx0gxctXERXn3Yc",
+      "status": "free"
+    }
+  ],
+  "_placeholdersNote": "2026-10-25: 旧 placeholders.json（スクラッチパッド）を廃止し manifest に統合。status: free=未使用 / used=書込済 / reserved-unknown=中身要確認。使い切るとスクリプトが停止するので、残り2以下になったら ai.firststep2026 で空ドキュメントを集約フォルダに作り追記する。"
 }
